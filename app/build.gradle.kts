@@ -75,6 +75,13 @@ dependencies {
 
     implementation("dev.chrisbanes.haze:haze-jetpack-compose:0.4.1")
 
-    // Declare the dependency for the Firebase Authentication library
-    // implementation ("com.google.firebase:firebase-auth-ktx")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07")
+
+    implementation(platform("com.google.firebase:firebase-bom:28.2.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.android.gms:play-services-auth:19.0.0")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.5.0")
 }

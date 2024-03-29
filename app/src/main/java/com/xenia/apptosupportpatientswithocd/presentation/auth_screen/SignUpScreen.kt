@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,41 +17,44 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.xenia.apptosupportpatientswithocd.navigation.NavigationItem
 import com.xenia.apptosupportpatientswithocd.navigation.rememberNavigationState
+import com.xenia.apptosupportpatientswithocd.presentation.composable.LoginField
+import com.xenia.apptosupportpatientswithocd.presentation.composable.PasswordField
 
 @Preview
 @Composable
 fun SignUpScreen() {
-    var loginText by remember { mutableStateOf("Введите логин") }
-    var passwordText by remember { mutableStateOf("Введите пароль") }
-    var repeatPasswordText by remember { mutableStateOf("Повторите пароль") }
+    var loginText by remember { mutableStateOf("") }
+    var passwordText by remember { mutableStateOf("") }
+    var repeatPasswordText by remember { mutableStateOf("") }
 
     val navigationState = rememberNavigationState()
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(Color.White),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "Добро пожаловать!")
 
-        OutlinedTextField(
+        LoginField(
             value = loginText,
-            onValueChange = { loginText = it },
-            label = { Text("Логин") }
-        )
+            onValueChange = {
+                loginText = it
+            })
 
-        OutlinedTextField(
-            value = passwordText,
-            onValueChange = { passwordText = it },
-            label = { Text("Пароль") }
-        )
+        PasswordField(value = passwordText,
+            "Введите пароль",
+            onValueChange = {
+                passwordText = it
+            })
 
-        OutlinedTextField(
-            value = repeatPasswordText,
-            onValueChange = { repeatPasswordText = it },
-            label = { Text("Повторите пароль") }
-        )
+        PasswordField(value = repeatPasswordText,
+            "Повторите пароль",
+            onValueChange = {
+                repeatPasswordText = it
+            })
 
         Button(onClick = {
             navigationState.navigateTo(NavigationItem.Main.route)
