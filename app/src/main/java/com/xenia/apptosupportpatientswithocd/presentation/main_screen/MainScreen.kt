@@ -1,5 +1,6 @@
 package com.xenia.apptosupportpatientswithocd.presentation.main_screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,7 +17,7 @@ fun MainScreen(
 ) {
 
     Text(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().background(Color.White),
         textAlign = TextAlign.Center,
         text = "MainScreen",
         color = Color.Black

@@ -1,6 +1,5 @@
 package com.xenia.apptosupportpatientswithocd.navigation
 
-import android.net.Uri
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Favorite
@@ -9,10 +8,15 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material.icons.rounded.DateRange
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.rounded.Star
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 
 enum class Screen {
@@ -27,42 +31,42 @@ enum class Screen {
 
 sealed class NavigationItem(
     val title: String,
-    val iconSelected: ImageVector,
-    val iconUnselected: ImageVector,
-    val route: String
+    val icon: ImageVector,
+    val route: String,
+    val color: Color
 ) {
     data object Main : NavigationItem(
         "Главная",
-        Icons.Filled.Home,
-        Icons.Outlined.Home,
-        Screen.MAIN.name
+        Icons.Rounded.Home,
+        Screen.MAIN.name,
+        color = Color(0xFFF4511E)
     )
 
     data object Modules : NavigationItem(
         "Модули",
-        Icons.Filled.Star,
-        Icons.Outlined.Star,
-        Screen.MODULES.name
+        Icons.Rounded.Star,
+        Screen.MODULES.name,
+        color = Color(0xFF8E24AA)
     )
 
     data object Profile : NavigationItem(
         "Профиль",
-        Icons.Filled.Person,
-        Icons.Outlined.Person,
-        Screen.PROFILE.name
+        icon = Icons.Rounded.Person,
+        Screen.PROFILE.name,
+        color = Color(0xFF7CB342)
     )
 
     data object Scripts : NavigationItem(
         "Ритуалы",
-        Icons.Filled.DateRange,
-        Icons.Outlined.DateRange,
-        Screen.SCRIPTS.name
+        Icons.Rounded.DateRange,
+        Screen.SCRIPTS.name,
+        color = Color(0xFF03E5CB)
     )
 
     data object Therapy : NavigationItem(
         "Терапия",
-        Icons.Filled.Favorite,
-        Icons.Outlined.Favorite,
-        Screen.THERAPY.name
+        Icons.Rounded.Favorite,
+        Screen.THERAPY.name,
+        color = Color(0xFFFDD835)
     )
 }

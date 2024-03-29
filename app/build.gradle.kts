@@ -72,4 +72,9 @@ dependencies {
 
     implementation("com.google.dagger:dagger:2.51")
     kapt("com.google.dagger:dagger-compiler:2.51")
+
+    implementation("dev.chrisbanes.haze:haze-jetpack-compose:0.4.1")
+
+    // Declare the dependency for the Firebase Authentication library
+    // implementation ("com.google.firebase:firebase-auth-ktx")
 }
