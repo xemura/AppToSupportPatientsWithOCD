@@ -1,16 +1,6 @@
 package com.xenia.apptosupportpatientswithocd.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.DateRange
-import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.rounded.DateRange
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Home
@@ -21,19 +11,24 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 enum class Screen {
     MAIN,
-    MODULES,
-    PROFILE,
 
+    MODULES,
+    MODULES_LIST,
+    MODULE_CONTENT,
+    CONTENT_TEXT,
+
+    PROFILE,
     SCRIPTS,
+
     THERAPY,
 }
 
 
 sealed class NavigationItem(
     val title: String,
-    val icon: ImageVector,
+    val icon: ImageVector = Icons.Rounded.Star,
     val route: String,
-    val color: Color
+    val color: Color = Color(0xFFF4511E)
 ) {
     data object Main : NavigationItem(
         "Главная",
@@ -68,5 +63,20 @@ sealed class NavigationItem(
         Icons.Rounded.Favorite,
         Screen.THERAPY.name,
         color = Color(0xFFFDD835)
+    )
+
+    data object ModulesList : NavigationItem(
+        title = "Список модулей",
+        route =  Screen.MODULES_LIST.name
+    )
+
+    data object ModuleContent : NavigationItem(
+        title = "Содержимое модуля",
+        route =  Screen.MODULE_CONTENT.name
+    )
+
+    data object ContentText : NavigationItem(
+        title = "Содержимое контента",
+        route =  Screen.CONTENT_TEXT.name
     )
 }

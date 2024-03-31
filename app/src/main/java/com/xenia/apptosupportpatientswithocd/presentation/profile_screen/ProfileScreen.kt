@@ -1,6 +1,7 @@
 package com.xenia.apptosupportpatientswithocd.presentation.profile_screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,88 +27,103 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.xenia.apptosupportpatientswithocd.presentation.auth_screen.AuthViewModel
+import com.xenia.apptosupportpatientswithocd.presentation.auth_screen.SignInScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(
+    viewModel: AuthViewModel
+) {
 
     var name by remember { mutableStateOf("Введите логин") }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = "Профиль",
-                        textAlign = TextAlign.Center
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = null,
+    var screenLogin by remember { mutableStateOf(false) }
+
+    if (screenLogin) {
+        SignInScreen(viewModel = viewModel)
+    } else {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = "Профиль",
+                            textAlign = TextAlign.Center
                         )
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(
+                                imageVector = Icons.Rounded.ArrowBack,
+                                contentDescription = null,
+                            )
+                        }
+                    },
+                    actions = {
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(
+                                imageVector = Icons.Rounded.ArrowBack,
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                        }
                     }
-                },
-                actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
+                )
+            }
+        ) { contentPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White)
+                    .padding(top = contentPadding.calculateTopPadding()),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = { name = it },
+                    label = { Text("Ваше имя") },
+                    singleLine = true,
+                )
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 60.dp)
+                        .background(Color.Gray),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(text = "Ежедневные напоминания")
+                    Switch(checked = true, onCheckedChange = {
+
+                    })
                 }
-            )
-        }
-    ) { contentPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White).padding(top = contentPadding.calculateTopPadding()),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            OutlinedTextField(
-                value = name,
-                onValueChange = { name = it },
-                label = { Text("Ваше имя") },
-                singleLine = true,
-            )
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 60.dp)
-                    .background(Color.Gray),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(text = "Ежедневные напоминания")
-                Switch(checked = true, onCheckedChange = {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 60.dp)
+                        .background(Color.Gray),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(text = "Время уведомлений")
+                    Text(text = "20:00")
+                }
 
-                })
+                Text(modifier = Modifier.clickable {
+                    viewModel.signOut()
+                    screenLogin = true
+                },
+                    text = "Выйти")
+                Text(text = "Удалить аккаунт")
             }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 60.dp)
-                    .background(Color.Gray),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(text = "Время уведомлений")
-                Text(text = "20:00")
-            }
-
-            Text(text = "Выйти")
-            Text(text = "Удалить аккаунт")
         }
     }
+
+    
 
 
 }

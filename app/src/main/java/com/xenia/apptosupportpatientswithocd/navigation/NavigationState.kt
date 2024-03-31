@@ -18,10 +18,6 @@ class NavigationState(
             restoreState = true
         }
     }
-
-//    fun navigateToComments(feedPost: FeedPost) {
-//        navHostController.navigate(NavigationItem.Comments.getRouteWithArgs(feedPost)) // comments/15
-//    }
 }
 
 @Composable

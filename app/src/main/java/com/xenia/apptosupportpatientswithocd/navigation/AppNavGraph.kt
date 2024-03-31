@@ -10,6 +10,8 @@ fun AppNavGraph(
     navHostController: NavHostController,
     mainScreenContent: @Composable () -> Unit,
     modulesScreenContent: @Composable () -> Unit,
+    moduleContentScreenContent: @Composable () -> Unit,
+    contentTextScreenContent: @Composable () -> Unit,
     profileScreenContent: @Composable () -> Unit,
     scriptsScreenContent: @Composable () -> Unit,
     therapyScreenContent: @Composable () -> Unit,
@@ -19,11 +21,11 @@ fun AppNavGraph(
         startDestination = NavigationItem.Main.route
     ) {
 
-        // если на одном экране может вызваться еще несколько, вложенность появляется??
-//        homeScreenNavGraph(
-//            newsFeedScreenContent = newsFeedScreenContent,
-//            commentsScreenContent = commentsScreenContent
-//        )
+        modulesScreenNavGraph(
+            modulesScreenContent,
+            moduleContentScreenContent,
+            contentTextScreenContent
+        )
 
         composable(NavigationItem.Main.route) {
             mainScreenContent()

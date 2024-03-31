@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "817762054701",
+    "project_id": "apptosupportpatientswithocd",
+    "storage_bucket": "apptosupportpatientswithocd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:817762054701:android:97b15dc8770dbb774b7ea4",
+        "android_client_info": {
+          "package_name": "com.xenia.apptosupportpatientswithocd"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0kPIKu44ZqysTdMrQc4082Q41MdLciNY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
