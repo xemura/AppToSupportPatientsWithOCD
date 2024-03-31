@@ -8,6 +8,8 @@ import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
+import com.xenia.apptosupportpatientswithocd.R
 
 enum class Screen {
     MAIN,
@@ -26,43 +28,40 @@ enum class Screen {
 
 sealed class NavigationItem(
     val title: String,
-    val icon: ImageVector = Icons.Rounded.Star,
+    val icon: Int = R.drawable.therapy,
     val route: String,
-    val color: Color = Color(0xFFF4511E)
+    val color: Color = Color(0xFF00ACFF)
 ) {
     data object Main : NavigationItem(
         "Главная",
-        Icons.Rounded.Home,
-        Screen.MAIN.name,
-        color = Color(0xFFF4511E)
+        R.drawable.home,
+        Screen.MAIN.name
     )
+
+    // color = Color(0xFF00a6fb)
 
     data object Modules : NavigationItem(
         "Модули",
-        Icons.Rounded.Star,
-        Screen.MODULES.name,
-        color = Color(0xFF8E24AA)
+        R.drawable.modules,
+        Screen.MODULES.name
     )
 
     data object Profile : NavigationItem(
         "Профиль",
-        icon = Icons.Rounded.Person,
-        Screen.PROFILE.name,
-        color = Color(0xFF7CB342)
+        icon = R.drawable.profile,
+        Screen.PROFILE.name
     )
 
     data object Scripts : NavigationItem(
         "Ритуалы",
-        Icons.Rounded.DateRange,
-        Screen.SCRIPTS.name,
-        color = Color(0xFF03E5CB)
+        R.drawable.scripts,
+        Screen.SCRIPTS.name
     )
 
     data object Therapy : NavigationItem(
         "Терапия",
-        Icons.Rounded.Favorite,
-        Screen.THERAPY.name,
-        color = Color(0xFFFDD835)
+        R.drawable.therapy,
+        Screen.THERAPY.name
     )
 
     data object ModulesList : NavigationItem(
