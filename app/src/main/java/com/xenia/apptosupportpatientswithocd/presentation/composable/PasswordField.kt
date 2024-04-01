@@ -7,11 +7,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -43,6 +45,15 @@ fun PasswordField(
                 Icon(painter = icon, contentDescription = "Visibility")
             }
         },
+        label = { Text(placeholder) },
+        singleLine = true,
+        colors = TextFieldDefaults.colors(
+            focusedIndicatorColor = Color(0xFF0575e6),
+            unfocusedIndicatorColor = Color.Black,
+            focusedLabelColor = Color(0xFF0575e6),
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White
+        ),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         visualTransformation = visualTransformation
     )

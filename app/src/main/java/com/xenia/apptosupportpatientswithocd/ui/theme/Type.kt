@@ -11,31 +11,32 @@ import androidx.compose.ui.unit.sp
 import com.xenia.apptosupportpatientswithocd.R
 
 
+val fontFamily = FontFamily(androidx.compose.ui.text.font.Font(R.font.comfortaa_semi_bold))
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyLarge = TextStyle(
-        fontFamily = FontFamily(androidx.compose.ui.text.font.Font(R.font.shantell_sans_regular)),
+        fontFamily = fontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
     bodySmall = TextStyle(
-        fontFamily = FontFamily(androidx.compose.ui.text.font.Font(R.font.shantell_sans_regular)),
+        fontFamily = fontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
     titleLarge = TextStyle(
-        fontFamily = FontFamily(androidx.compose.ui.text.font.Font(R.font.shantell_sans_regular)),
+        fontFamily = fontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 22.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
     labelLarge = TextStyle(
-        fontFamily = FontFamily(androidx.compose.ui.text.font.Font(R.font.shantell_sans_regular)),
+        fontFamily = fontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,

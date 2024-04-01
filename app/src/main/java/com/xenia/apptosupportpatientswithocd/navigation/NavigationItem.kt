@@ -1,20 +1,14 @@
 package com.xenia.apptosupportpatientswithocd.navigation
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.DateRange
-import androidx.compose.material.icons.rounded.Favorite
-import androidx.compose.material.icons.rounded.Home
-import androidx.compose.material.icons.rounded.Person
-import androidx.compose.material.icons.rounded.Star
+import android.net.Uri
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
+import com.google.gson.Gson
 import com.xenia.apptosupportpatientswithocd.R
 
 enum class Screen {
     MAIN,
 
-    MODULES,
+    MODULE,
     MODULES_LIST,
     MODULE_CONTENT,
     CONTENT_TEXT,
@@ -43,7 +37,7 @@ sealed class NavigationItem(
     data object Modules : NavigationItem(
         "Модули",
         R.drawable.modules,
-        Screen.MODULES.name
+        Screen.MODULE.name
     )
 
     data object Profile : NavigationItem(
@@ -64,18 +58,32 @@ sealed class NavigationItem(
         Screen.THERAPY.name
     )
 
-    data object ModulesList : NavigationItem(
-        title = "Список модулей",
-        route =  Screen.MODULES_LIST.name
+    data object ListModules : NavigationItem(
+        "Модули",
+        R.drawable.modules,
+        Screen.MODULES_LIST.name
     )
 
     data object ModuleContent : NavigationItem(
-        title = "Содержимое модуля",
-        route =  Screen.MODULE_CONTENT.name
-    )
+        title = "Список статей",
+        route =  "${Screen.MODULE_CONTENT.name}/{content_list}"
+    ) {
+        fun getRouteWithArgs(contentList: List<com.xenia.apptosupportpatientswithocd.presentation.modules_screen.model.ModuleContent>) : String {
+            val contentJson = Gson().toJson(contentList)
+            return "${Screen.MODULE_CONTENT.name}/${contentJson.encode()}"
+        }
+    }
 
     data object ContentText : NavigationItem(
         title = "Содержимое контента",
-        route =  Screen.CONTENT_TEXT.name
-    )
+        route =  "${Screen.CONTENT_TEXT.name}/{content_text}"
+    ) {
+        fun getRouteWithArgs(text: String) : String {
+            return "${Screen.CONTENT_TEXT.name}/${text}"
+        }
+    }
+}
+
+fun String.encode() : String {
+    return Uri.encode(this)
 }

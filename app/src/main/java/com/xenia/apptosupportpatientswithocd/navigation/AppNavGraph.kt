@@ -4,14 +4,15 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.model.ModuleContent
 
 @Composable
 fun AppNavGraph(
     navHostController: NavHostController,
     mainScreenContent: @Composable () -> Unit,
     modulesScreenContent: @Composable () -> Unit,
-    moduleContentScreenContent: @Composable () -> Unit,
-    contentTextScreenContent: @Composable () -> Unit,
+    moduleContentScreenContent: @Composable (List<ModuleContent>) -> Unit,
+    contentTextScreenContent: @Composable (String) -> Unit,
     profileScreenContent: @Composable () -> Unit,
     scriptsScreenContent: @Composable () -> Unit,
     therapyScreenContent: @Composable () -> Unit,
@@ -29,10 +30,6 @@ fun AppNavGraph(
 
         composable(NavigationItem.Main.route) {
             mainScreenContent()
-        }
-
-        composable(NavigationItem.Modules.route) {
-            modulesScreenContent()
         }
 
         composable(NavigationItem.Profile.route) {

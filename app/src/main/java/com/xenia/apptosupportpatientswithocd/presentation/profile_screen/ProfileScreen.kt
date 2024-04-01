@@ -51,6 +51,7 @@ import com.xenia.apptosupportpatientswithocd.ui.theme.ButtonColor
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
+    onSaveButtonPressed: () -> Unit,
     viewModel: AuthViewModel
 ) {
 
@@ -159,7 +160,7 @@ fun ProfileScreen(
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier
-                        .width(150.dp)
+                        .width(170.dp)
                 ) {
                     Text(
                         color = Color.White,

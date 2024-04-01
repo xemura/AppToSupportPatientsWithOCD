@@ -5,7 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,8 +20,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.xenia.apptosupportpatientswithocd.navigation.rememberNavigationState
 import com.xenia.apptosupportpatientswithocd.presentation.composable.LoginField
 import com.xenia.apptosupportpatientswithocd.presentation.composable.PasswordField
@@ -52,7 +57,12 @@ fun SignUpScreen(
         if (screenLogin) {
             SignInScreen(viewModel = viewModel)
         } else {
-            Text(text = "Добро пожаловать!")
+            Text(
+                text = "Добро пожаловать!",
+                fontSize = 20.sp
+            )
+
+            Spacer(modifier = Modifier.padding(vertical = 5.dp))
 
             LoginField(
                 value = loginText,
@@ -60,11 +70,15 @@ fun SignUpScreen(
                     loginText = it
                 })
 
+            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+
             PasswordField(value = passwordText,
                 "Введите пароль",
                 onValueChange = {
                     passwordText = it
                 })
+
+            Spacer(modifier = Modifier.padding(vertical = 5.dp))
 
             PasswordField(value = repeatPasswordText,
                 "Повторите пароль",
@@ -72,16 +86,22 @@ fun SignUpScreen(
                     repeatPasswordText = it
                 })
 
+            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+
             Button(onClick = {
                 viewModel.registerUser(loginText, passwordText)
             }) {
                 Text(text = "Зарегистрироваться")
             }
 
+            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+
             Text(
                 modifier = Modifier.clickable {
                     screenLogin = true
-                },
+                }
+                    .alpha(0.7f),
+                color = Color.Red,
                 text = "Есть аккаунта? Войти"
             )
         }

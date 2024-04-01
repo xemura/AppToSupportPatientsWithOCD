@@ -1,10 +1,8 @@
 package com.xenia.apptosupportpatientswithocd.presentation
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xenia.apptosupportpatientswithocd.navigation.AppNavGraph
 import com.xenia.apptosupportpatientswithocd.navigation.NavigationItem
@@ -54,16 +52,38 @@ fun EnterMainScreen() {
                 )
             },
             modulesScreenContent = {
-                ModulesScreen()
+                ModulesScreen(
+                    onModuleImageClickListener = {
+                        navigationState.navigateToContentModule(it)
+                    }
+                )
             },
-            moduleContentScreenContent = {
-                ModuleContentScreen()
+            moduleContentScreenContent = { contentList ->
+                ModuleContentScreen(
+                    onBackPressed = {
+                        navigationState.navHostController.popBackStack()
+                    },
+                    contentList = contentList,
+                    onArticleClickListener = {
+                        navigationState.navigateToContentText(it)
+                    }
+                )
             },
-            contentTextScreenContent = {
-                ContentTextScreen()
+            contentTextScreenContent = { text ->
+                ContentTextScreen(
+                    onBackPressed = {
+                        navigationState.navHostController.popBackStack()
+                    },
+                    text
+                )
             },
             profileScreenContent = {
-                ProfileScreen(viewModel)
+                ProfileScreen(
+                    onSaveButtonPressed = {
+                        navigationState.navigateTo(NavigationItem.Main.route)
+                    },
+                    viewModel
+                )
             },
             scriptsScreenContent = {
                 ScriptsScreen()

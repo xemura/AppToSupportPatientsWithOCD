@@ -5,6 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.model.ModuleContent
 
 class NavigationState(
     val navHostController: NavHostController
@@ -17,6 +18,14 @@ class NavigationState(
             launchSingleTop = true
             restoreState = true
         }
+    }
+
+    fun navigateToContentModule(contentList: List<ModuleContent>) {
+        navHostController.navigate(NavigationItem.ModuleContent.getRouteWithArgs(contentList))
+    }
+
+    fun navigateToContentText(text: String) {
+        navHostController.navigate(NavigationItem.ContentText.getRouteWithArgs(text))
     }
 }
 
