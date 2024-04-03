@@ -21,6 +21,9 @@ fun AppNavGraph(
     addScriptScreen: @Composable () -> Unit,
 
     therapyScreenContent: @Composable () -> Unit,
+    diaryMoodScreenContent: @Composable () -> Unit,
+    addMoodScreenContent: @Composable () -> Unit,
+    homeworkScreenContent: @Composable () -> Unit,
 ) {
     NavHost(
         navController = navHostController,
@@ -38,20 +41,19 @@ fun AppNavGraph(
             addScriptScreen
         )
 
+        therapyNavGraph(
+            therapyScreenContent,
+            diaryMoodScreenContent,
+            addMoodScreenContent,
+            homeworkScreenContent
+        )
+
         composable(NavigationItem.Main.route) {
             mainScreenContent()
         }
 
         composable(NavigationItem.Profile.route) {
             profileScreenContent()
-        }
-
-//        composable(NavigationItem.Scripts.route) {
-//            scriptsScreenContent()
-//        }
-
-        composable(NavigationItem.Therapy.route) {
-            therapyScreenContent()
         }
     }
 }

@@ -17,6 +17,9 @@ import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.Profile
 import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.AddScriptScreen
 import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.ScriptsScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.TherapyScreen
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.AddMoodScreen
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.DiaryMainScreen
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.HomeworkScreen
 import dev.chrisbanes.haze.HazeState
 
 @Composable
@@ -110,11 +113,61 @@ fun EnterMainScreen() {
                     onAddPressed = {
                         navigationState.navigateTo(NavigationItem.Scripts.route)
                     }
+                    // еще надо добавить редактирование
                 )
             },
             therapyScreenContent = {
-                TherapyScreen()
+                TherapyScreen(
+                    onDiaryMoodCardPress = {
+                        navigationState.navigateTo(NavigationItem.Diary.route)
+                    },
+                    onHomeworkCardPress = {
+                        navigationState.navigateTo(NavigationItem.Homework.route)
+                    }
+                )
             },
+            diaryMoodScreenContent = {
+                DiaryMainScreen(
+                    onBackPressed = {
+                        navigationState.navigateTo(NavigationItem.Therapy.route)
+                    },
+                    onEditPressed = {
+
+                    },
+                    onAddPressed = {
+                        navigationState.navigateTo(NavigationItem.AddMood.route)
+                    }
+                )
+            },
+            addMoodScreenContent = {
+                AddMoodScreen(
+                    onBackPressed = {
+                        navigationState.navigateTo(NavigationItem.Diary.route)
+                    },
+                    onSavePressed = {
+                        navigationState.navigateTo(NavigationItem.Diary.route)
+                    }
+                )
+            },
+            homeworkScreenContent = {
+                HomeworkScreen(
+                    onBackPressed = {
+                        navigationState.navigateTo(NavigationItem.Therapy.route)
+                    },
+                    onAddPressed = {
+
+                    },
+                    onEditPressed = {
+
+                    },
+                    onPracticePressed = {
+
+                    },
+                    onStatisticPressed = {
+
+                    }
+                )
+            }
         )
     }
 }

@@ -34,7 +34,7 @@ fun GradientSwitch(
     ),
     thumbColor: Color = Color.White
 ) {
-    val thumbPosition by animateFloatAsState(targetValue = if (checked) 1f else 0f)
+    val thumbPosition by animateFloatAsState(targetValue = if (checked) 1f else 0f, label = "")
     val circleRadius = remember { 11.5.dp }
     val interactionSource = remember { MutableInteractionSource() }
 

@@ -41,8 +41,6 @@ fun SignUpScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    val navigationState = rememberNavigationState()
-
     val state = viewModel.signUpState.collectAsState(initial = null)
 
     var screenLogin by remember { mutableStateOf(false) }

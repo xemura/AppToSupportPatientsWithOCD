@@ -20,6 +20,15 @@ enum class Screen {
     ADD_SCRIPT,
 
     THERAPY,
+    THERAPY_CONTENT,
+
+    DIARY,
+    DIARY_MOOD,
+    ADD_MOOD,
+
+    HOMEWORK,
+    MAIN_HOMEWORK,
+
 }
 
 
@@ -69,6 +78,36 @@ sealed class NavigationItem(
         "Терапия",
         R.drawable.therapy,
         Screen.THERAPY.name
+    )
+
+    data object TherapyContent : NavigationItem(
+        title = "Терапия",
+        route = Screen.THERAPY_CONTENT.name
+    )
+
+    data object Diary : NavigationItem(
+        title = "Дневник настроения",
+        route = Screen.DIARY.name
+    )
+
+    data object DiaryMain : NavigationItem(
+        title = "Главная дневника настроения",
+        route = Screen.DIARY_MOOD.name
+    )
+
+    data object  AddMood: NavigationItem(
+        title = "Добавить настроение",
+        route = Screen.ADD_MOOD.name
+    )
+
+    data object  Homework: NavigationItem(
+        title = "Домашняя работа",
+        route = Screen.HOMEWORK.name
+    )
+
+    data object  MainHomework: NavigationItem(
+        title = "Главная домашняя работа",
+        route = Screen.MAIN_HOMEWORK.name
     )
 
     data object ListModules : NavigationItem(

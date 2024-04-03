@@ -39,9 +39,6 @@ fun SignInScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    //val component = getApplicationComponent()
-    //val viewModel: AuthViewModel = viewModel(factory = component.getViewModelFactory())
-
     val navigationState = rememberNavigationState()
     val state = viewModel.signInState.collectAsState(initial = null)
 
