@@ -58,7 +58,8 @@ fun ModulesScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White)
-                .padding(top = contentPadding.calculateTopPadding()),
+                .padding(top = contentPadding.calculateTopPadding(),
+                    bottom = contentPadding.calculateTopPadding() + 30.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

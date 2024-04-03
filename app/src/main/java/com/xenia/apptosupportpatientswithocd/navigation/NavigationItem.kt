@@ -14,7 +14,10 @@ enum class Screen {
     CONTENT_TEXT,
 
     PROFILE,
+
     SCRIPTS,
+    SCRIPTS_LIST,
+    ADD_SCRIPT,
 
     THERAPY,
 }
@@ -52,6 +55,16 @@ sealed class NavigationItem(
         Screen.SCRIPTS.name
     )
 
+    data object ScriptsList : NavigationItem(
+        title= "Ритуалы",
+        route = Screen.SCRIPTS_LIST.name
+    )
+
+    data object AddScript : NavigationItem(
+        title = "Создать сценарий",
+        route = Screen.ADD_SCRIPT.name
+    )
+
     data object Therapy : NavigationItem(
         "Терапия",
         R.drawable.therapy,
@@ -59,9 +72,8 @@ sealed class NavigationItem(
     )
 
     data object ListModules : NavigationItem(
-        "Модули",
-        R.drawable.modules,
-        Screen.MODULES_LIST.name
+        title = "Модули",
+        route = Screen.MODULES_LIST.name
     )
 
     data object ModuleContent : NavigationItem(

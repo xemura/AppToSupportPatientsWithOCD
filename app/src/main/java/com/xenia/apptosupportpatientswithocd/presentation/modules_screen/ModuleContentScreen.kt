@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -74,6 +75,7 @@ fun ModuleContentScreen(
             items(contentList) {
                 Card(
                     modifier = Modifier
+                        .background(Color.White)
                         .fillMaxWidth()
                         .padding(horizontal = 30.dp, vertical = 5.dp)
                         .clickable {
@@ -81,10 +83,13 @@ fun ModuleContentScreen(
                         },
                     shape = RoundedCornerShape(10.dp),
                     border = BorderStroke(1.dp, Color.Black),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    ),
                 ) {
                     Text(
                         modifier = Modifier
-                            .padding(10.dp),
+                            .padding(20.dp),
                         text = it.name
                     )
                 }

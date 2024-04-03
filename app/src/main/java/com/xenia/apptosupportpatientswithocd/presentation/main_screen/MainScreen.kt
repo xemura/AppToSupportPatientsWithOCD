@@ -48,7 +48,10 @@ import com.xenia.apptosupportpatientswithocd.ui.theme.ButtonColor
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    paddingValues: PaddingValues,
+    contentPadding: PaddingValues,
+    onTherapyButtonPressed: () -> Unit,
+    onModulesButtonPressed: () -> Unit,
+    onScriptsButtonPressed: () -> Unit,
 ) {
 
     Scaffold(
@@ -96,7 +99,7 @@ fun MainScreen(
             )
 
             Button(
-                onClick = { /* do something on click */ },
+                onClick = { onTherapyButtonPressed() },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier
@@ -110,7 +113,7 @@ fun MainScreen(
             }
 
             Button(
-                onClick = { /* do something on click */ },
+                onClick = { onModulesButtonPressed() },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier
@@ -124,7 +127,7 @@ fun MainScreen(
             }
 
             Button(
-                onClick = { /* do something on click */ },
+                onClick = { onScriptsButtonPressed() },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier

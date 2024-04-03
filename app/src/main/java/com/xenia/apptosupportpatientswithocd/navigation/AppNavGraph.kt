@@ -10,11 +10,16 @@ import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.model.M
 fun AppNavGraph(
     navHostController: NavHostController,
     mainScreenContent: @Composable () -> Unit,
+
     modulesScreenContent: @Composable () -> Unit,
     moduleContentScreenContent: @Composable (List<ModuleContent>) -> Unit,
     contentTextScreenContent: @Composable (String) -> Unit,
+
     profileScreenContent: @Composable () -> Unit,
-    scriptsScreenContent: @Composable () -> Unit,
+
+    scriptsContentScreen: @Composable () -> Unit,
+    addScriptScreen: @Composable () -> Unit,
+
     therapyScreenContent: @Composable () -> Unit,
 ) {
     NavHost(
@@ -28,6 +33,11 @@ fun AppNavGraph(
             contentTextScreenContent
         )
 
+        scriptsNavGraph(
+            scriptsContentScreen,
+            addScriptScreen
+        )
+
         composable(NavigationItem.Main.route) {
             mainScreenContent()
         }
@@ -36,9 +46,9 @@ fun AppNavGraph(
             profileScreenContent()
         }
 
-        composable(NavigationItem.Scripts.route) {
-            scriptsScreenContent()
-        }
+//        composable(NavigationItem.Scripts.route) {
+//            scriptsScreenContent()
+//        }
 
         composable(NavigationItem.Therapy.route) {
             therapyScreenContent()

@@ -14,6 +14,7 @@ import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.Content
 import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.ModuleContentScreen
 import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.ModulesScreen
 import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.ProfileScreen
+import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.AddScriptScreen
 import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.ScriptsScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.TherapyScreen
 import dev.chrisbanes.haze.HazeState
@@ -48,7 +49,16 @@ fun EnterMainScreen() {
             navHostController = navigationState.navHostController,
             mainScreenContent = {
                 MainScreen(
-                    paddingValues = contentPadding,
+                    contentPadding,
+                    onModulesButtonPressed = {
+                        navigationState.navigateTo(NavigationItem.Modules.route)
+                    },
+                    onScriptsButtonPressed = {
+                        navigationState.navigateTo(NavigationItem.Scripts.route)
+                    },
+                    onTherapyButtonPressed = {
+                        navigationState.navigateTo(NavigationItem.Therapy.route)
+                    }
                 )
             },
             modulesScreenContent = {
@@ -85,8 +95,22 @@ fun EnterMainScreen() {
                     viewModel
                 )
             },
-            scriptsScreenContent = {
-                ScriptsScreen()
+            scriptsContentScreen = {
+                ScriptsScreen(
+                    onFloatingActionButtonClick = {
+                        navigationState.navigateTo(NavigationItem.AddScript.route)
+                    }
+                )
+            },
+            addScriptScreen = {
+                AddScriptScreen(
+                    onBackPressed = {
+                        navigationState.navigateTo(NavigationItem.Scripts.route)
+                    },
+                    onAddPressed = {
+                        navigationState.navigateTo(NavigationItem.Scripts.route)
+                    }
+                )
             },
             therapyScreenContent = {
                 TherapyScreen()

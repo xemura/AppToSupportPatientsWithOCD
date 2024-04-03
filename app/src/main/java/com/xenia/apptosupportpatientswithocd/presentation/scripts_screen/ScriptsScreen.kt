@@ -55,7 +55,9 @@ import com.xenia.apptosupportpatientswithocd.presentation.composable.CardScript
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScriptsScreen() {
+fun ScriptsScreen(
+    onFloatingActionButtonClick: () -> Unit
+) {
 
     var mExpanded by remember { mutableStateOf(false) }
     val mCities = listOf("Delhi", "Mumbai", "Chennai", "Kolkata", "Hyderabad", "Bengaluru", "Pune")
@@ -120,7 +122,9 @@ fun ScriptsScreen() {
         floatingActionButton = {
             FloatingActionButton(
                 modifier = Modifier.padding(bottom = 80.dp),
-                onClick = {  },
+                onClick = {
+                    onFloatingActionButtonClick()
+                },
                 shape = CircleShape,
                 containerColor = Color(0xFF0575e6),
                 contentColor = Color.White
