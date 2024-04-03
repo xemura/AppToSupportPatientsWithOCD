@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
@@ -42,6 +44,13 @@ fun HomeworkScreen(
     onEditPressed: () -> Unit,
     onPracticePressed: () -> Unit,
 ) {
+
+    val homeworksList = mutableListOf(
+        HomeworkModel("homework 1", "", "", "", ""),
+        HomeworkModel("homework 2", "", "", "", ""),
+        HomeworkModel("homework 3", "", "", "", ""),
+    )
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -51,7 +60,7 @@ fun HomeworkScreen(
                         spotColor = Color.DarkGray
                     ),
                 title = {
-                    Text(text = "Дневник настроения")
+                    Text(text = "Домашние работы")
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     titleContentColor = Color.White,
@@ -94,62 +103,84 @@ fun HomeworkScreen(
                 }
             }
 
-            Card(
-                modifier = Modifier
-                    .background(Color.White)
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 10.dp)
-                    .clickable {
-                        onStatisticPressed()
-                        // статистика домашней работы (может лучше редактировать здесь)
-                    },
-                shape = RoundedCornerShape(10.dp),
-                border = BorderStroke(1.dp, Color.Black),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White
-                ),
-            ) {
-                Column(
-                    modifier = Modifier
-                        .padding(20.dp)
+            LazyColumn {
+                // тут еще смахиваем и удаляем домашнюю работу
+                items(homeworksList) {
+                    HomeworkCard(
+                        homeworkName = it,
+                        onStatisticPressed = { onStatisticPressed() },
+                        onEditPressed = { onEditPressed() },
+                        onPracticePressed = { onPracticePressed() }
+                    )
+                }
+            }
 
+
+        }
+    }
+}
+
+@Composable
+fun HomeworkCard(
+    homeworkName: HomeworkModel,
+    onStatisticPressed: () -> Unit,
+    onEditPressed: () -> Unit,
+    onPracticePressed: () -> Unit,
+) {
+    Card(
+        modifier = Modifier
+            .background(Color.White)
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp, vertical = 10.dp)
+            .clickable {
+                onStatisticPressed()
+                // статистика домашней работы (может лучше редактировать здесь)
+            },
+        shape = RoundedCornerShape(10.dp),
+        border = BorderStroke(1.dp, Color.Black),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(20.dp)
+
+        ) {
+            Text(
+                modifier = Modifier.padding(bottom = 5.dp),
+                text = homeworkName.homeworkName
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Button(
+                    onClick = {
+                        onPracticePressed()
+                        // страница практика
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
+                    shape = RoundedCornerShape(8.dp),
                 ) {
                     Text(
-                        modifier = Modifier.padding(bottom = 5.dp),
-                        text = "Название домашней работы"
+                        text = "Практика",
+                        fontSize = 15.sp
                     )
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Button(
-                            onClick = {
-                                onPracticePressed()
-                                // страница практика
-                            },
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
-                            shape = RoundedCornerShape(8.dp),
-                        ) {
-                            Text(
-                                text = "Практика",
-                                fontSize = 15.sp
-                            )
-                        }
-                        Spacer(modifier = Modifier.padding(3.dp))
-                        Button(
-                            onClick = {
-                                onEditPressed()
-                                // страницаа редактировать // а тут статистика ??
-                            },
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
-                            shape = RoundedCornerShape(8.dp),
-                        ) {
-                            Text(
-                                text = "Редактировать",
-                                fontSize = 15.sp
-                            )
-                        }
-                    }
+                }
+                Spacer(modifier = Modifier.padding(3.dp))
+                Button(
+                    onClick = {
+                        onEditPressed()
+                        // страницаа редактировать // а тут статистика ??
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
+                    shape = RoundedCornerShape(8.dp),
+                ) {
+                    Text(
+                        text = "Редактировать",
+                        fontSize = 15.sp
+                    )
                 }
             }
         }

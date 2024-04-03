@@ -23,7 +23,14 @@ fun AppNavGraph(
     therapyScreenContent: @Composable () -> Unit,
     diaryMoodScreenContent: @Composable () -> Unit,
     addMoodScreenContent: @Composable () -> Unit,
+
     homeworkScreenContent: @Composable () -> Unit,
+    addHomeworkScreenContent:  @Composable () -> Unit,
+    statisticHomeworkScreenContent: @Composable () -> Unit,
+
+    stateBeforePracticeHomework: @Composable () -> Unit,
+    stateAfterPracticeHomework: @Composable () -> Unit,
+    practiceContentHomework: @Composable () -> Unit,
 ) {
     NavHost(
         navController = navHostController,
@@ -45,7 +52,15 @@ fun AppNavGraph(
             therapyScreenContent,
             diaryMoodScreenContent,
             addMoodScreenContent,
-            homeworkScreenContent
+
+            homeworkScreenContent,
+            addHomeworkScreenContent,
+            statisticHomeworkScreenContent,
+
+            stateBeforePracticeHomework,
+            stateAfterPracticeHomework,
+            practiceContentHomework,
+
         )
 
         composable(NavigationItem.Main.route) {

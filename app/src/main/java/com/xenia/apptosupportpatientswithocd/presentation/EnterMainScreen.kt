@@ -19,7 +19,12 @@ import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.Scripts
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.TherapyScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.AddMoodScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.DiaryMainScreen
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.AddHomeworkScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.HomeworkScreen
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.StatisticHomeworkScreen
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.PracticeContentScreen
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StateAfterPracticeScreen
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StateBeforePracticeScreen
 import dev.chrisbanes.haze.HazeState
 
 @Composable
@@ -155,16 +160,60 @@ fun EnterMainScreen() {
                         navigationState.navigateTo(NavigationItem.Therapy.route)
                     },
                     onAddPressed = {
-
+                        navigationState.navigateTo(NavigationItem.AddHomework.route)
                     },
                     onEditPressed = {
 
                     },
                     onPracticePressed = {
-
+                        navigationState.navigateTo(NavigationItem.BeforePracticeHomework.route)
                     },
                     onStatisticPressed = {
-
+                        navigationState.navigateTo(NavigationItem.StatisticHomework.route)
+                    }
+                )
+            },
+            addHomeworkScreenContent = {
+                AddHomeworkScreen(
+                    onBackPressed = {
+                        navigationState.navigateTo(NavigationItem.Homework.route)
+                    },
+                    onSavePressed = {
+                        navigationState.navigateTo(NavigationItem.Homework.route)
+                    }
+                )
+            },
+            statisticHomeworkScreenContent = {
+                StatisticHomeworkScreen(
+                    onBackPressed = {
+                        navigationState.navigateTo(NavigationItem.Homework.route)
+                    }
+                )
+            },
+            stateBeforePracticeHomework = {
+                StateBeforePracticeScreen(
+                    onBackPressed = {
+                        navigationState.navigateTo(NavigationItem.Homework.route)
+                    },
+                    onNextButtonPressed = {
+                        navigationState.navigateTo(NavigationItem.PracticeHomework.route)
+                    }
+                )
+            },
+            practiceContentHomework = {
+                PracticeContentScreen(
+                    onNextButtonPressed = {
+                        navigationState.navigateTo(NavigationItem.AfterPracticeHomework.route)
+                    }
+                )
+            },
+            stateAfterPracticeHomework = {
+                StateAfterPracticeScreen(
+                    onBackPressed = {
+                        navigationState.navigateTo(NavigationItem.PracticeHomework.route)
+                    },
+                    onNextButtonPressed = {
+                        navigationState.navigateTo(NavigationItem.Homework.route)
                     }
                 )
             }

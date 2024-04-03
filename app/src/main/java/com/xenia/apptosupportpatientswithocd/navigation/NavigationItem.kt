@@ -28,7 +28,12 @@ enum class Screen {
 
     HOMEWORK,
     MAIN_HOMEWORK,
+    ADD_HOMEWORK,
+    STATISTIC_HOMEWORK,
 
+    BEFORE_PRACTICE_HOMEWORK,
+    PRACTICE_CONTENT,
+    AFTER_PRACTICE_HOMEWORK,
 }
 
 
@@ -108,6 +113,31 @@ sealed class NavigationItem(
     data object  MainHomework: NavigationItem(
         title = "Главная домашняя работа",
         route = Screen.MAIN_HOMEWORK.name
+    )
+
+    data object  AddHomework: NavigationItem(
+        title = "Создать домашнюю работа",
+        route = Screen.ADD_HOMEWORK.name
+    )
+
+    data object  StatisticHomework: NavigationItem(
+        title = "Посмотреть статистику по домашней работе",
+        route = Screen.STATISTIC_HOMEWORK.name
+    )
+
+    data object  BeforePracticeHomework: NavigationItem(
+        title = "Отметить состояние до выполнения практике по домашней работе",
+        route = Screen.BEFORE_PRACTICE_HOMEWORK.name
+    )
+
+    data object  PracticeHomework: NavigationItem(
+        title = "Выполнять практику по домашней работе",
+        route = Screen.PRACTICE_CONTENT.name
+    )
+
+    data object  AfterPracticeHomework: NavigationItem(
+        title = "Отметить состояние после прохождения практики по домашней работе",
+        route = Screen.AFTER_PRACTICE_HOMEWORK.name
     )
 
     data object ListModules : NavigationItem(

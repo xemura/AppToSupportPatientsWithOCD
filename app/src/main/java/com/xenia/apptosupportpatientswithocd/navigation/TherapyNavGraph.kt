@@ -9,7 +9,14 @@ fun NavGraphBuilder.therapyNavGraph(
     therapyScreenContent: @Composable () -> Unit,
     diaryMoodScreenContent: @Composable () -> Unit,
     addMoodScreenContent: @Composable () -> Unit,
+
     homeworkScreenContent: @Composable () -> Unit,
+    addHomeworkScreenContent:  @Composable () -> Unit,
+    statisticHomeworkScreenContent: @Composable () -> Unit,
+
+    stateBeforePracticeHomework: @Composable () -> Unit,
+    stateAfterPracticeHomework: @Composable () -> Unit,
+    practiceContentHomework: @Composable () -> Unit,
 ) {
     navigation(
         startDestination = NavigationItem.TherapyContent.route,
@@ -25,7 +32,13 @@ fun NavGraphBuilder.therapyNavGraph(
         )
 
         homeworkNavGraph(
-            homeworkScreenContent
+            homeworkScreenContent,
+            addHomeworkScreenContent,
+            statisticHomeworkScreenContent,
+
+            stateBeforePracticeHomework,
+            stateAfterPracticeHomework,
+            practiceContentHomework
         )
 
     }
