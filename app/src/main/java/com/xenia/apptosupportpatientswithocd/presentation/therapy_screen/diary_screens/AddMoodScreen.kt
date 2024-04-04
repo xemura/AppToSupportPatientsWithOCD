@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,11 +72,17 @@ fun AddMoodScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = contentPadding.calculateTopPadding()),
-            verticalArrangement = Arrangement.Top,
+                .padding(top = contentPadding.calculateTopPadding() - contentPadding.calculateTopPadding()),
+            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Введите своё настроение")
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 50.dp),
+                text = "Введите оценку своего настроения",
+                textAlign = TextAlign.Center
+            )
 
             OutlinedTextField(
                 modifier = Modifier
@@ -83,7 +90,7 @@ fun AddMoodScreen(
                     .padding(horizontal = 50.dp),
                 value = mood,
                 onValueChange = { mood = it },
-                placeholder = { Text(text = "Введите настроение в виде числа") },
+                placeholder = { Text(text = "Введите оценку в виде числа") },
                 label = { Text("Оценка настроения") },
                 singleLine = true,
                 colors = TextFieldDefaults.colors(
@@ -103,7 +110,7 @@ fun AddMoodScreen(
                     .padding(horizontal = 50.dp),
                 value = note,
                 onValueChange = { note = it },
-                placeholder = { Text(text = "Введите заметку о настроении") },
+                placeholder = { Text(text = "Заметка о настроении") },
                 label = { Text("Заметка") },
                 singleLine = true,
                 colors = TextFieldDefaults.colors(
@@ -124,7 +131,7 @@ fun AddMoodScreen(
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 30.dp, vertical = 5.dp),
+                    .padding(horizontal = 50.dp, vertical = 5.dp),
 
                 ) {
                 Text(

@@ -89,4 +89,6 @@ dependencies {
     implementation("androidx.compose.ui:ui-text-google-fonts:1.6.1")
 
     implementation ("com.google.code.gson:gson:2.10.1")
+
+    implementation("co.yml:ycharts:2.1.0")
 }

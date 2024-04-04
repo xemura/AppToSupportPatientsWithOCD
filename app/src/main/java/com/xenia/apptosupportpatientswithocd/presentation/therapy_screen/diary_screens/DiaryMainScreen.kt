@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,8 +28,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.xenia.apptosupportpatientswithocd.presentation.composable.BarGraph
+import com.xenia.apptosupportpatientswithocd.presentation.composable.BarType
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,7 +43,11 @@ fun DiaryMainScreen(
     onAddPressed: () -> Unit,
 ) {
 
-    val moodList = mutableListOf<Mood>()
+    val moodList = mutableListOf(
+        Mood("05.04.24", 5, "ляляля 5"),
+        Mood("04.04.24", 6, "ляля 6"),
+        Mood("03.04.24", 9, "ляляля 9")
+    )
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -75,7 +84,41 @@ fun DiaryMainScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
-                // график статистики настроения
+                Column {
+                    val dataList = mutableListOf(3,6,9,5,7)
+                    val floatValue = mutableListOf<Float>()
+                    val datesList = mutableListOf(
+                        "01.04", "02.04",
+                        "03.04", "04.04",
+                        "05.04"
+                    )
+
+                    dataList.forEachIndexed { index, value ->
+                        floatValue.add(index = index, element = value.toFloat()/dataList.max().toFloat())
+                    }
+
+                    BarGraph(
+                        graphBarData = floatValue,
+                        xAxisScaleData = datesList,
+                        barData_ = dataList,
+                        height = 300.dp,
+                        roundType = BarType.TOP_CURVED,
+                        barWidth = 20.dp,
+                        barBrush = Brush.verticalGradient(
+                            listOf(
+                                Color(0xFF0575e6),
+                                Color(0xFFb5e2fa)
+                            )
+                        ),
+                        barArrangement = Arrangement.SpaceEvenly
+                    )
+
+                    Text(
+                        modifier = Modifier.padding(horizontal = 30.dp, vertical = 5.dp),
+                        text = "Ваше настроение по дням:"
+                    )
+                }
+
             }
             items(moodList) {
                 Card(
@@ -96,7 +139,7 @@ fun DiaryMainScreen(
                     Text(
                         modifier = Modifier
                             .padding(20.dp),
-                        text = "${it.time}  ${it.moodAssessment}/10"
+                        text = "${it.date}  ${it.moodAssessment}/10"
                     )
                 }
             }
@@ -106,9 +149,10 @@ fun DiaryMainScreen(
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier
-                        .fillMaxWidth().padding(horizontal = 30.dp, vertical = 5.dp),
+                        .fillMaxWidth()
+                        .padding(horizontal = 30.dp, vertical = 5.dp),
 
-                ) {
+                    ) {
                     Text(
                         color = Color.White,
                         text = "Добавить",

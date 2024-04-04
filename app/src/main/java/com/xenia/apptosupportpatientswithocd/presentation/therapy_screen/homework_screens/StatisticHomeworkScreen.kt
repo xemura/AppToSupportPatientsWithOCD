@@ -2,6 +2,7 @@ package com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homewo
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,11 +22,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.xenia.apptosupportpatientswithocd.R
+import com.xenia.apptosupportpatientswithocd.presentation.composable.BarGraph
+import com.xenia.apptosupportpatientswithocd.presentation.composable.BarType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,22 +66,38 @@ fun StatisticHomeworkScreen(
         Box(
             modifier = Modifier.padding(top = contentPadding.calculateTopPadding() + 5.dp)
         ) {
-            // тут график статистики
-
             Column {
                 Text(
                     modifier = Modifier.padding(horizontal = 30.dp, vertical = 5.dp),
                     text = "Статистика по домашней работе: (название)"
                 )
-                Image(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 30.dp)
-                        .height(200.dp)
-                        .clip(shape = RoundedCornerShape(10.dp)),
-                    painter = painterResource(id = R.drawable.main_screen_1),
-                    contentDescription = "Картинка на главном экране",
-                    contentScale = ContentScale.FillWidth
+
+                val dataList = mutableListOf(3,6,9,5,7)
+                val floatValue = mutableListOf<Float>()
+                val datesList = mutableListOf(
+                    "01.04", "02.04",
+                    "03.04", "04.04",
+                    "05.04"
+                )
+
+                dataList.forEachIndexed { index, value ->
+                    floatValue.add(index = index, element = value.toFloat()/dataList.max().toFloat())
+                }
+
+                BarGraph(
+                    graphBarData = floatValue,
+                    xAxisScaleData = datesList,
+                    barData_ = dataList,
+                    height = 300.dp,
+                    roundType = BarType.TOP_CURVED,
+                    barWidth = 20.dp,
+                    barBrush = Brush.verticalGradient(
+                        listOf(
+                            Color(0xFF0575e6),
+                            Color(0xFFb5e2fa)
+                        )
+                    ),
+                    barArrangement = Arrangement.SpaceEvenly
                 )
             }
         }

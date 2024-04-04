@@ -174,7 +174,7 @@ fun AddHomeworkScreen(
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 50.dp, vertical = 10.dp)
+                    .padding(horizontal = 20.dp, vertical = 10.dp)
             ) {
                 Text(
                     color = Color.White,

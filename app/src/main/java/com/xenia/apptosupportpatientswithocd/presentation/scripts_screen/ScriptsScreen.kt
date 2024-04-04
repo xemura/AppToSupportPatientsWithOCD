@@ -38,18 +38,6 @@ fun ScriptsScreen(
     onFloatingActionButtonClick: () -> Unit
 ) {
 
-    var mExpanded by remember { mutableStateOf(false) }
-    val mCities = listOf("Delhi", "Mumbai", "Chennai", "Kolkata", "Hyderabad", "Bengaluru", "Pune")
-    var mSelectedText by remember { mutableStateOf("") }
-    var mTextFieldSize by remember { mutableStateOf(Size.Zero) }
-
-    var checkBoxState by remember { mutableStateOf(false) }
-
-    val icon = if (mExpanded)
-        Icons.Filled.KeyboardArrowUp
-    else
-        Icons.Filled.KeyboardArrowDown
-
     val list = listOf(
         ScriptModel(
             "Сценарий 1", true, listOf(
@@ -123,57 +111,6 @@ fun ScriptsScreen(
         ) {
             items(list) {
                 CardScript(scriptModel = it)
-//                OutlinedTextField(
-//                    value = mSelectedText,
-//                    onValueChange = { mSelectedText = it },
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .onGloballyPositioned { coordinates ->
-//                            mTextFieldSize = coordinates.size.toSize()
-//                        },
-//                    label = { Text(it.name) },
-//                    trailingIcon = {
-//                        Icon(icon, "contentDescription",
-//                            Modifier.clickable { mExpanded = !mExpanded })
-//                    }
-//                )
-//
-//                DropdownMenu(
-//                    expanded = mExpanded,
-//                    onDismissRequest = { mExpanded = false },
-//                    modifier = Modifier
-//                        .background(Color.White)
-//                        .fillMaxWidth()
-//                        .padding(horizontal = 20.dp)
-//                        .clip(RoundedCornerShape(10.dp))
-//                        .border(
-//                            BorderStroke(width = 1.dp, color = Color.Black),
-//                            shape = RoundedCornerShape(10.dp)
-//                        )
-//
-//                ) {
-//                    it.listActions.forEach { action ->
-//                        DropdownMenuItem(
-//                            leadingIcon = {
-//                                Checkbox(
-//                                    modifier = Modifier.clip(RoundedCornerShape(10.dp)),
-//                                    checked = action.checkBoxState,
-//                                    onCheckedChange = {
-//                                        checkBoxState = !checkBoxState
-//                                    })
-//                            },
-//                            text = {
-//                                Text(
-//                                    modifier = Modifier.fillMaxHeight(),
-//                                    text = action.name
-//                                )
-//                            },
-//                            onClick = {
-//                                mSelectedText = action.name
-//                                mExpanded = false
-//                            })
-//                    }
-//                }
             }
         }
     }
