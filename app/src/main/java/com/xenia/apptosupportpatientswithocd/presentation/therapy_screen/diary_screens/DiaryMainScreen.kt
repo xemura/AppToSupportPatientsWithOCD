@@ -30,7 +30,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.xenia.apptosupportpatientswithocd.presentation.composable.BarGraph
 import com.xenia.apptosupportpatientswithocd.presentation.composable.BarType
 
@@ -39,14 +41,14 @@ import com.xenia.apptosupportpatientswithocd.presentation.composable.BarType
 @Composable
 fun DiaryMainScreen(
     onBackPressed: () -> Unit,
-    onEditPressed: () -> Unit,
+    onEditPressed: (Mood) -> Unit,
     onAddPressed: () -> Unit,
 ) {
 
     val moodList = mutableListOf(
-        Mood("05.04.24", 5, "ляляля 5"),
-        Mood("04.04.24", 6, "ляля 6"),
-        Mood("03.04.24", 9, "ляляля 9")
+        Mood("05.04.24", 7, "ляляля 7"),
+        Mood("04.04.24", 5, "Были ситуации, которые испортили моё настроение."),
+        Mood("03.04.24", 10, "ляляля 10")
     )
     Scaffold(
         topBar = {
@@ -85,7 +87,7 @@ fun DiaryMainScreen(
         ) {
             item {
                 Column {
-                    val dataList = mutableListOf(3,6,9,5,7)
+                    val dataList = mutableListOf(3,6,10,5,7)
                     val floatValue = mutableListOf<Float>()
                     val datesList = mutableListOf(
                         "01.04", "02.04",
@@ -101,7 +103,7 @@ fun DiaryMainScreen(
                         graphBarData = floatValue,
                         xAxisScaleData = datesList,
                         barData_ = dataList,
-                        height = 300.dp,
+                        height = 280.dp,
                         roundType = BarType.TOP_CURVED,
                         barWidth = 20.dp,
                         barBrush = Brush.verticalGradient(
@@ -127,7 +129,7 @@ fun DiaryMainScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 30.dp, vertical = 5.dp)
                         .clickable {
-                            onEditPressed()
+                            onEditPressed(it)
                             // просмотр записи о настроении - редактирование
                         },
                     shape = RoundedCornerShape(10.dp),
@@ -142,6 +144,15 @@ fun DiaryMainScreen(
                         text = "${it.date}  ${it.moodAssessment}/10"
                     )
                 }
+            }
+            item {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "Посмотреть все записи о настроении",
+                    textAlign = TextAlign.Center,
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
             }
             item {
                 Button(

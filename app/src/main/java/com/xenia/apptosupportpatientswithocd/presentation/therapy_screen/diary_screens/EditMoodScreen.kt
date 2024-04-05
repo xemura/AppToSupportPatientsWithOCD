@@ -35,12 +35,13 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddMoodScreen(
+fun EditMoodScreen(
+    mood: Mood,
     onBackPressed: () -> Unit,
     onSavePressed: () -> Unit,
 ) {
-    var mood by remember { mutableStateOf("") }
-    var note by remember { mutableStateOf("") }
+    var moodText by remember { mutableStateOf("${mood.moodAssessment}") }
+    var note by remember { mutableStateOf(mood.note) }
 
     Scaffold(
         topBar = {
@@ -51,7 +52,7 @@ fun AddMoodScreen(
                         spotColor = Color.DarkGray
                     ),
                 title = {
-                    Text(text = "Текущее настроение")
+                    Text(text = "Запись о настроении")
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     titleContentColor = Color.White,
@@ -80,7 +81,7 @@ fun AddMoodScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 50.dp),
-                text = "Введите оценку своего настроения",
+                text = "Дата записи: ${mood.date}",
                 textAlign = TextAlign.Center
             )
 
@@ -88,8 +89,8 @@ fun AddMoodScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 50.dp),
-                value = mood,
-                onValueChange = { mood = it },
+                value = moodText,
+                onValueChange = { moodText = it },
                 placeholder = { Text(text = "Введите оценку в виде числа") },
                 label = { Text("Оценка настроения") },
                 singleLine = true,

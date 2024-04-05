@@ -48,13 +48,16 @@ fun AddScriptScreen(
 ) {
 
     val openAlertDialog = remember { mutableStateOf(false) }
-    var nameText by remember { mutableStateOf("") }
+    var nameText by remember { mutableStateOf("Выйти из дома") }
 
     val actionsList = remember { mutableStateOf<List<Action>>(mutableListOf()) }
 
     var actionText by remember { mutableStateOf("") }
 
-    val list = remember { mutableListOf<Action>() }
+    val list = remember { mutableListOf<Action>(
+        Action("взять кошелек", false),
+        Action("выключить всё из розеток", false),
+    ) }
 
     when {
         openAlertDialog.value -> {
@@ -193,8 +196,6 @@ fun AddScriptScreen(
                     }
                 }
             }
-
-            Spacer(modifier = Modifier.padding(10.dp))
 
             Button(
                 onClick = { onAddPressed() },

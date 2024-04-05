@@ -76,10 +76,10 @@ fun MainScreen(
             )
 
             Text(
-                modifier = Modifier.padding(vertical = 5.dp),
+                modifier = Modifier.padding(horizontal = 30.dp, vertical = 5.dp),
                 color = Color.Black,
                 fontSize = 20.sp,
-                text = "Привет, ты на \nправильном пути!",
+                text = "Привет, ты на правильном\nпути и выполненная\nработа имеет значение!",
                 textAlign = TextAlign.Center
             )
 

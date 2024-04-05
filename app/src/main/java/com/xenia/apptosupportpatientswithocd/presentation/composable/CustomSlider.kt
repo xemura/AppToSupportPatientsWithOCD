@@ -293,7 +293,7 @@ object CustomSliderDefaults {
     fun Indicator(
         indicatorValue: String,
         modifier: Modifier = Modifier,
-        style: TextStyle = TextStyle(fontSize = 10.sp, fontWeight = FontWeight.Normal)
+        style: TextStyle = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.Normal)
     ) {
         Box(modifier = modifier) {
             Text(

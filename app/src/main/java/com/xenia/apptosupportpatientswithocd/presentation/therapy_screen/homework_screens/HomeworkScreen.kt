@@ -46,9 +46,9 @@ fun HomeworkScreen(
 ) {
 
     val homeworksList = mutableListOf(
-        HomeworkModel("homework 1", "", "", "", ""),
-        HomeworkModel("homework 2", "", "", "", ""),
-        HomeworkModel("homework 3", "", "", "", ""),
+        HomeworkModel("Социальная деятельность", "", "", "", ""),
+        HomeworkModel("Личные дела", "", "", "", ""),
+        HomeworkModel("Дом", "", "", "", ""),
     )
 
     Scaffold(

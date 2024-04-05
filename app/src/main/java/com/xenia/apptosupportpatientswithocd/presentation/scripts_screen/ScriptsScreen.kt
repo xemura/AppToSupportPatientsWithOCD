@@ -40,28 +40,28 @@ fun ScriptsScreen(
 
     val list = listOf(
         ScriptModel(
-            "Сценарий 1", true, listOf(
-                Action("действие 1", true),
-                Action("действие 2", false),
-                Action("действие 3", false),
+            "Выйти из дома", true, listOf(
+                Action("взять кошелек", true),
+                Action("выключить всё из розеток", false),
+                Action("взять ключи", false),
             )
         ),
         ScriptModel(
-            "Сценарий 2", true, listOf(
+            "Мытье рук", false, listOf(
                 Action("действие 1", false),
                 Action("действие 2", true),
                 Action("действие 3", true),
             )
         ),
         ScriptModel(
-            "Сценарий 3", false, listOf(
+            "Навести порядок", false, listOf(
                 Action("действие 1", true),
                 Action("действие 2", false),
                 Action("действие 3", true),
             )
         ),
         ScriptModel(
-            "Сценарий 4", false, listOf(
+            "Работа", false, listOf(
                 Action("действие 1", true),
                 Action("действие 2", true),
                 Action("действие 3", false),

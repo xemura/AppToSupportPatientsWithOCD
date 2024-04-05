@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.compose.ui.graphics.Color
 import com.google.gson.Gson
 import com.xenia.apptosupportpatientswithocd.R
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.Mood
 
 enum class Screen {
     MAIN,
@@ -25,6 +26,7 @@ enum class Screen {
     DIARY,
     DIARY_MOOD,
     ADD_MOOD,
+    EDIT_MOOD,
 
     HOMEWORK,
     MAIN_HOMEWORK,
@@ -104,6 +106,16 @@ sealed class NavigationItem(
         title = "Добавить настроение",
         route = Screen.ADD_MOOD.name
     )
+
+    data object EditMood : NavigationItem(
+        title = "Редактировать запись о настроении",
+        route =  "${Screen.EDIT_MOOD.name}/{obj_mood}"
+    ) {
+        fun getRouteWithArgs(mood: Mood) : String {
+            val moodJson = Gson().toJson(mood)
+            return "${Screen.EDIT_MOOD.name}/${moodJson.encode()}"
+        }
+    }
 
     data object  Homework: NavigationItem(
         title = "Домашняя работа",

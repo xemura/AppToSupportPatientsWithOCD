@@ -86,9 +86,5 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.5.0")
 
-    implementation("androidx.compose.ui:ui-text-google-fonts:1.6.1")
-
     implementation ("com.google.code.gson:gson:2.10.1")
-
-    implementation("co.yml:ycharts:2.1.0")
 }

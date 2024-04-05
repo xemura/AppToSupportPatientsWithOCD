@@ -6,6 +6,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.model.ModuleContent
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.Mood
 
 class NavigationState(
     val navHostController: NavHostController
@@ -26,6 +27,10 @@ class NavigationState(
 
     fun navigateToContentText(text: String) {
         navHostController.navigate(NavigationItem.ContentText.getRouteWithArgs(text))
+    }
+
+    fun navigateToEditMoodModule(mood: Mood) {
+        navHostController.navigate(NavigationItem.EditMood.getRouteWithArgs(mood))
     }
 }
 

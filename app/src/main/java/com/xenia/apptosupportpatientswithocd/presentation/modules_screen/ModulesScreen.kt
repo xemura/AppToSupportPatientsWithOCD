@@ -65,11 +65,11 @@ fun ModulesScreen(
         ) {
             items(modulesList) {
                 Text(
-                    modifier = Modifier.padding(vertical = 5.dp),
+                    modifier = Modifier.padding(vertical = 5.dp, horizontal = 30.dp).fillMaxWidth(),
                     color = Color.Black,
                     fontSize = 20.sp,
                     text = it.name,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Start
                 )
 
                 Image(

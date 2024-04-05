@@ -19,6 +19,7 @@ import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.Scripts
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.TherapyScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.AddMoodScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.DiaryMainScreen
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.EditMoodScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.AddHomeworkScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.HomeworkScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.StatisticHomeworkScreen
@@ -137,7 +138,7 @@ fun EnterMainScreen() {
                         navigationState.navigateTo(NavigationItem.Therapy.route)
                     },
                     onEditPressed = {
-
+                        navigationState.navigateToEditMoodModule(it)
                     },
                     onAddPressed = {
                         navigationState.navigateTo(NavigationItem.AddMood.route)
@@ -146,6 +147,17 @@ fun EnterMainScreen() {
             },
             addMoodScreenContent = {
                 AddMoodScreen(
+                    onBackPressed = {
+                        navigationState.navigateTo(NavigationItem.Diary.route)
+                    },
+                    onSavePressed = {
+                        navigationState.navigateTo(NavigationItem.Diary.route)
+                    }
+                )
+            },
+            editMoodScreenContent = { mood ->
+                EditMoodScreen(
+                    mood = mood,
                     onBackPressed = {
                         navigationState.navigateTo(NavigationItem.Diary.route)
                     },
