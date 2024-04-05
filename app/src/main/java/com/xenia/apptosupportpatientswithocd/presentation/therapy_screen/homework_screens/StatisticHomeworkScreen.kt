@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.xenia.apptosupportpatientswithocd.R
 import com.xenia.apptosupportpatientswithocd.presentation.composable.BarGraph
 import com.xenia.apptosupportpatientswithocd.presentation.composable.BarType
@@ -69,7 +70,7 @@ fun StatisticHomeworkScreen(
             Column {
                 Text(
                     modifier = Modifier.padding(horizontal = 30.dp, vertical = 5.dp),
-                    text = "Статистика по домашней работе: (название)"
+                    text = "Статистика по домашней работе: Страх перед несовершенством"
                 )
 
                 val dataList = mutableListOf(3,6,9,5,7)
@@ -98,6 +99,13 @@ fun StatisticHomeworkScreen(
                         )
                     ),
                     barArrangement = Arrangement.SpaceEvenly
+                )
+
+                Text(
+                    modifier = Modifier.padding(horizontal = 30.dp, vertical = 5.dp),
+                    text = "График показывает оценки состояний после прохождения данного домашнего задания",
+                    color = Color.Gray,
+                    fontSize = 14.sp
                 )
             }
         }

@@ -7,8 +7,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,6 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xenia.apptosupportpatientswithocd.navigation.rememberNavigationState
@@ -56,11 +61,26 @@ fun SignUpScreen(
             SignInScreen(viewModel = viewModel)
         } else {
             Text(
-                text = "Добро пожаловать!",
-                fontSize = 20.sp
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 30.dp),
+                text = "Присоединяйся к нам!",
+                fontSize = 22.sp,
+                textAlign = TextAlign.Start,
+                color = Color(0xFF0575e6),
+                fontWeight = FontWeight.Bold,
             )
 
-            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 30.dp),
+                text = "Это первый шаг к тому, чтобы стало лучше.",
+                fontSize = 18.sp,
+                textAlign = TextAlign.Start
+            )
+
+            Spacer(modifier = Modifier.padding(vertical = 10.dp))
 
             LoginField(
                 value = loginText,
@@ -68,15 +88,11 @@ fun SignUpScreen(
                     loginText = it
                 })
 
-            Spacer(modifier = Modifier.padding(vertical = 5.dp))
-
             PasswordField(value = passwordText,
                 "Введите пароль",
                 onValueChange = {
                     passwordText = it
                 })
-
-            Spacer(modifier = Modifier.padding(vertical = 5.dp))
 
             PasswordField(value = repeatPasswordText,
                 "Повторите пароль",
@@ -84,12 +100,20 @@ fun SignUpScreen(
                     repeatPasswordText = it
                 })
 
-            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+            Spacer(modifier = Modifier.padding(vertical = 10.dp))
 
-            Button(onClick = {
-                viewModel.registerUser(loginText, passwordText)
-            }) {
-                Text(text = "Зарегистрироваться")
+            Button(
+                onClick = {
+                    viewModel.registerUser(loginText, passwordText)
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
+                shape = RoundedCornerShape(8.dp),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp)
+            ) {
+                Text(
+                    color = Color.White,
+                    text = "Зарегистрироваться",
+                )
             }
 
             Spacer(modifier = Modifier.padding(vertical = 5.dp))
@@ -97,9 +121,8 @@ fun SignUpScreen(
             Text(
                 modifier = Modifier.clickable {
                     screenLogin = true
-                }
-                    .alpha(0.7f),
-                color = Color.Red,
+                },
+                color = Color.Gray,
                 text = "Есть аккаунта? Войти"
             )
         }

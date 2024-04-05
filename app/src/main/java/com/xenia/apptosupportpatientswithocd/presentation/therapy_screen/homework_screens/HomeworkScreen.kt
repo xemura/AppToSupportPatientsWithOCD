@@ -46,9 +46,21 @@ fun HomeworkScreen(
 ) {
 
     val homeworksList = mutableListOf(
-        HomeworkModel("Социальная деятельность", "", "", "", ""),
-        HomeworkModel("Личные дела", "", "", "", ""),
-        HomeworkModel("Дом", "", "", "", ""),
+        HomeworkModel(
+            "Страх подхватить инфекцию",
+            "Прикосновения к рукам людей, коже, волосам, одежде, деньгам. Пользование туалетами вне дома, " +
+                    "прикосновения к чужим животным. Обращение с предметами, к которым прикасался один или несколько человек.",
+            "1. Каждый день ходить в местный супермаркет/магазин, брать деньги и приносить товары домой, не моя их и себя." +
+                    "\n2. Принимать в гостях друзей/родственников, по крайней мере, один раз в неделю.\n" +
+                    "3. Позволить своей семье выходить и заходить в дом без ежедневной стирки и уборки.\n",
+        ),
+        HomeworkModel(
+            "Страх перед несовершенством",
+            "Написание писем, эссе, записей. Отправка писем. Принимать душ (из-за бутылок, которые я использую). Одевание и раздевание. Приготовление пищи. Глажка.",
+            "1. Написать эссе несимметричным способом менее чем за 2 часа, 3 раза в неделю.\n" +
+                    "2. Принимать душ за 20 минут каждый день.\n" +
+                    "3. Готовить еду для моих родителей за 45 минут 2 раза в неделю."),
+        HomeworkModel("\"Плохие\" мысли о людях, которых я люблю", "", ""),
     )
 
     Scaffold(
@@ -133,8 +145,7 @@ fun HomeworkCard(
             .fillMaxWidth()
             .padding(horizontal = 20.dp, vertical = 10.dp)
             .clickable {
-                onStatisticPressed()
-                // статистика домашней работы (может лучше редактировать здесь)
+                onEditPressed()
             },
         shape = RoundedCornerShape(10.dp),
         border = BorderStroke(1.dp, Color.Black),
@@ -148,17 +159,16 @@ fun HomeworkCard(
 
         ) {
             Text(
-                modifier = Modifier.padding(bottom = 5.dp),
-                text = homeworkName.homeworkName
+                modifier = Modifier.padding(bottom = 5.dp, start = 5.dp),
+                text = homeworkName.obsessionInfo
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceAround
             ) {
                 Button(
                     onClick = {
                         onPracticePressed()
-                        // страница практика
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                     shape = RoundedCornerShape(8.dp),
@@ -171,14 +181,13 @@ fun HomeworkCard(
                 Spacer(modifier = Modifier.padding(3.dp))
                 Button(
                     onClick = {
-                        onEditPressed()
-                        // страницаа редактировать // а тут статистика ??
+                        onStatisticPressed()
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                     shape = RoundedCornerShape(8.dp),
                 ) {
                     Text(
-                        text = "Редактировать",
+                        text = "Статистика",
                         fontSize = 15.sp
                     )
                 }

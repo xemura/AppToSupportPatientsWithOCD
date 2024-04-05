@@ -35,11 +35,9 @@ fun AddHomeworkScreen(
     onBackPressed: () -> Unit,
     onSavePressed: () -> Unit
 ) {
-    var nameHomework by remember { mutableStateOf("") }
     var obsessionInfo by remember { mutableStateOf("") }
     var triggerInfo by remember { mutableStateOf("") }
     var adviceInfo by remember { mutableStateOf("") }
-    var fearInfo by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -77,30 +75,10 @@ fun AddHomeworkScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp, vertical = 5.dp),
-                value = nameHomework,
-                onValueChange = { nameHomework = it },
-                placeholder = { Text(text = "Название домашней работы") },
-                label = { Text("Название") },
-                singleLine = true,
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = Color(0xFF0575e6),
-                    unfocusedIndicatorColor = Color.Black,
-                    focusedLabelColor = Color(0xFF0575e6),
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White
-                ),
-                shape = RoundedCornerShape(10.dp)
-            )
-
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 5.dp),
                 value = obsessionInfo,
                 onValueChange = { obsessionInfo = it },
                 placeholder = { Text(text = "Введите обсессию") },
                 label = { Text("Обсессия") },
-                singleLine = true,
                 colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = Color(0xFF0575e6),
                     unfocusedIndicatorColor = Color.Black,
@@ -119,26 +97,6 @@ fun AddHomeworkScreen(
                 onValueChange = { triggerInfo = it },
                 placeholder = { Text(text = "Введите триггер") },
                 label = { Text("Триггер") },
-                singleLine = true,
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = Color(0xFF0575e6),
-                    unfocusedIndicatorColor = Color.Black,
-                    focusedLabelColor = Color(0xFF0575e6),
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White
-                ),
-                shape = RoundedCornerShape(10.dp)
-            )
-
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 5.dp),
-                value = fearInfo,
-                onValueChange = { fearInfo = it },
-                placeholder = { Text(text = "Введите страх") },
-                label = { Text("Страх") },
-                singleLine = true,
                 colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = Color(0xFF0575e6),
                     unfocusedIndicatorColor = Color.Black,
@@ -157,7 +115,6 @@ fun AddHomeworkScreen(
                 onValueChange = { adviceInfo = it },
                 placeholder = { Text(text = "Введите совет") },
                 label = { Text("Совет") },
-                singleLine = true,
                 colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = Color(0xFF0575e6),
                     unfocusedIndicatorColor = Color.Black,

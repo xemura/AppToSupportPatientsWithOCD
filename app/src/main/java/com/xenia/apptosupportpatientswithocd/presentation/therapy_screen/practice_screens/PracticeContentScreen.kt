@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -74,6 +75,37 @@ fun PracticeContentScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = 30.dp).fillMaxWidth(),
+                text = "Триггер",
+                textAlign = TextAlign.Start
+            )
+            Card(
+                modifier = Modifier
+                    .background(Color.White)
+                    .fillMaxWidth()
+                    .padding(horizontal = 30.dp, vertical = 5.dp),
+                shape = RoundedCornerShape(10.dp),
+                border = BorderStroke(1.dp, Color.Black),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(15.dp),
+                    text = "Прикосновения к рукам людей, коже, волосам, одежде, деньгам. Пользование туалетами вне дома, " +
+                            "прикосновения к чужим животным. Обращение с предметами, к которым прикасался один или несколько человек."
+                )
+            }
+
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = 30.dp).fillMaxWidth(),
+                text = "Совет",
+                textAlign = TextAlign.Start
+            )
             // еще чет надо наверное
             Card(
                 modifier = Modifier
@@ -89,25 +121,9 @@ fun PracticeContentScreen(
                 Text(
                     modifier = Modifier
                         .padding(15.dp),
-                    text = "Совет"
-                )
-            }
-
-            Card(
-                modifier = Modifier
-                    .background(Color.White)
-                    .fillMaxWidth()
-                    .padding(horizontal = 30.dp, vertical = 5.dp),
-                shape = RoundedCornerShape(10.dp),
-                border = BorderStroke(1.dp, Color.Black),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White
-                ),
-            ) {
-                Text(
-                    modifier = Modifier
-                        .padding(15.dp),
-                    text = "Триггер"
+                    text = "1. Каждый день ходить в местный супермаркет/магазин, брать деньги и приносить товары домой, не моя их и себя." +
+                            "\n2. Принимать в гостях друзей/родственников, по крайней мере, один раз в неделю.\n" +
+                            "3. Позволить своей семье выходить и заходить в дом без ежедневной стирки и уборки.\n"
                 )
             }
         }

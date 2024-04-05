@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.xenia.apptosupportpatientswithocd.presentation.composable.CustomSlider
 import com.xenia.apptosupportpatientswithocd.presentation.composable.CustomSliderDefaults
 import com.xenia.apptosupportpatientswithocd.presentation.composable.progress
@@ -93,18 +94,30 @@ fun StateAfterPracticeScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 30.dp),
-                text = "На сколько баллов эта ситуация кажется вам неприятной сейчас?\n10 - наиболее неприятная ",
-                textAlign = TextAlign.Start
+                    .padding(horizontal = 30.dp),
+                text = "На сколько баллов эта ситуация кажется вам неприятной сейчас?",
+                textAlign = TextAlign.Start,
+                color = Color(0xFF0575e6),
+                fontSize = 18.sp
+            )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 30.dp),
+                text = "10 - наиболее неприятная ",
+                textAlign = TextAlign.Start,
+                color = Color.Gray,
+                fontSize = 14.sp
             )
 
             CustomSlider(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp),
+                    .padding(horizontal = 20.dp, vertical = 20.dp),
                 value = sliderValue,
                 onValueChange = {
                     sliderValue = it
