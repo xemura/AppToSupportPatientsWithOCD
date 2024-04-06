@@ -17,9 +17,11 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class AuthRepositoryImpl @Inject constructor(): AuthRepository {
+class AuthRepositoryImpl @Inject constructor(
+    private val firebaseAuth: FirebaseAuth
+): AuthRepository {
 
-    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    //private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
 

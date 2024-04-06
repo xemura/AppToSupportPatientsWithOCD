@@ -73,7 +73,7 @@ fun StatisticHomeworkScreen(
                     text = "Статистика по домашней работе: Страх перед несовершенством"
                 )
 
-                val dataList = mutableListOf(3,6,9,5,7)
+                val dataList = mutableListOf(2,4,6,1,3)
                 val floatValue = mutableListOf<Float>()
                 val datesList = mutableListOf(
                     "01.04", "02.04",
