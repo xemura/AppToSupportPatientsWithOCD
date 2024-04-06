@@ -14,14 +14,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth
 ): AuthRepository {
-
-    //private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
@@ -45,7 +44,13 @@ class AuthRepositoryImpl @Inject constructor(
         initialValue = AuthState.Initial
     )
 
-    override fun getAuthStateFlow(): StateFlow<AuthState> = authStateFlow
+    override fun getAuthStateFlow(): StateFlow<AuthState> {
+        coroutineScope.launch {
+            checkAuthStateEvents.emit(Unit)
+        }
+
+        return authStateFlow
+    }
 
     override fun loginUser(email: String, password: String): Flow<Resource<AuthResult>> {
         return flow {
@@ -75,5 +80,6 @@ class AuthRepositoryImpl @Inject constructor(
 
     override fun signOut() {
         firebaseAuth.signOut()
+        getAuthStateFlow()
     }
 }
