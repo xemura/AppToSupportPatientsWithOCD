@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,12 +14,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,34 +42,52 @@ import com.xenia.apptosupportpatientswithocd.domain.entity.ModuleContentModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.ModuleModel
 import com.xenia.apptosupportpatientswithocd.presentation.auth_screen.AuthViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.getApplicationComponent
+import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.ProfileScreen
+import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.ProfileScreenState
+import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.ProfileViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ModulesScreen(
+fun ModulesScreenMain(
     onModuleImageClickListener: (List<ModuleContentModel>) -> Unit
 ) {
-
     val component = getApplicationComponent()
     val viewModel: ModulesViewModel = viewModel(factory = component.getViewModelFactory())
 
-    val scope = CoroutineScope(Dispatchers.Default)
+    val screenState = viewModel.screenState.collectAsState(ModulesScreenState.Initial)
 
-    var data by remember {
-        mutableStateOf<List<ModuleModel>?>(null)
+    when (val currentState = screenState.value) {
+        is ModulesScreenState.Modules -> {
+            Log.d("TAG", "Profile")
+            ModulesScreen(
+                onModuleImageClickListener,
+                currentState.modulesList
+            )
+        }
+        ModulesScreenState.Initial -> {
+            Log.d("TAG", "Initial")
+        }
+        ModulesScreenState.Loading -> {
+            Log.d("TAG", "Loading")
+            Box(modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center)
+            {
+                CircularProgressIndicator(color = Color.Black)
+            }
+        }
     }
+}
 
-    LaunchedEffect(
-        key1 = null
-    ) {
-        data = scope.async {
-            viewModel.getModulesList()
-        }.await()
-    }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ModulesScreen(
+    onModuleImageClickListener: (List<ModuleContentModel>) -> Unit,
+    modulesList: List<ModuleModel>
+) {
 
-    Log.d("TAG", data.toString())
+    Log.d("TAG", modulesList[0].id.toString())
 
     Scaffold(
         topBar = {

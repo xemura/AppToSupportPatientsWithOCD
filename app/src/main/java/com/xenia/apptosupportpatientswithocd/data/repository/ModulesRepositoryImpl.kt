@@ -12,13 +12,16 @@ import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homewor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class ModulesRepositoryImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val fireStoreDatabase: FirebaseFirestore
-): ModulesRepository {
+) : ModulesRepository {
 
     private val modulesList = mutableListOf<ModuleModel>()
     private val moduleContentList = mutableListOf<ModuleContentModel>()
@@ -26,7 +29,8 @@ class ModulesRepositoryImpl @Inject constructor(
     private val scope = CoroutineScope(Dispatchers.Default)
 
     private val currentUserUID = firebaseAuth.currentUser?.uid
-    override fun getModulesList(): List<ModuleModel> {
+
+    private val modulesListFlow = flow {
         fireStoreDatabase.collection("$currentUserUID")
             .document("modules")
             .collection("modulesList")
@@ -52,38 +56,39 @@ class ModulesRepositoryImpl @Inject constructor(
                     }
 
 
-
                 }
             }
             .addOnFailureListener { exception ->
                 Log.w("TAG", "Error getting documents.", exception)
             }
 
-        return modulesList
+        emit(modulesList)
     }
+    override fun getModulesList(): Flow<List<ModuleModel>> = modulesListFlow
 
-    private fun getModuleContent(moduleID: String): List<ModuleContentModel> {
-        fireStoreDatabase.collection("$currentUserUID")
-            .document("modules")
-            .collection("modulesList")
-            .document(moduleID)
-            .collection("articlesList")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val moduleContentItem = ModuleContentModel(
-                        document.id,
-                        document.data.getValue("name").toString(),
-                        document.data.getValue("text").toString(),
-                    )
-                    moduleContentList.add(moduleContentItem)
-                    Log.d("TAG", "${document.id} => getModuleContent")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w("TAG", "Error getting documents.", exception)
+    private suspend fun getModuleContent(moduleID: String): List<ModuleContentModel> {
+        val content = scope.async {
+            val x = fireStoreDatabase.collection("$currentUserUID")
+                .document("modules")
+                .collection("modulesList")
+                .document(moduleID)
+                .collection("articlesList")
+                .get()
+                .await()
+
+            for (document in x) {
+                val moduleContentItem = ModuleContentModel(
+                    document.id,
+                    document.data.getValue("name").toString(),
+                    document.data.getValue("text").toString(),
+                )
+                moduleContentList.add(moduleContentItem)
+                Log.d("TAG", "${document.id} => getModuleContent")
             }
 
-        return moduleContentList
+            moduleContentList
+        }
+
+        return content.await()
     }
 }
