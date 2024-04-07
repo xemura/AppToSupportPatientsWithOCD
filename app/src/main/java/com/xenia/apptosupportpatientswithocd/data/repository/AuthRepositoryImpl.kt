@@ -1,5 +1,6 @@
 package com.xenia.apptosupportpatientswithocd.data.repository
 
+import android.util.Log
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.xenia.apptosupportpatientswithocd.domain.entity.AuthState
@@ -31,6 +32,8 @@ class AuthRepositoryImpl @Inject constructor(
 
             val auth: FirebaseAuth = FirebaseAuth.getInstance()
             val currentUser = auth.currentUser
+
+            Log.d("TAG", currentUser?.uid.toString())
 
             val authState = if (currentUser == null) {
                 AuthState.NotAuthorized

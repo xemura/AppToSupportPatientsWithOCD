@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.model.ModuleContent
+import com.xenia.apptosupportpatientswithocd.domain.entity.ModuleContentModel
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.Mood
 
 @Composable
@@ -13,7 +13,7 @@ fun AppNavGraph(
     mainScreenContent: @Composable () -> Unit,
 
     modulesScreenContent: @Composable () -> Unit,
-    moduleContentScreenContent: @Composable (List<ModuleContent>) -> Unit,
+    moduleContentScreenContent: @Composable (List<ModuleContentModel>) -> Unit,
     contentTextScreenContent: @Composable (String) -> Unit,
 
     profileScreenContent: @Composable () -> Unit,

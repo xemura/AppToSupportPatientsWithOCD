@@ -27,13 +27,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.model.ModuleContent
+import com.xenia.apptosupportpatientswithocd.domain.entity.ModuleContentModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ModuleContentScreen(
     onBackPressed: () -> Unit,
-    contentList: List<ModuleContent>,
+    contentList: List<ModuleContentModel>,
     onArticleClickListener: (String) -> Unit
 ) {
 
@@ -79,7 +79,7 @@ fun ModuleContentScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 30.dp, vertical = 5.dp)
                         .clickable {
-                            onArticleClickListener(it.text)
+                            onArticleClickListener(it.textArticle)
                         },
                     shape = RoundedCornerShape(10.dp),
                     border = BorderStroke(1.dp, Color.Black),

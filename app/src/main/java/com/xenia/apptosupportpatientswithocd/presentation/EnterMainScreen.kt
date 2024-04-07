@@ -1,6 +1,5 @@
 package com.xenia.apptosupportpatientswithocd.presentation
 
-import android.util.Log
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -35,7 +34,6 @@ const val TAG = "FIRESTORE"
 @Composable
 fun EnterMainScreen() {
 
-    val fireStoreDatabase = FirebaseFirestore.getInstance()
     val navigationState = rememberNavigationState()
 
     val hazeState = remember { HazeState() }
@@ -47,7 +45,6 @@ fun EnterMainScreen() {
         NavigationItem.Therapy,
         NavigationItem.Profile
     )
-
 
     val component = getApplicationComponent()
     val viewModel: AuthViewModel = viewModel(factory = component.getViewModelFactory())

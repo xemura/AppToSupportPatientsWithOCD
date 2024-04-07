@@ -2,8 +2,10 @@ package com.xenia.apptosupportpatientswithocd.presentation.auth_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.xenia.apptosupportpatientswithocd.domain.repository.AuthRepository
-import com.xenia.apptosupportpatientswithocd.domain.usecases.GetAuthStateFlowUseCase
+import com.xenia.apptosupportpatientswithocd.domain.usecases.auth_usecases.GetAuthStateFlowUseCase
+import com.xenia.apptosupportpatientswithocd.domain.usecases.auth_usecases.LoginUserUseCase
+import com.xenia.apptosupportpatientswithocd.domain.usecases.auth_usecases.RegisterUserUseCase
+import com.xenia.apptosupportpatientswithocd.domain.usecases.auth_usecases.SignOutUseCase
 import com.xenia.apptosupportpatientswithocd.util.Resource
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -11,8 +13,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AuthViewModel @Inject constructor(
-    private val repository: AuthRepository,
     getAuthStateFlowUseCase: GetAuthStateFlowUseCase,
+    private val loginUserUseCase: LoginUserUseCase,
+    private val registerUserUseCase: RegisterUserUseCase,
+    private val signOutUseCase: SignOutUseCase
 ): ViewModel() {
 
     val authState = getAuthStateFlowUseCase()
@@ -23,16 +27,17 @@ class AuthViewModel @Inject constructor(
     private val _signUpState = Channel<SignUpState>()
     val signUpState = _signUpState.receiveAsFlow()
 
+
     fun loginUser(
         email: String, password: String
     ) = viewModelScope.launch {
-        repository.loginUser(email, password).collect { result ->
+        loginUserUseCase.invoke(email, password).collect { result ->
             when(result) {
                 is Resource.Success -> {
-                    _signInState.send(SignInState(isSuccess = "Sign In Success"))
+                    _signInState.send(SignInState(isSuccess = "Вход успешно выполнен"))
                 }
                 is Resource.Error -> {
-                    _signInState.send(SignInState(isError = result.message))
+                    _signInState.send(SignInState(isError = "Произошла какая-то ошибка"))
                 }
                 is Resource.Loading -> {
                     _signInState.send(SignInState(isLoading = true))
@@ -44,13 +49,13 @@ class AuthViewModel @Inject constructor(
     fun registerUser(
         email: String, password: String
     ) = viewModelScope.launch {
-        repository.registerUser(email, password).collect { result ->
+        registerUserUseCase.invoke(email, password).collect { result ->
             when(result) {
                 is Resource.Success -> {
-                    _signUpState.send(SignUpState(isSuccess = "Sign Up Success"))
+                    _signUpState.send(SignUpState(isSuccess = "Вы успешно зарегистрировались"))
                 }
                 is Resource.Error -> {
-                    _signUpState.send(SignUpState(isError = result.message))
+                    _signUpState.send(SignUpState(isError = "Произошла какая-то ошибка"))
                 }
                 is Resource.Loading -> {
                     _signUpState.send(SignUpState(isLoading = true))
@@ -60,6 +65,6 @@ class AuthViewModel @Inject constructor(
     }
 
     fun signOut() {
-        repository.signOut()
+        signOutUseCase.invoke()
     }
 }

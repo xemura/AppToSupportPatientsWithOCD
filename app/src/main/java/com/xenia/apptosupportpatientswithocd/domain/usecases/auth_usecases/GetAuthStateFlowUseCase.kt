@@ -1,4 +1,4 @@
-package com.xenia.apptosupportpatientswithocd.domain.usecases
+package com.xenia.apptosupportpatientswithocd.domain.usecases.auth_usecases
 
 import com.xenia.apptosupportpatientswithocd.domain.repository.AuthRepository
 import com.xenia.apptosupportpatientswithocd.domain.entity.AuthState

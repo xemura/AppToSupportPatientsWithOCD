@@ -1,5 +1,6 @@
 package com.xenia.apptosupportpatientswithocd.presentation.modules_screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,6 +18,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,14 +33,40 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xenia.apptosupportpatientswithocd.data.modules_data.modulesList
-import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.model.ModuleContent
+import com.xenia.apptosupportpatientswithocd.domain.entity.ModuleContentModel
+import com.xenia.apptosupportpatientswithocd.domain.entity.ModuleModel
+import com.xenia.apptosupportpatientswithocd.presentation.auth_screen.AuthViewModel
+import com.xenia.apptosupportpatientswithocd.presentation.getApplicationComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ModulesScreen(
-    onModuleImageClickListener: (List<ModuleContent>) -> Unit
+    onModuleImageClickListener: (List<ModuleContentModel>) -> Unit
 ) {
+
+    val component = getApplicationComponent()
+    val viewModel: ModulesViewModel = viewModel(factory = component.getViewModelFactory())
+
+    val scope = CoroutineScope(Dispatchers.Default)
+
+    var data by remember {
+        mutableStateOf<List<ModuleModel>?>(null)
+    }
+
+    LaunchedEffect(
+        key1 = null
+    ) {
+        data = scope.async {
+            viewModel.getModulesList()
+        }.await()
+    }
+
+    Log.d("TAG", data.toString())
 
     Scaffold(
         topBar = {
@@ -54,18 +86,24 @@ fun ModulesScreen(
             )
         }
     ) { contentPadding ->
+
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White)
-                .padding(top = contentPadding.calculateTopPadding(),
-                    bottom = contentPadding.calculateTopPadding() + 30.dp),
+                .padding(
+                    top = contentPadding.calculateTopPadding(),
+                    bottom = contentPadding.calculateTopPadding() + 30.dp
+                ),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             items(modulesList) {
                 Text(
-                    modifier = Modifier.padding(vertical = 5.dp, horizontal = 30.dp).fillMaxWidth(),
+                    modifier = Modifier
+                        .padding(vertical = 5.dp, horizontal = 30.dp)
+                        .fillMaxWidth(),
                     color = Color.Black,
                     fontSize = 20.sp,
                     text = it.name,

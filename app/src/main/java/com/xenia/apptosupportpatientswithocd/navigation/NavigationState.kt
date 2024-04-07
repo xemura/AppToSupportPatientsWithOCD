@@ -5,7 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.model.ModuleContent
+import com.xenia.apptosupportpatientswithocd.domain.entity.ModuleContentModel
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.Mood
 
 class NavigationState(
@@ -21,7 +21,7 @@ class NavigationState(
         }
     }
 
-    fun navigateToContentModule(contentList: List<ModuleContent>) {
+    fun navigateToContentModule(contentList: List<ModuleContentModel>) {
         navHostController.navigate(NavigationItem.ModuleContent.getRouteWithArgs(contentList))
     }
 

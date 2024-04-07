@@ -8,7 +8,6 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.model.ModuleContent
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.Mood
 import java.lang.reflect.Type
 

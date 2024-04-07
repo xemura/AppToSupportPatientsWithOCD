@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.compose.ui.graphics.Color
 import com.google.gson.Gson
 import com.xenia.apptosupportpatientswithocd.R
+import com.xenia.apptosupportpatientswithocd.domain.entity.ModuleContentModel
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.Mood
 
 enum class Screen {
@@ -161,7 +162,7 @@ sealed class NavigationItem(
         title = "Список статей",
         route =  "${Screen.MODULE_CONTENT.name}/{content_list}"
     ) {
-        fun getRouteWithArgs(contentList: List<com.xenia.apptosupportpatientswithocd.presentation.modules_screen.model.ModuleContent>) : String {
+        fun getRouteWithArgs(contentList: List<ModuleContentModel>) : String {
             val contentJson = Gson().toJson(contentList)
             return "${Screen.MODULE_CONTENT.name}/${contentJson.encode()}"
         }
