@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -69,7 +70,7 @@ fun ProfileScreenContent(
             Log.d("TAG", "Profile")
             ProfileScreen(
                 viewModel = viewModel,
-                onSaveButtonPressed = { onSaveButtonPressed()},
+                onSaveButtonPressed = { onSaveButtonPressed() },
                 userInfo = currentState.userInfo
             )
         }
@@ -81,7 +82,7 @@ fun ProfileScreenContent(
             Box(modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center)
             {
-                CircularProgressIndicator(color = Color.Red)
+                CircularProgressIndicator(color = Color.Black)
             }
         }
     }
@@ -105,13 +106,17 @@ fun ProfileScreen(
         mutableStateOf(false)
     }
 
-    var selectedHour by remember { mutableIntStateOf(20) }
-    var selectedMinute by remember { mutableIntStateOf(0) }
+    //val hour = userInfo.notificationTime.take(2).toInt()
+    var selectedHour by remember { mutableIntStateOf(userInfo.notificationTime.take(2).toInt()) }
+    var selectedMinute by remember { mutableIntStateOf(userInfo.notificationTime.drop(3).toInt()) }
     val timeState = rememberTimePickerState(
         initialHour = selectedHour,
         initialMinute = selectedMinute,
         true
     )
+
+    val component = getApplicationComponent()
+    val profileViewModel: ProfileViewModel = viewModel(factory = component.getViewModelFactory())
 
     if (screenLogin) {
         SignInScreen(viewModel = viewModel)
@@ -136,13 +141,13 @@ fun ProfileScreen(
         ) { contentPadding ->
 
             if (showDialog) {
-                AlertDialog(
+                BasicAlertDialog(
                     onDismissRequest = { showDialog = false },
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(
                             RoundedCornerShape(20.dp)
-                        ),
+                        )
                 ) {
                     Column(
                         modifier = Modifier
@@ -156,7 +161,8 @@ fun ProfileScreen(
                             state = timeState,
                             colors = TimePickerDefaults.colors(
                                 containerColor = Color.White
-                            ))
+                            )
+                        )
                         Row(
                             modifier = Modifier
                                 .padding(top = 12.dp)
@@ -251,7 +257,10 @@ fun ProfileScreen(
                                 modifier = Modifier.clickable {
                                     showDialog = true
                                 },
-                                text = userInfo.notificationTime
+                                text = if ((selectedHour < 10) and (selectedMinute < 10)) "0$selectedHour:0$selectedMinute"
+                                else if ((selectedHour >= 10) and (selectedMinute < 10)) "$selectedHour:0$selectedMinute"
+                                else if ((selectedHour < 10) and (selectedMinute >= 10)) "0$selectedHour:$selectedMinute"
+                                else "$selectedHour:$selectedMinute"
                             )
                         }
                     }
@@ -259,6 +268,12 @@ fun ProfileScreen(
 
                 Button(
                     onClick = {
+                        val time = if ((selectedHour < 10) and (selectedMinute < 10)) "0$selectedHour:0$selectedMinute"
+                        else if ((selectedHour >= 10) and (selectedMinute < 10)) "$selectedHour:0$selectedMinute"
+                        else if ((selectedHour < 10) and (selectedMinute >= 10)) "0$selectedHour:$selectedMinute"
+                        else "$selectedHour:$selectedMinute"
+
+                        profileViewModel.saveChanges(name, switchState, time)
                         onSaveButtonPressed()
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),

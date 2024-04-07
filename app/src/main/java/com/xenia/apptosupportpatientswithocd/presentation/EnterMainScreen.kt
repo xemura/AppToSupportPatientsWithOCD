@@ -1,8 +1,10 @@
 package com.xenia.apptosupportpatientswithocd.presentation
 
+import android.widget.Toast
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.xenia.apptosupportpatientswithocd.navigation.AppNavGraph
@@ -29,6 +31,9 @@ import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practic
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StateAfterPracticeScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StateBeforePracticeScreen
 import dev.chrisbanes.haze.HazeState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 const val TAG = "FIRESTORE"
@@ -105,6 +110,7 @@ fun EnterMainScreen() {
             profileScreenContent = {
                 ProfileScreenContent(
                     onSaveButtonPressed = {
+                        navigationState.navHostController.popBackStack()
                         navigationState.navigateTo(NavigationItem.Main.route)
                     },
                     viewModel

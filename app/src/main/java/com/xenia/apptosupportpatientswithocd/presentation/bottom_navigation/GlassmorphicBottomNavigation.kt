@@ -69,14 +69,12 @@ fun GlassmorphicBottomNavigation(
                 tabs,
                 selectedTab = selectedTabIndex,
                 onTabSelected = {
+                    Log.d("TAG", "BottomBarTabs: ${it.route}")
                     selectedTabIndex = tabs.indexOf(it)
                     navigationState.navigateTo(it.route)
                 }
             )
         }
-
-
-        //Log.d("BottomBar", selectedTabIndex.toString())
 
         val animatedSelectedTabIndex by animateFloatAsState(
             targetValue = selectedTabIndex.toFloat(), label = "animatedSelectedTabIndex",

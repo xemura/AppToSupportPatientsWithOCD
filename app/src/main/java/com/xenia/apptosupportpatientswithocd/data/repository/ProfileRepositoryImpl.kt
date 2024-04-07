@@ -1,6 +1,8 @@
 package com.xenia.apptosupportpatientswithocd.data.repository
 
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.xenia.apptosupportpatientswithocd.domain.entity.UserModel
@@ -36,10 +38,10 @@ class ProfileRepositoryImpl @Inject constructor(
                 .get()
                 .await()
 
-            Log.d("TAG", "value is done")
+            //Log.d("TAG", "value is done")
             val notificationEnable = value?.data?.getValue("notificationEnable").toString() != "false"
 
-            Log.d("TAG", "get user")
+            //Log.d("TAG", "get user")
             user = UserModel(
                 name = value?.data?.getValue("name").toString(),
                 notificationEnable = notificationEnable,
@@ -53,11 +55,19 @@ class ProfileRepositoryImpl @Inject constructor(
     }
 
     override fun getUserInfo(): Flow<UserModel> = userInfo
-
-//    override fun getUserInfo(): StateFlow<UserModel> =
-//        userInfo.stateIn(
-//            scope = coroutineScope,
-//            started = SharingStarted.Lazily,
-//            initialValue = user
-//        )
+    override fun updateUserInfo(
+        name: String,
+        notificationEnable: Boolean,
+        notificationTime: String
+    ) {
+        fireStoreDatabase.collection("$currentUserUID")
+            .document("userInfo")
+            .set(UserModel(name, notificationEnable, notificationTime))
+            .addOnSuccessListener {
+                Log.d("TAG", "SUCCESS")
+            }
+            .addOnFailureListener {
+                Log.d("TAG", "FAIL")
+            }
+    }
 }
