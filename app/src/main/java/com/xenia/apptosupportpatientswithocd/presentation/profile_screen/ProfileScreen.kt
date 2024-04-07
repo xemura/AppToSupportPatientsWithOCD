@@ -1,10 +1,12 @@
 package com.xenia.apptosupportpatientswithocd.presentation.profile_screen
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,8 +21,9 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -31,6 +34,7 @@ import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -43,21 +47,59 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.xenia.apptosupportpatientswithocd.domain.entity.UserModel
 import com.xenia.apptosupportpatientswithocd.presentation.auth_screen.AuthViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.auth_screen.SignInScreen
 import com.xenia.apptosupportpatientswithocd.presentation.composable.GradientSwitch
-import kotlinx.coroutines.launch
+import com.xenia.apptosupportpatientswithocd.presentation.getApplicationComponent
+
+@Composable
+fun ProfileScreenContent(
+    onSaveButtonPressed: () -> Unit,
+    viewModel: AuthViewModel,
+) {
+    val component = getApplicationComponent()
+    val profileViewModel: ProfileViewModel = viewModel(factory = component.getViewModelFactory())
+
+    val screenState = profileViewModel.screenState.collectAsState(ProfileScreenState.Initial)
+
+    when (val currentState = screenState.value) {
+        is ProfileScreenState.Profile -> {
+            Log.d("TAG", "Profile")
+            ProfileScreen(
+                viewModel = viewModel,
+                onSaveButtonPressed = { onSaveButtonPressed()},
+                userInfo = currentState.userInfo
+            )
+        }
+        ProfileScreenState.Initial -> {
+            Log.d("TAG", "Initial")
+        }
+        ProfileScreenState.Loading -> {
+            Log.d("TAG", "Loading")
+            Box(modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center)
+            {
+                CircularProgressIndicator(color = Color.Red)
+            }
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     onSaveButtonPressed: () -> Unit,
-    viewModel: AuthViewModel
+    viewModel: AuthViewModel,
+    userInfo: UserModel
 ) {
 
-    var name by remember { mutableStateOf("Марк") }
+    Log.d("TAG", "ProfileScreen = $userInfo")
+
+    var name by remember { mutableStateOf(userInfo.name) }
     var screenLogin by remember { mutableStateOf(false) }
-    var switchState by remember { mutableStateOf(false) }
+    var switchState by remember { mutableStateOf(userInfo.notificationEnable) }
 
     var showDialog by remember {
         mutableStateOf(false)
@@ -96,9 +138,11 @@ fun ProfileScreen(
             if (showDialog) {
                 AlertDialog(
                     onDismissRequest = { showDialog = false },
-                    modifier = Modifier.fillMaxWidth().clip(
-                        RoundedCornerShape(20.dp)
-                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(
+                            RoundedCornerShape(20.dp)
+                        ),
                 ) {
                     Column(
                         modifier = Modifier
@@ -207,7 +251,7 @@ fun ProfileScreen(
                                 modifier = Modifier.clickable {
                                     showDialog = true
                                 },
-                                text = "20:00"
+                                text = userInfo.notificationTime
                             )
                         }
                     }

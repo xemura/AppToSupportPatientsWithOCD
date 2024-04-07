@@ -16,6 +16,6 @@ class OCDApplication : Application() {
 
 @Composable
 fun getApplicationComponent(): ApplicationComponent {
-    Log.d("RECOMPOSITION_TAG", "getApplicationComponent")
+    //Log.d("RECOMPOSITION_TAG", "getApplicationComponent")
     return (LocalContext.current.applicationContext as OCDApplication).component
 }

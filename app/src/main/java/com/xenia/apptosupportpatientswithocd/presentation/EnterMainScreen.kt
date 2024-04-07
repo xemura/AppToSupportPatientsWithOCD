@@ -15,6 +15,7 @@ import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.Content
 import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.ModuleContentScreen
 import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.ModulesScreen
 import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.ProfileScreen
+import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.ProfileScreenContent
 import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.AddScriptScreen
 import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.ScriptsScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.TherapyScreen
@@ -48,6 +49,7 @@ fun EnterMainScreen() {
 
     val component = getApplicationComponent()
     val viewModel: AuthViewModel = viewModel(factory = component.getViewModelFactory())
+
 
     Scaffold(
         bottomBar = {
@@ -101,7 +103,7 @@ fun EnterMainScreen() {
                 )
             },
             profileScreenContent = {
-                ProfileScreen(
+                ProfileScreenContent(
                     onSaveButtonPressed = {
                         navigationState.navigateTo(NavigationItem.Main.route)
                     },
