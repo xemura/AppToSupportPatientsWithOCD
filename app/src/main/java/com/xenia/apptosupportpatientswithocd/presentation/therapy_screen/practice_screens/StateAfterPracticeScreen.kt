@@ -1,5 +1,6 @@
 package com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -76,6 +77,7 @@ fun StateAfterPracticeScreen(
             FloatingActionButton(
                 modifier = Modifier.padding(bottom = 80.dp),
                 onClick = {
+                    Log.d("TAG", "screen $sliderValue")
                     onNextButtonPressed()
                 },
                 shape = CircleShape,
@@ -136,7 +138,7 @@ fun StateAfterPracticeScreen(
                         )
                     )
                 },
-                track = { sliderPositions ->
+                track = { sliderState ->
                     Box(
                         modifier = Modifier
                             .track()
@@ -151,7 +153,7 @@ fun StateAfterPracticeScreen(
                     ) {
                         Box(
                             modifier = Modifier
-                                .progress(sliderPositions = sliderPositions)
+                                .progress(sliderPositions = sliderState)
                                 .background(
                                     brush = Brush.horizontalGradient(
                                         listOf(

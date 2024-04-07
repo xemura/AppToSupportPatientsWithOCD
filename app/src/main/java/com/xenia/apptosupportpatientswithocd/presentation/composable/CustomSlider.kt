@@ -1,5 +1,6 @@
 package com.xenia.apptosupportpatientswithocd.presentation.composable
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.defaultMinSize
@@ -9,7 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderPositions
+import androidx.compose.material3.SliderState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -42,8 +43,9 @@ fun CustomSlider(
     thumb: @Composable (thumbValue: Int) -> Unit = {
         CustomSliderDefaults.Thumb(it.toString())
     },
-    track: @Composable (sliderPositions: SliderPositions) -> Unit = { sliderPositions ->
-        CustomSliderDefaults.Track(sliderPositions = sliderPositions)
+    track: @Composable (sliderState: SliderState) -> Unit = { sliderState ->
+        Log.d("TAG", "track ${sliderState.value}")
+        CustomSliderDefaults.Track(sliderState = sliderState)
     },
     indicator: @Composable (indicatorValue: Int) -> Unit = { indicatorValue ->
         CustomSliderDefaults.Indicator(indicatorValue = indicatorValue.toString())
@@ -86,7 +88,9 @@ fun CustomSlider(
                     thumb = {
                         thumb(value.roundToInt())
                     },
-                    //track = { track(it) },
+                    track = { track(it)
+                            Log.d("TAG", it.value.toString())
+                            },
                     enabled = enabled
                 )
 
@@ -205,20 +209,7 @@ private fun customSliderMeasurePolicy(
     }
 }
 
-/**
- * Object to hold defaults used by [CustomSlider]
- */
 object CustomSliderDefaults {
-
-    /**
-     * Composable function that represents the thumb of the slider.
-     *
-     * @param thumbValue The value to display on the thumb.
-     * @param modifier The modifier for styling the thumb.
-     * @param color The color of the thumb.
-     * @param size The size of the thumb.
-     * @param shape The shape of the thumb.
-     */
     @Composable
     fun Thumb(
         thumbValue: String,
@@ -234,8 +225,6 @@ object CustomSliderDefaults {
             )
         }
     ) {
-
-        // defaultMinSize(minWidth = size, minHeight = size).clip(shape)
         Box(
             modifier = modifier.defaultMinSize(minWidth = size, minHeight = size).clip(shape)
                 .background(color)
@@ -246,19 +235,10 @@ object CustomSliderDefaults {
         }
     }
 
-    /**
-     * Composable function that represents the track of the slider.
-     *
-     * @param sliderPositions The positions of the slider.
-     * @param modifier The modifier for styling the track.
-     * @param trackColor The color of the track.
-     * @param progressColor The color of the progress.
-     * @param height The height of the track.
-     * @param shape The shape of the track.
-     */
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun Track(
-        sliderPositions: SliderPositions,
+        sliderState: SliderState,
         modifier: Modifier = Modifier,
         trackColor: Color = TrackColor,
         progressColor: Color = PrimaryColor,
@@ -273,7 +253,7 @@ object CustomSliderDefaults {
             Box(
                 modifier = Modifier
                     .progress(
-                        sliderPositions = sliderPositions,
+                        sliderPositions = sliderState,
                         height = height,
                         shape = shape
                     )
@@ -282,13 +262,6 @@ object CustomSliderDefaults {
         }
     }
 
-    /**
-     * Composable function that represents the indicator of the slider.
-     *
-     * @param indicatorValue The value to display as the indicator.
-     * @param modifier The modifier for styling the indicator.
-     * @param style The style of the indicator text.
-     */
     @Composable
     fun Indicator(
         indicatorValue: String,
@@ -304,13 +277,6 @@ object CustomSliderDefaults {
         }
     }
 
-    /**
-     * Composable function that represents the label of the slider.
-     *
-     * @param labelValue The value to display as the label.
-     * @param modifier The modifier for styling the label.
-     * @param style The style of the label text.
-     */
     @Composable
     fun Label(
         labelValue: String,
@@ -334,14 +300,16 @@ fun Modifier.track(
     .heightIn(min = height)
     .clip(shape)
 
+@OptIn(ExperimentalMaterial3Api::class)
 fun Modifier.progress(
-    sliderPositions: SliderPositions,
+    sliderPositions: SliderState,
     height: Dp = TrackHeight,
     shape: Shape = CircleShape
 ) =
-    fillMaxWidth(fraction = sliderPositions.activeRange.endInclusive - sliderPositions.activeRange.start)
+    fillMaxWidth(fraction = sliderPositions.value/10f)
         .heightIn(min = height)
         .clip(shape)
+
 
 
 private enum class CustomSliderComponents {
