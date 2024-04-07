@@ -29,7 +29,7 @@ class ProfileRepositoryImpl @Inject constructor(
 
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
     private val currentUserUID = firebaseAuth.currentUser?.uid
-    private var user: UserModel = UserModel("ЖОПА", false, "Not found")
+    private var user: UserModel = UserModel("Not found", false, "Not found")
 
     private val userInfo = flow {
         val userDeferred = coroutineScope.async {
