@@ -1,9 +1,11 @@
 package com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +20,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,6 +28,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -33,23 +37,63 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
 import com.xenia.apptosupportpatientswithocd.presentation.composable.BarGraph
 import com.xenia.apptosupportpatientswithocd.presentation.composable.BarType
+import com.xenia.apptosupportpatientswithocd.presentation.getApplicationComponent
 
+
+@Composable
+fun DiaryMoodMainContent(
+    onBackPressed: () -> Unit,
+    onEditPressed: (MoodModel) -> Unit,
+    onAddPressed: () -> Unit,
+) {
+    val component = getApplicationComponent()
+    val moodViewModel: MoodViewModel = viewModel(factory = component.getViewModelFactory())
+
+    val screenState = moodViewModel.screenState.collectAsState(MoodScreenState.Initial)
+
+    when (val currentState = screenState.value) {
+        is MoodScreenState.MoodsMain -> {
+            Log.d("TAG", "Mood Loading")
+            DiaryMainScreen(
+                currentState.moodList,
+                { onBackPressed() },
+                { onEditPressed(it) },
+                { onAddPressed() }
+            )
+        }
+        MoodScreenState.Initial -> {
+            Log.d("TAG", "Mood Initial")
+        }
+        MoodScreenState.Loading -> {
+            Log.d("TAG", "Mood Loading")
+            Box(modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center)
+            {
+                CircularProgressIndicator(color = Color.Black)
+            }
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DiaryMainScreen(
+    moodsList: List<MoodModel>,
     onBackPressed: () -> Unit,
-    onEditPressed: (Mood) -> Unit,
+    onEditPressed: (MoodModel) -> Unit,
     onAddPressed: () -> Unit,
 ) {
 
-    val moodList = mutableListOf(
-        Mood("05.04.24", 7, "ляляля 7"),
-        Mood("04.04.24", 5, "Были ситуации, которые испортили моё настроение."),
-        Mood("03.04.24", 10, "ляляля 10")
-    )
+//    val moodList = mutableListOf(
+//        Mood("05.04.24", 7, "ляляля 7"),
+//        Mood("04.04.24", 5, "Были ситуации, которые испортили моё настроение."),
+//        Mood("03.04.24", 10, "ляляля 10")
+//    )
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -122,7 +166,7 @@ fun DiaryMainScreen(
                 }
 
             }
-            items(moodList) {
+            items(moodsList) {
                 Card(
                     modifier = Modifier
                         .background(Color.White)
@@ -141,7 +185,7 @@ fun DiaryMainScreen(
                     Text(
                         modifier = Modifier
                             .padding(20.dp),
-                        text = "${it.date}  ${it.moodAssessment}/10"
+                        text = "${it.time}  ${it.assessment}/10"
                     )
                 }
             }

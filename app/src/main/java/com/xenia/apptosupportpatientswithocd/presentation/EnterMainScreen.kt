@@ -23,6 +23,7 @@ import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.Scripts
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.TherapyScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.AddMoodScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.DiaryMainScreen
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.DiaryMoodMainContent
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.EditMoodScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.AddHomeworkScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.HomeworkScreen
@@ -145,11 +146,12 @@ fun EnterMainScreen() {
                 )
             },
             diaryMoodScreenContent = {
-                DiaryMainScreen(
+                DiaryMoodMainContent(
                     onBackPressed = {
                         navigationState.navigateTo(NavigationItem.Therapy.route)
                     },
                     onEditPressed = {
+                        navigationState.navHostController.popBackStack()
                         navigationState.navigateToEditMoodModule(it)
                     },
                     onAddPressed = {

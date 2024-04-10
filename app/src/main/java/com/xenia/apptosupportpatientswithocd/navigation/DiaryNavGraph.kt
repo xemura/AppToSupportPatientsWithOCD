@@ -8,13 +8,13 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.Mood
+import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
 import java.lang.reflect.Type
 
 fun NavGraphBuilder.diaryNavGraph(
     dairyMainScreenContent: @Composable () -> Unit,
     addMoodScreenContent: @Composable () -> Unit,
-    editMoodScreenContent: @Composable (Mood) -> Unit,
+    editMoodScreenContent: @Composable (MoodModel) -> Unit,
 ) {
     navigation(
         startDestination = NavigationItem.DiaryMain.route,
@@ -37,8 +37,8 @@ fun NavGraphBuilder.diaryNavGraph(
             )
         ) {
             val moodJson = it.arguments?.getString("obj_mood") ?: ""
-            val objectMood: Type = object : TypeToken<Mood?>(){}.type
-            val mood: Mood = Gson().fromJson(moodJson, objectMood)
+            val objectMood: Type = object : TypeToken<MoodModel?>(){}.type
+            val mood: MoodModel = Gson().fromJson(moodJson, objectMood)
 
             editMoodScreenContent(mood)
         }

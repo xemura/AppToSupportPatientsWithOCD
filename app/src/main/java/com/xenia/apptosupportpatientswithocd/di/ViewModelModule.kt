@@ -7,6 +7,7 @@ import com.xenia.apptosupportpatientswithocd.presentation.auth_screen.AuthViewMo
 import com.xenia.apptosupportpatientswithocd.presentation.main_screen.MainViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.ModulesViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.ProfileViewModel
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.MoodViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -36,4 +37,9 @@ interface ViewModelModule {
     @ViewModelKey(ProfileViewModel::class)
     @Binds
     fun bindProfileViewModel(viewModel: ProfileViewModel): ViewModel
+
+    @IntoMap
+    @ViewModelKey(MoodViewModel::class)
+    @Binds
+    fun bindMoodsViewModel(viewModel: MoodViewModel): ViewModel
 }

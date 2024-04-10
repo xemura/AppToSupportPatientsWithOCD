@@ -42,13 +42,4 @@ class ProfileViewModel @Inject constructor(
             updateUserInfoUseCase.updateUserInfo(name, notificationEnable, notificationTime)
         }
     }
-
-
-//    val screenState = userFlow
-//        .filter { it.name.isNotEmpty() }
-//        .map { ProfileScreenState.Profile(userInfo = it) as ProfileScreenState }
-//        .onStart {
-//            Log.d("TAG", "onStart")
-//            emit(ProfileScreenState.Loading)
-//        }
 }

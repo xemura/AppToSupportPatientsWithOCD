@@ -5,5 +5,5 @@ import com.xenia.apptosupportpatientswithocd.domain.entity.ModuleModel
 import kotlinx.coroutines.flow.Flow
 
 interface ModulesRepository {
-    fun getModulesList(): Flow<List<ModuleModel>>
+    fun getModulesList(): List<ModuleModel>
 }

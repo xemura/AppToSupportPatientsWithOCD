@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetModulesListUseCase @Inject constructor(
     private val repository: ModulesRepository
 ) {
-    operator fun invoke(): Flow<List<ModuleModel>> {
+    operator fun invoke(): List<ModuleModel> {
         return repository.getModulesList()
     }
 }

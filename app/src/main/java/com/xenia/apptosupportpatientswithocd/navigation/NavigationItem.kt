@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 import com.google.gson.Gson
 import com.xenia.apptosupportpatientswithocd.R
 import com.xenia.apptosupportpatientswithocd.domain.entity.ModuleContentModel
-import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.Mood
+import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
 
 enum class Screen {
     MAIN,
@@ -112,7 +112,7 @@ sealed class NavigationItem(
         title = "Редактировать запись о настроении",
         route =  "${Screen.EDIT_MOOD.name}/{obj_mood}"
     ) {
-        fun getRouteWithArgs(mood: Mood) : String {
+        fun getRouteWithArgs(mood: MoodModel) : String {
             val moodJson = Gson().toJson(mood)
             return "${Screen.EDIT_MOOD.name}/${moodJson.encode()}"
         }

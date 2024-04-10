@@ -4,14 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.Mood
+import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
 
 fun NavGraphBuilder.therapyNavGraph(
     therapyScreenContent: @Composable () -> Unit,
 
     diaryMoodScreenContent: @Composable () -> Unit,
     addMoodScreenContent: @Composable () -> Unit,
-    editMoodScreenContent: @Composable (Mood) -> Unit,
+    editMoodScreenContent: @Composable (MoodModel) -> Unit,
 
     homeworkScreenContent: @Composable () -> Unit,
     addHomeworkScreenContent:  @Composable () -> Unit,

@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.xenia.apptosupportpatientswithocd.domain.entity.ModuleContentModel
-import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.Mood
+import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
 
 @Composable
 fun AppNavGraph(
@@ -25,7 +25,7 @@ fun AppNavGraph(
 
     diaryMoodScreenContent: @Composable () -> Unit,
     addMoodScreenContent: @Composable () -> Unit,
-    editMoodScreenContent: @Composable (Mood) -> Unit,
+    editMoodScreenContent: @Composable (MoodModel) -> Unit,
 
     homeworkScreenContent: @Composable () -> Unit,
     addHomeworkScreenContent:  @Composable () -> Unit,

@@ -20,17 +20,9 @@ class ModulesViewModel @Inject constructor(
     getModulesListUseCase: GetModulesListUseCase,
 ) : ViewModel() {
 
-    private val coroutineScope = CoroutineScope(Dispatchers.Default)
-    private val modulesFlow = getModulesListUseCase()
+    private val modulesList = getModulesListUseCase()
 
-    val screenState = modulesFlow
-        .map { ModulesScreenState.Modules(modulesList = it) as ModulesScreenState }
-        .onStart {
-            Log.d("TAG", "onStart")
-            emit(ModulesScreenState.Loading)
-        }.stateIn(
-            scope = coroutineScope,
-            started = SharingStarted.Lazily,
-            initialValue = ModulesScreenState.Initial
-        )
+    fun getModulesList(): List<ModuleModel> {
+        return modulesList
+    }
 }

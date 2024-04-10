@@ -32,15 +32,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditMoodScreen(
-    mood: Mood,
+    mood: MoodModel,
     onBackPressed: () -> Unit,
     onSavePressed: () -> Unit,
 ) {
-    var moodText by remember { mutableStateOf("${mood.moodAssessment}") }
+    var moodText by remember { mutableStateOf("${mood.assessment}") }
     var note by remember { mutableStateOf(mood.note) }
 
     Scaffold(
@@ -81,7 +82,7 @@ fun EditMoodScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 50.dp),
-                text = "Дата записи: ${mood.date}",
+                text = "Дата записи: ${mood.time}",
                 textAlign = TextAlign.Center
             )
 
