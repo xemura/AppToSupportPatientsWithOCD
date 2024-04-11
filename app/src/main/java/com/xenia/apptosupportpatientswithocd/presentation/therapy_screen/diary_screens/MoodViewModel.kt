@@ -1,6 +1,8 @@
 package com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.xenia.apptosupportpatientswithocd.domain.usecases.mood_usecases.DeleteMoodUseCase
 import com.xenia.apptosupportpatientswithocd.domain.usecases.mood_usecases.GetMoodByIDUseCase
 import com.xenia.apptosupportpatientswithocd.domain.usecases.mood_usecases.GetMoodsUseCase
 import com.xenia.apptosupportpatientswithocd.domain.usecases.mood_usecases.SaveNewMoodUseCase
@@ -13,20 +15,21 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MoodViewModel @Inject constructor(
     private val getMoodsUseCase: GetMoodsUseCase,
     private val saveNewMoodUseCase: SaveNewMoodUseCase,
     private val updateMoodByIDUseCase: UpdateMoodByIDUseCase,
-    private val getMoodByIDUseCase: GetMoodByIDUseCase
+    private val getMoodByIDUseCase: GetMoodByIDUseCase,
+    private val deleteMoodUseCase: DeleteMoodUseCase
 ) : ViewModel() {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
     private val moodsFlow = getMoodsUseCase()
 
     val screenState = moodsFlow
-        .filter { it.isNotEmpty() }
         .map { MoodScreenState.MoodsMain(moodList = it) as MoodScreenState }
         .onStart {
             emit(MoodScreenState.Loading)
@@ -36,4 +39,15 @@ class MoodViewModel @Inject constructor(
             initialValue = ProfileScreenState.Initial
         )
 
+    fun saveMood(assessment: Int, note: String) {
+        viewModelScope.launch {
+            saveNewMoodUseCase(assessment, note)
+        }
+    }
+
+    fun deleteMood(id: String) {
+        viewModelScope.launch {
+            deleteMoodUseCase(id)
+        }
+    }
 }

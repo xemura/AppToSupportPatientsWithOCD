@@ -3,55 +3,34 @@ package com.xenia.apptosupportpatientswithocd.data.repository
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.toObject
 import com.xenia.apptosupportpatientswithocd.data.entity.MoodEntity
 import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
 import com.xenia.apptosupportpatientswithocd.domain.repository.MoodRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.flow.callbackFlow
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
+
 class MoodRepositoryImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val fireStoreDatabase: FirebaseFirestore
-): MoodRepository {
+) : MoodRepository {
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
     private val currentUserUID = firebaseAuth.currentUser?.uid
-    private var moodsList: MutableList<MoodModel> = mutableListOf()
+    //private var moodsList: MutableList<MoodModel>? = mutableListOf()
 
-    private val moods = flow {
-        val userDeferred = coroutineScope.async {
-            val value = fireStoreDatabase.collection("$currentUserUID")
-                .document("moods")
-                .collection("moodsList")
-                .get()
-                .await()
+    private val moodDocRef = fireStoreDatabase.collection("$currentUserUID")
+        .document("moods")
+        .collection("moodsList")
 
-            for (i in value.documents) {
-                if (value.documents.size > moodsList.size) {
-                    val mood = MoodModel(
-                        id = i.id,
-                        time = i.data?.getValue("data").toString(),
-                        assessment = i.data?.getValue("moodAssessment").toString().toInt(),
-                        note = i.data?.getValue("moodNote").toString()
-                    )
 
-                    moodsList.add(mood)
-                }
-            }
-            Log.d("TAG", moodsList.size.toString())
-
-            moodsList
-        }
-
-        emit(userDeferred.await())
-    }
     override fun saveMood(assessment: Int, note: String) {
         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         val date = Date()
@@ -60,23 +39,100 @@ class MoodRepositoryImpl @Inject constructor(
         fireStoreDatabase.collection("$currentUserUID")
             .document("moods")
             .collection("moodsList")
-            .document("userInfo")
-            .set(MoodEntity(current, assessment, note))
+            .add(MoodEntity(current, assessment, note))
             .addOnSuccessListener {
-                Log.d("TAG", "SUCCESS")
+                Log.d("TAG", "saveMood SUCCESS")
             }
             .addOnFailureListener {
-                Log.d("TAG", "FAIL")
+                Log.d("TAG", "saveMood FAIL")
             }
     }
 
-    override fun getMoods(): Flow<List<MoodModel>> = moods
+
+
+    override fun getMoods(): Flow<List<MoodModel>?> = callbackFlow {
+        val listener = moodDocRef.addSnapshotListener { data, e ->
+            if (e != null) {
+                close(e)
+            }
+
+            if (data != null) {
+
+                val moodsList: MutableList<MoodModel> = mutableListOf()
+
+                for (i in data) {
+                    Log.d("TAG", "here now")
+                    //val moodID = i.id
+                    //val mood = i.toObject(MoodModel::class.java)
+
+                    val mood = MoodModel(
+                        id = i.id,
+                        time = i.data.getValue("time").toString(),
+                        assessment = i.data.getValue("assessment").toString().toInt(),
+                        note = i.data.getValue("note").toString()
+                    )
+
+                    moodsList.add(mood)
+
+                    //Log.d("TAG", "${moodsList.get(0)}")
+                }
+
+                //Log.d("TAG", "${moodsList?.size}")
+
+                //val moods = data.toObjects(MoodModel::class.java)
+//                for (i in data.documents) {
+//
+//                    Log.d("TAG", "here now")
+//                    val mood = MoodModel(
+//                        id = i.id,
+//                        time = i.data?.getValue("time").toString(),
+//                        assessment = i.data?.getValue("assessment").toString().toInt(),
+//                        note = i.data?.getValue("note").toString()
+//                    )
+//
+//                    moodsList?.add(mood)
+//                }
+
+                //Log.d("TAG", "${moods[0]}")
+                trySend(moodsList)
+            }
+        }
+
+        awaitClose {
+            listener.remove()
+        }
+    }
 
     override fun getMoodByID(id: String): Flow<MoodModel> {
         TODO("Not yet implemented")
     }
 
-    override fun updateMoodByID(id: String, assessment: Int, note: String) {
-        TODO("Not yet implemented")
+    override fun updateMoodByID(id: String, assessment: Int, note: String, time: String) {
+        fireStoreDatabase.collection("$currentUserUID")
+            .document("moods")
+            .collection("moodsList")
+            .document(id)
+            .set(MoodEntity(time, assessment, note))
+            .addOnSuccessListener {
+                Log.d("TAG", "updateMoodByID SUCCESS")
+            }
+            .addOnFailureListener {
+                Log.d("TAG", "updateMoodByID FAIL")
+            }
+    }
+
+    override fun deleteMoodByID(id: String) {
+        Log.d("TAG", id)
+        fireStoreDatabase.collection("$currentUserUID")
+            .document("moods")
+            .collection("moodsList")
+            .document(id)
+            .delete()
+            .addOnSuccessListener {
+                Log.d("TAG", "DocumentSnapshot successfully deleted!")
+            }
+            .addOnFailureListener { e ->
+                Log.w("TAG", "Error deleting document", e)
+            }
     }
 }

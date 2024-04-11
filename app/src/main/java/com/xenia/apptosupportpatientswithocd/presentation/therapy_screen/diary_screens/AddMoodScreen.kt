@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun AddMoodScreen(
     onBackPressed: () -> Unit,
-    onSavePressed: () -> Unit,
+    onSavePressed: (Int, String) -> Unit,
 ) {
     var mood by remember { mutableStateOf("") }
     var note by remember { mutableStateOf("") }
@@ -124,7 +124,7 @@ fun AddMoodScreen(
 
             Button(
                 onClick = {
-                    onSavePressed()
+                    onSavePressed(mood.toInt(), note)
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                 shape = RoundedCornerShape(8.dp),

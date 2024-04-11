@@ -6,6 +6,6 @@ sealed class MoodScreenState {
     data object Initial: MoodScreenState()
     data object Loading: MoodScreenState()
     data class MoodsMain(
-        val moodList: List<MoodModel>
+        val moodList: List<MoodModel>?
     ) : MoodScreenState()
 }

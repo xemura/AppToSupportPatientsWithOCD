@@ -1,12 +1,9 @@
 package com.xenia.apptosupportpatientswithocd.presentation
 
-import android.widget.Toast
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.firebase.firestore.FirebaseFirestore
 import com.xenia.apptosupportpatientswithocd.navigation.AppNavGraph
 import com.xenia.apptosupportpatientswithocd.navigation.NavigationItem
 import com.xenia.apptosupportpatientswithocd.navigation.rememberNavigationState
@@ -16,15 +13,14 @@ import com.xenia.apptosupportpatientswithocd.presentation.main_screen.MainScreen
 import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.ContentTextScreen
 import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.ModuleContentScreen
 import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.ModulesScreen
-import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.ProfileScreen
 import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.ProfileScreenContent
 import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.AddScriptScreen
 import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.ScriptsScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.TherapyScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.AddMoodScreen
-import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.DiaryMainScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.DiaryMoodMainContent
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.EditMoodScreen
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.MoodViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.AddHomeworkScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.HomeworkScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.StatisticHomeworkScreen
@@ -32,9 +28,7 @@ import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practic
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StateAfterPracticeScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StateBeforePracticeScreen
 import dev.chrisbanes.haze.HazeState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.coroutineScope
 
 
 const val TAG = "FIRESTORE"
@@ -54,7 +48,8 @@ fun EnterMainScreen() {
     )
 
     val component = getApplicationComponent()
-    val viewModel: AuthViewModel = viewModel(factory = component.getViewModelFactory())
+    val authViewModel: AuthViewModel = viewModel(factory = component.getViewModelFactory())
+    val moodViewModel: MoodViewModel = viewModel(factory = component.getViewModelFactory())
 
 
     Scaffold(
@@ -114,7 +109,7 @@ fun EnterMainScreen() {
                         navigationState.navHostController.popBackStack()
                         navigationState.navigateTo(NavigationItem.Main.route)
                     },
-                    viewModel
+                    authViewModel
                 )
             },
             scriptsContentScreen = {
@@ -156,6 +151,9 @@ fun EnterMainScreen() {
                     },
                     onAddPressed = {
                         navigationState.navigateTo(NavigationItem.AddMood.route)
+                    },
+                    onDeleteMood = { id ->
+                        moodViewModel.deleteMood(id)
                     }
                 )
             },
@@ -164,7 +162,8 @@ fun EnterMainScreen() {
                     onBackPressed = {
                         navigationState.navigateTo(NavigationItem.Diary.route)
                     },
-                    onSavePressed = {
+                    onSavePressed = { assessment, note ->
+                        moodViewModel.saveMood(assessment, note)
                         navigationState.navigateTo(NavigationItem.Diary.route)
                     }
                 )

@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetMoodsUseCase @Inject constructor(
     private val repository: MoodRepository
 ) {
-    operator fun invoke(): Flow<List<MoodModel>> {
+    operator fun invoke(): Flow<List<MoodModel>?> {
         return repository.getMoods()
     }
 }
