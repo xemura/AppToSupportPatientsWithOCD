@@ -12,6 +12,7 @@ fun NavGraphBuilder.therapyNavGraph(
     diaryMoodScreenContent: @Composable () -> Unit,
     addMoodScreenContent: @Composable () -> Unit,
     editMoodScreenContent: @Composable (MoodModel) -> Unit,
+    allMoodsScreenContent: @Composable () -> Unit,
 
     homeworkScreenContent: @Composable () -> Unit,
     addHomeworkScreenContent:  @Composable () -> Unit,
@@ -32,7 +33,8 @@ fun NavGraphBuilder.therapyNavGraph(
         diaryNavGraph(
             diaryMoodScreenContent,
             addMoodScreenContent,
-            editMoodScreenContent
+            editMoodScreenContent,
+            allMoodsScreenContent
         )
 
         homeworkNavGraph(

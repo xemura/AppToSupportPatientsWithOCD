@@ -20,6 +20,8 @@ import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.Therapy
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.AddMoodScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.DiaryMoodMainContent
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.EditMoodScreen
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.ListAllMoodsScreen
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.MainAllMoodsListScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.MoodViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.AddHomeworkScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.HomeworkScreen
@@ -32,6 +34,7 @@ import kotlinx.coroutines.coroutineScope
 
 
 const val TAG = "FIRESTORE"
+
 @Composable
 fun EnterMainScreen() {
 
@@ -154,6 +157,9 @@ fun EnterMainScreen() {
                     },
                     onDeleteMood = { id ->
                         moodViewModel.deleteMood(id)
+                    },
+                    onListAllMoodPressed = {
+                        navigationState.navigateTo(NavigationItem.AllMoods.route)
                     }
                 )
             },
@@ -240,6 +246,20 @@ fun EnterMainScreen() {
                     onNextButtonPressed = {
                         navigationState.navigateTo(NavigationItem.Homework.route)
                     }
+                )
+            },
+            allMoodsScreenContent = {
+                MainAllMoodsListScreen(
+                    onBackPressed = {
+                        navigationState.navigateTo(NavigationItem.Diary.route)
+                    },
+                    onEditPressed = {
+                        navigationState.navHostController.popBackStack()
+                        navigationState.navigateToEditMoodModule(it)
+                    },
+                    onDeleteMood = { id ->
+                        moodViewModel.deleteMood(id)
+                    },
                 )
             }
         )

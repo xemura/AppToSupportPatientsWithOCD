@@ -28,6 +28,7 @@ enum class Screen {
     DIARY_MOOD,
     ADD_MOOD,
     EDIT_MOOD,
+    ALL_MOODS,
 
     HOMEWORK,
     MAIN_HOMEWORK,
@@ -117,6 +118,11 @@ sealed class NavigationItem(
             return "${Screen.EDIT_MOOD.name}/${moodJson.encode()}"
         }
     }
+
+    data object AllMoods : NavigationItem(
+        title = "Все записи о настроениях",
+        route =  Screen.ALL_MOODS.name
+    )
 
     data object  Homework: NavigationItem(
         title = "Домашняя работа",

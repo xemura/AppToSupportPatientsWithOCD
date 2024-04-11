@@ -15,6 +15,7 @@ fun NavGraphBuilder.diaryNavGraph(
     dairyMainScreenContent: @Composable () -> Unit,
     addMoodScreenContent: @Composable () -> Unit,
     editMoodScreenContent: @Composable (MoodModel) -> Unit,
+    allMoodsScreenContent: @Composable () -> Unit,
 ) {
     navigation(
         startDestination = NavigationItem.DiaryMain.route,
@@ -26,6 +27,10 @@ fun NavGraphBuilder.diaryNavGraph(
 
         composable(NavigationItem.AddMood.route) {
             addMoodScreenContent()
+        }
+
+        composable(NavigationItem.AllMoods.route) {
+            allMoodsScreenContent()
         }
 
         composable(

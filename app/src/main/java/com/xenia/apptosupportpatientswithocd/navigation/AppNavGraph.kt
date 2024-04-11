@@ -26,6 +26,7 @@ fun AppNavGraph(
     diaryMoodScreenContent: @Composable () -> Unit,
     addMoodScreenContent: @Composable () -> Unit,
     editMoodScreenContent: @Composable (MoodModel) -> Unit,
+    allMoodsScreenContent: @Composable () -> Unit,
 
     homeworkScreenContent: @Composable () -> Unit,
     addHomeworkScreenContent:  @Composable () -> Unit,
@@ -53,9 +54,11 @@ fun AppNavGraph(
 
         therapyNavGraph(
             therapyScreenContent,
+
             diaryMoodScreenContent,
             addMoodScreenContent,
             editMoodScreenContent,
+            allMoodsScreenContent,
 
             homeworkScreenContent,
             addHomeworkScreenContent,
