@@ -3,7 +3,6 @@ package com.xenia.apptosupportpatientswithocd.data.repository
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.toObject
 import com.xenia.apptosupportpatientswithocd.data.entity.MoodEntity
 import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
 import com.xenia.apptosupportpatientswithocd.domain.repository.MoodRepository
@@ -24,7 +23,6 @@ class MoodRepositoryImpl @Inject constructor(
 ) : MoodRepository {
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
     private val currentUserUID = firebaseAuth.currentUser?.uid
-    //private var moodsList: MutableList<MoodModel>? = mutableListOf()
 
     private val moodDocRef = fireStoreDatabase.collection("$currentUserUID")
         .document("moods")
@@ -62,8 +60,6 @@ class MoodRepositoryImpl @Inject constructor(
 
                 for (i in data) {
                     Log.d("TAG", "here now")
-                    //val moodID = i.id
-                    //val mood = i.toObject(MoodModel::class.java)
 
                     val mood = MoodModel(
                         id = i.id,
@@ -73,27 +69,7 @@ class MoodRepositoryImpl @Inject constructor(
                     )
 
                     moodsList.add(mood)
-
-                    //Log.d("TAG", "${moodsList.get(0)}")
                 }
-
-                //Log.d("TAG", "${moodsList?.size}")
-
-                //val moods = data.toObjects(MoodModel::class.java)
-//                for (i in data.documents) {
-//
-//                    Log.d("TAG", "here now")
-//                    val mood = MoodModel(
-//                        id = i.id,
-//                        time = i.data?.getValue("time").toString(),
-//                        assessment = i.data?.getValue("assessment").toString().toInt(),
-//                        note = i.data?.getValue("note").toString()
-//                    )
-//
-//                    moodsList?.add(mood)
-//                }
-
-                //Log.d("TAG", "${moods[0]}")
                 trySend(moodsList)
             }
         }
