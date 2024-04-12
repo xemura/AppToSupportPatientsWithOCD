@@ -180,7 +180,8 @@ fun EnterMainScreen() {
                     onBackPressed = {
                         navigationState.navigateTo(NavigationItem.Diary.route)
                     },
-                    onSavePressed = {
+                    onSavePressed = { id, assessment, note ->
+                        moodViewModel.updateMood(id, assessment, note)
                         navigationState.navigateTo(NavigationItem.Diary.route)
                     }
                 )

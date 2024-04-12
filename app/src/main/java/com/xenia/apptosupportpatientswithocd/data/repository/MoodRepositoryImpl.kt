@@ -46,8 +46,6 @@ class MoodRepositoryImpl @Inject constructor(
             }
     }
 
-
-
     override fun getMoods(): Flow<List<MoodModel>?> = callbackFlow {
         val listener = moodDocRef.addSnapshotListener { data, e ->
             if (e != null) {
@@ -79,16 +77,16 @@ class MoodRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getMoodByID(id: String): Flow<MoodModel> {
-        TODO("Not yet implemented")
-    }
+    override fun updateMoodByID(id: String, assessment: Int, note: String) {
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val date = Date()
+        val current = formatter.format(date)
 
-    override fun updateMoodByID(id: String, assessment: Int, note: String, time: String) {
         fireStoreDatabase.collection("$currentUserUID")
             .document("moods")
             .collection("moodsList")
             .document(id)
-            .set(MoodEntity(time, assessment, note))
+            .set(MoodEntity(current, assessment, note))
             .addOnSuccessListener {
                 Log.d("TAG", "updateMoodByID SUCCESS")
             }

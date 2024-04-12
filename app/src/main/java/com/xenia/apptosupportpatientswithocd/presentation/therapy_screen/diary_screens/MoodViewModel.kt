@@ -3,7 +3,6 @@ package com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xenia.apptosupportpatientswithocd.domain.usecases.mood_usecases.DeleteMoodUseCase
-import com.xenia.apptosupportpatientswithocd.domain.usecases.mood_usecases.GetMoodByIDUseCase
 import com.xenia.apptosupportpatientswithocd.domain.usecases.mood_usecases.GetMoodsUseCase
 import com.xenia.apptosupportpatientswithocd.domain.usecases.mood_usecases.SaveNewMoodUseCase
 import com.xenia.apptosupportpatientswithocd.domain.usecases.mood_usecases.UpdateMoodByIDUseCase
@@ -21,7 +20,6 @@ class MoodViewModel @Inject constructor(
     private val getMoodsUseCase: GetMoodsUseCase,
     private val saveNewMoodUseCase: SaveNewMoodUseCase,
     private val updateMoodByIDUseCase: UpdateMoodByIDUseCase,
-    private val getMoodByIDUseCase: GetMoodByIDUseCase,
     private val deleteMoodUseCase: DeleteMoodUseCase
 ) : ViewModel() {
 
@@ -47,6 +45,12 @@ class MoodViewModel @Inject constructor(
     fun deleteMood(id: String) {
         viewModelScope.launch {
             deleteMoodUseCase(id)
+        }
+    }
+
+    fun updateMood(id: String, assessment: Int, note: String) {
+        viewModelScope.launch {
+            updateMoodByIDUseCase(id, assessment, note)
         }
     }
 }

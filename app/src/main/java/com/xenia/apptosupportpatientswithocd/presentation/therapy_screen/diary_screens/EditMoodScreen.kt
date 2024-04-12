@@ -39,7 +39,7 @@ import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
 fun EditMoodScreen(
     mood: MoodModel,
     onBackPressed: () -> Unit,
-    onSavePressed: () -> Unit,
+    onSavePressed: (String, Int, String) -> Unit,
 ) {
     var moodText by remember { mutableStateOf("${mood.assessment}") }
     var note by remember { mutableStateOf(mood.note) }
@@ -126,7 +126,7 @@ fun EditMoodScreen(
 
             Button(
                 onClick = {
-                    onSavePressed()
+                    onSavePressed(mood.id, moodText.toInt(), note)
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                 shape = RoundedCornerShape(8.dp),

@@ -6,7 +6,7 @@ import javax.inject.Inject
 class UpdateMoodByIDUseCase @Inject constructor(
     private val repository: MoodRepository
 ) {
-    operator fun invoke(id: String, assessment: Int, note: String, time: String) {
-        return repository.updateMoodByID(id, assessment, note, time)
+    operator fun invoke(id: String, assessment: Int, note: String) {
+        return repository.updateMoodByID(id, assessment, note)
     }
 }
