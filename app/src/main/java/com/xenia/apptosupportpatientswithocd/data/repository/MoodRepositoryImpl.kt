@@ -3,6 +3,7 @@ package com.xenia.apptosupportpatientswithocd.data.repository
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.xenia.apptosupportpatientswithocd.data.entity.MoodEntity
 import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
 import com.xenia.apptosupportpatientswithocd.domain.repository.MoodRepository
@@ -26,7 +27,7 @@ class MoodRepositoryImpl @Inject constructor(
 
     private val moodDocRef = fireStoreDatabase.collection("$currentUserUID")
         .document("moods")
-        .collection("moodsList")
+        .collection("moodsList").orderBy("time", Query.Direction.DESCENDING)
 
 
     override fun saveMood(assessment: Int, note: String) {

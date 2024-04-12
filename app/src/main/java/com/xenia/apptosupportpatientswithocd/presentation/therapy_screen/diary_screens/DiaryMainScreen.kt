@@ -167,20 +167,20 @@ fun DiaryMainScreen(
                 ) {
 
                     val dataList = mutableListOf(
-                        moodsListForBar[0].assessment,
-                        moodsListForBar[1].assessment,
-                        moodsListForBar[2].assessment,
+                        moodsListForBar[4].assessment,
                         moodsListForBar[3].assessment,
-                        moodsListForBar[4].assessment
+                        moodsListForBar[2].assessment,
+                        moodsListForBar[1].assessment,
+                        moodsListForBar[0].assessment,
                     )
                     val floatValue = mutableListOf<Float>()
 
                     val datesList = mutableListOf(
-                        moodsListForBar[0].time.substring(5, 10),
-                        moodsListForBar[1].time.substring(5, 10),
-                        moodsListForBar[2].time.substring(5, 10),
-                        moodsListForBar[3].time.substring(5, 10),
                         moodsListForBar[4].time.substring(5, 10),
+                        moodsListForBar[3].time.substring(5, 10),
+                        moodsListForBar[2].time.substring(5, 10),
+                        moodsListForBar[1].time.substring(5, 10),
+                        moodsListForBar[0].time.substring(5, 10),
                     )
 
                     dataList.forEachIndexed { index, value ->
