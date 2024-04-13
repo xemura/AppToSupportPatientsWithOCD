@@ -1,14 +1,12 @@
-package com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens
+package com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -29,20 +27,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
+import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditMoodScreen(
-    mood: MoodModel,
+fun EditHomeworkScreen(
+    homework: HomeworkModel,
     onBackPressed: () -> Unit,
-    onSavePressed: (String, Int, String) -> Unit,
+    onSavePressed: (String, String, String, String) -> Unit
 ) {
-    var moodText by remember { mutableStateOf("${mood.assessment}") }
-    var note by remember { mutableStateOf(mood.note) }
+    var obsessionInfo by remember { mutableStateOf(homework.obsessionInfo) }
+    var triggerInfo by remember { mutableStateOf(homework.triggerInfo) }
+    var adviceInfo by remember { mutableStateOf(homework.adviceInfo) }
 
     Scaffold(
         topBar = {
@@ -62,7 +59,7 @@ fun EditMoodScreen(
                 navigationIcon = {
                     IconButton(onClick = { onBackPressed() }) {
                         Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                             contentDescription = null,
                             tint = Color.White
                         )
@@ -72,29 +69,18 @@ fun EditMoodScreen(
         }
     ) { contentPadding ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = contentPadding.calculateTopPadding() - contentPadding.calculateTopPadding()),
-            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(top = contentPadding.calculateTopPadding() + 10.dp),
+            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 50.dp),
-                text = "Дата записи: ${mood.time}",
-                textAlign = TextAlign.Center
-            )
-
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 50.dp),
-                value = moodText,
-                onValueChange = { moodText = it },
-                placeholder = { Text(text = "Введите оценку в виде числа") },
-                label = { Text("Оценка настроения") },
-                singleLine = true,
+                    .padding(horizontal = 20.dp, vertical = 5.dp),
+                value = obsessionInfo,
+                onValueChange = { obsessionInfo = it },
+                placeholder = { Text(text = "Введите обсессию") },
+                label = { Text("Обсессия") },
                 colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = Color(0xFF0575e6),
                     unfocusedIndicatorColor = Color.Black,
@@ -102,18 +88,35 @@ fun EditMoodScreen(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White
                 ),
-                shape = RoundedCornerShape(10.dp),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                shape = RoundedCornerShape(10.dp)
             )
 
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 50.dp),
-                value = note,
-                onValueChange = { note = it },
-                placeholder = { Text(text = "Заметка о настроении") },
-                label = { Text("Заметка") },
+                    .padding(horizontal = 20.dp, vertical = 5.dp),
+                value = triggerInfo,
+                onValueChange = { triggerInfo = it },
+                placeholder = { Text(text = "Введите триггер") },
+                label = { Text("Триггер") },
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = Color(0xFF0575e6),
+                    unfocusedIndicatorColor = Color.Black,
+                    focusedLabelColor = Color(0xFF0575e6),
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White
+                ),
+                shape = RoundedCornerShape(10.dp)
+            )
+
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 5.dp),
+                value = adviceInfo,
+                onValueChange = { adviceInfo = it },
+                placeholder = { Text(text = "Введите совет") },
+                label = { Text("Совет") },
                 colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = Color(0xFF0575e6),
                     unfocusedIndicatorColor = Color.Black,
@@ -125,16 +128,18 @@ fun EditMoodScreen(
             )
 
             Button(
-                onClick = {
-                    onSavePressed(mood.id, moodText.toInt(), note)
-                },
+                onClick = { onSavePressed(
+                    homework.id,
+                    obsessionInfo,
+                    triggerInfo,
+                    adviceInfo
+                ) },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 50.dp, vertical = 5.dp),
-
-                ) {
+                    .padding(horizontal = 20.dp, vertical = 10.dp)
+            ) {
                 Text(
                     color = Color.White,
                     text = "Сохранить",

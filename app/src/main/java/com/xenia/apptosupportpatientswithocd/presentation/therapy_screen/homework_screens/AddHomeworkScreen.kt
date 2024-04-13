@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun AddHomeworkScreen(
     onBackPressed: () -> Unit,
-    onSavePressed: () -> Unit
+    onSavePressed: (String, String, String) -> Unit
 ) {
     var obsessionInfo by remember { mutableStateOf("") }
     var triggerInfo by remember { mutableStateOf("") }
@@ -126,7 +126,11 @@ fun AddHomeworkScreen(
             )
 
             Button(
-                onClick = { onSavePressed() },
+                onClick = { onSavePressed(
+                    obsessionInfo,
+                    triggerInfo,
+                    adviceInfo
+                ) },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier
@@ -140,31 +144,4 @@ fun AddHomeworkScreen(
             }
         }
     }
-}
-
-@Composable
-fun OutlineTextField(
-    value: String,
-    onChangeValue: () -> Unit,
-    placeholderText: String,
-    labelText: String
-) {
-    OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 50.dp),
-        value = value,
-        onValueChange = { onChangeValue() },
-        placeholder = { Text(text = placeholderText) },
-        label = { Text(labelText) },
-        singleLine = true,
-        colors = TextFieldDefaults.colors(
-            focusedIndicatorColor = Color(0xFF0575e6),
-            unfocusedIndicatorColor = Color.Black,
-            focusedLabelColor = Color(0xFF0575e6),
-            focusedContainerColor = Color.White,
-            unfocusedContainerColor = Color.White
-        ),
-        shape = RoundedCornerShape(10.dp)
-    )
 }

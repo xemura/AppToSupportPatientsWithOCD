@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.compose.ui.graphics.Color
 import com.google.gson.Gson
 import com.xenia.apptosupportpatientswithocd.R
+import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.ModuleContentModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
 
@@ -33,6 +34,7 @@ enum class Screen {
     HOMEWORK,
     MAIN_HOMEWORK,
     ADD_HOMEWORK,
+    EDIT_HOMEWORK,
     STATISTIC_HOMEWORK,
 
     BEFORE_PRACTICE_HOMEWORK,
@@ -134,10 +136,20 @@ sealed class NavigationItem(
         route = Screen.MAIN_HOMEWORK.name
     )
 
-    data object  AddHomework: NavigationItem(
+    data object AddHomework: NavigationItem(
         title = "Создать домашнюю работа",
         route = Screen.ADD_HOMEWORK.name
     )
+
+    data object EditHomework: NavigationItem(
+        title = "Редактировать домашнюю работу",
+        route = "${Screen.EDIT_HOMEWORK.name}/{obj_homework}"
+    ) {
+        fun getRouteWithArgs(homework: HomeworkModel) : String {
+            val homeworkJson = Gson().toJson(homework)
+            return "${Screen.EDIT_HOMEWORK.name}/${homeworkJson.encode()}"
+        }
+    }
 
     data object  StatisticHomework: NavigationItem(
         title = "Посмотреть статистику по домашней работе",

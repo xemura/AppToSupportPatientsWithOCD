@@ -290,16 +290,6 @@ fun DiaryMainScreen(
                                 Toast.makeText(context, "Item removed", Toast.LENGTH_SHORT).show()
                             }
                         }
-
-//                        LaunchedEffect(show) {
-//                            if (!show) {
-//                                Log.d("TAG", "LaunchedEffect")
-//                                onDeleteMood(currentItem)
-//                                dismissState.snapTo(SwipeToDismissBoxValue.Settled)
-//                                Toast.makeText(context, "Item removed", Toast.LENGTH_SHORT).show()
-//                            }
-//                        }
-
                     }
                 }
             }

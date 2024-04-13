@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
 
 fun NavGraphBuilder.therapyNavGraph(
@@ -16,6 +17,7 @@ fun NavGraphBuilder.therapyNavGraph(
 
     homeworkScreenContent: @Composable () -> Unit,
     addHomeworkScreenContent:  @Composable () -> Unit,
+    editHomeworkScreenContent: @Composable (HomeworkModel) -> Unit,
     statisticHomeworkScreenContent: @Composable () -> Unit,
 
     stateBeforePracticeHomework: @Composable () -> Unit,
@@ -40,6 +42,7 @@ fun NavGraphBuilder.therapyNavGraph(
         homeworkNavGraph(
             homeworkScreenContent,
             addHomeworkScreenContent,
+            editHomeworkScreenContent,
             statisticHomeworkScreenContent,
 
             stateBeforePracticeHomework,

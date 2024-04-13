@@ -20,18 +20,17 @@ import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.Therapy
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.AddMoodScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.DiaryMoodMainContent
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.EditMoodScreen
-import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.ListAllMoodsScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.MainAllMoodsListScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.MoodViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.AddHomeworkScreen
-import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.HomeworkScreen
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.EditHomeworkScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.HomeworkScreenContentState
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.HomeworkViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.StatisticHomeworkScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.PracticeContentScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StateAfterPracticeScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StateBeforePracticeScreen
 import dev.chrisbanes.haze.HazeState
-import kotlinx.coroutines.coroutineScope
 
 
 const val TAG = "FIRESTORE"
@@ -54,6 +53,7 @@ fun EnterMainScreen() {
     val component = getApplicationComponent()
     val authViewModel: AuthViewModel = viewModel(factory = component.getViewModelFactory())
     val moodViewModel: MoodViewModel = viewModel(factory = component.getViewModelFactory())
+    val homeworkViewModel: HomeworkViewModel = viewModel(factory = component.getViewModelFactory())
 
 
     Scaffold(
@@ -151,7 +151,7 @@ fun EnterMainScreen() {
                     },
                     onEditPressed = {
                         navigationState.navHostController.popBackStack()
-                        navigationState.navigateToEditMoodModule(it)
+                        navigationState.navigateToEditMood(it)
                     },
                     onAddPressed = {
                         navigationState.navigateTo(NavigationItem.AddMood.route)
@@ -196,13 +196,17 @@ fun EnterMainScreen() {
                         navigationState.navigateTo(NavigationItem.AddHomework.route)
                     },
                     onEditPressed = {
-
+                        navigationState.navHostController.popBackStack()
+                        navigationState.navigateToEditHomework(it)
                     },
                     onPracticePressed = {
                         navigationState.navigateTo(NavigationItem.BeforePracticeHomework.route)
                     },
                     onStatisticPressed = {
                         navigationState.navigateTo(NavigationItem.StatisticHomework.route)
+                    },
+                    onDeleteSwiped = { id ->
+                        homeworkViewModel.deleteHomework(id)
                     }
                 )
             },
@@ -211,7 +215,8 @@ fun EnterMainScreen() {
                     onBackPressed = {
                         navigationState.navigateTo(NavigationItem.Homework.route)
                     },
-                    onSavePressed = {
+                    onSavePressed = { obsessionInfo, triggerInfo, adviceInfo ->
+                        homeworkViewModel.addHomework(obsessionInfo, triggerInfo, adviceInfo)
                         navigationState.navigateTo(NavigationItem.Homework.route)
                     }
                 )
@@ -257,12 +262,28 @@ fun EnterMainScreen() {
                     },
                     onEditPressed = {
                         navigationState.navHostController.popBackStack()
-                        navigationState.navigateToEditMoodModule(it)
+                        navigationState.navigateToEditMood(it)
                     },
                     onDeleteMood = { id ->
                         moodViewModel.deleteMood(id)
                     },
                 )
+            },
+            editHomeworkScreenContent = { homework ->
+                EditHomeworkScreen(
+                    homework = homework,
+                    onBackPressed = {
+                        navigationState.navigateTo(NavigationItem.MainHomework.route)
+                    },
+                    onSavePressed = { id, obsessionInfo, triggerInfo, adviceInfo ->
+                        homeworkViewModel.updateHomeworkById(
+                            id,
+                            obsessionInfo,
+                            triggerInfo,
+                            adviceInfo
+                        )
+                        navigationState.navigateTo(NavigationItem.MainHomework.route)
+                    })
             }
         )
     }

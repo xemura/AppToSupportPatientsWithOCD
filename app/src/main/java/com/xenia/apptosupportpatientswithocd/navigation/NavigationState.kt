@@ -5,6 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.ModuleContentModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
 
@@ -29,8 +30,12 @@ class NavigationState(
         navHostController.navigate(NavigationItem.ContentText.getRouteWithArgs(text))
     }
 
-    fun navigateToEditMoodModule(mood: MoodModel) {
+    fun navigateToEditMood(mood: MoodModel) {
         navHostController.navigate(NavigationItem.EditMood.getRouteWithArgs(mood))
+    }
+
+    fun navigateToEditHomework(homework: HomeworkModel) {
+        navHostController.navigate(NavigationItem.EditHomework.getRouteWithArgs(homework))
     }
 }
 
