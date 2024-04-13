@@ -27,7 +27,7 @@ class MoodRepositoryImpl @Inject constructor(
 
     private val moodDocRef = fireStoreDatabase.collection("$currentUserUID")
         .document("moods")
-        .collection("moodsList").orderBy("time", Query.Direction.DESCENDING)
+        .collection("moodsList")
 
 
     override fun saveMood(assessment: Int, note: String) {
@@ -35,10 +35,7 @@ class MoodRepositoryImpl @Inject constructor(
         val date = Date()
         val current = formatter.format(date)
 
-        fireStoreDatabase.collection("$currentUserUID")
-            .document("moods")
-            .collection("moodsList")
-            .add(MoodEntity(current, assessment, note))
+        moodDocRef.add(MoodEntity(current, assessment, note))
             .addOnSuccessListener {
                 Log.d("TAG", "saveMood SUCCESS")
             }
@@ -48,30 +45,32 @@ class MoodRepositoryImpl @Inject constructor(
     }
 
     override fun getMoods(): Flow<List<MoodModel>?> = callbackFlow {
-        val listener = moodDocRef.addSnapshotListener { data, e ->
-            if (e != null) {
-                close(e)
-            }
-
-            if (data != null) {
-
-                val moodsList: MutableList<MoodModel> = mutableListOf()
-
-                for (i in data) {
-                    Log.d("TAG", "here now")
-
-                    val mood = MoodModel(
-                        id = i.id,
-                        time = i.data.getValue("time").toString(),
-                        assessment = i.data.getValue("assessment").toString().toInt(),
-                        note = i.data.getValue("note").toString()
-                    )
-
-                    moodsList.add(mood)
+        val listener = moodDocRef
+            .orderBy("time", Query.Direction.DESCENDING)
+            .addSnapshotListener { data, e ->
+                if (e != null) {
+                    close(e)
                 }
-                trySend(moodsList)
+
+                if (data != null) {
+
+                    val moodsList: MutableList<MoodModel> = mutableListOf()
+
+                    for (i in data) {
+                        Log.d("TAG", "here now")
+
+                        val mood = MoodModel(
+                            id = i.id,
+                            time = i.data.getValue("time").toString(),
+                            assessment = i.data.getValue("assessment").toString().toInt(),
+                            note = i.data.getValue("note").toString()
+                        )
+
+                        moodsList.add(mood)
+                    }
+                    trySend(moodsList)
+                }
             }
-        }
 
         awaitClose {
             listener.remove()
@@ -83,10 +82,7 @@ class MoodRepositoryImpl @Inject constructor(
         val date = Date()
         val current = formatter.format(date)
 
-        fireStoreDatabase.collection("$currentUserUID")
-            .document("moods")
-            .collection("moodsList")
-            .document(id)
+        moodDocRef.document(id)
             .set(MoodEntity(current, assessment, note))
             .addOnSuccessListener {
                 Log.d("TAG", "updateMoodByID SUCCESS")
@@ -97,10 +93,7 @@ class MoodRepositoryImpl @Inject constructor(
     }
 
     override fun deleteMoodByID(id: String) {
-        Log.d("TAG", id)
-        fireStoreDatabase.collection("$currentUserUID")
-            .document("moods")
-            .collection("moodsList")
+        moodDocRef
             .document(id)
             .delete()
             .addOnSuccessListener {

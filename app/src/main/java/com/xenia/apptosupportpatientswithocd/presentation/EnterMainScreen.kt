@@ -25,6 +25,7 @@ import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_s
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.MoodViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.AddHomeworkScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.HomeworkScreen
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.HomeworkScreenContentState
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.StatisticHomeworkScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.PracticeContentScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StateAfterPracticeScreen
@@ -187,7 +188,7 @@ fun EnterMainScreen() {
                 )
             },
             homeworkScreenContent = {
-                HomeworkScreen(
+                HomeworkScreenContentState(
                     onBackPressed = {
                         navigationState.navigateTo(NavigationItem.Therapy.route)
                     },

@@ -1,6 +1,7 @@
 package com.xenia.apptosupportpatientswithocd.domain.repository
 
-import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.HomeworkModel
+import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
+import kotlinx.coroutines.flow.Flow
 
 interface HomeworkRepository {
     fun addHomework(
@@ -9,11 +10,12 @@ interface HomeworkRepository {
         adviceInfo: String,
     )
 
-    fun getHomeworks(): List<HomeworkModel>
+    fun getHomeworks(): Flow<List<HomeworkModel>?>
 
     fun deleteHomework(id: String)
 
-    fun updateHomework(
+    fun updateHomeworkById(
+        id: String,
         obsessionInfo: String,
         triggerInfo: String,
         adviceInfo: String,

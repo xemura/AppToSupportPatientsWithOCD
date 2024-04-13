@@ -1,9 +1,11 @@
 package com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +23,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,42 +31,71 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
+import com.xenia.apptosupportpatientswithocd.presentation.getApplicationComponent
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeworkScreen(
+fun HomeworkScreenContentState(
     onBackPressed: () -> Unit,
     onAddPressed: () -> Unit,
     onStatisticPressed: () -> Unit,
     onEditPressed: () -> Unit,
     onPracticePressed: () -> Unit,
 ) {
+    val component = getApplicationComponent()
+    val homeworkViewModel: HomeworkViewModel = viewModel(factory = component.getViewModelFactory())
 
-    val homeworksList = mutableListOf(
-        HomeworkModel(
-            "",
-            "Страх подхватить инфекцию",
-            "Прикосновения к рукам людей, коже, волосам, одежде, деньгам. Пользование туалетами вне дома, " +
-                    "прикосновения к чужим животным. Обращение с предметами, к которым прикасался один или несколько человек.",
-            "1. Каждый день ходить в местный супермаркет/магазин, брать деньги и приносить товары домой, не моя их и себя." +
-                    "\n2. Принимать в гостях друзей/родственников, по крайней мере, один раз в неделю.\n" +
-                    "3. Позволить своей семье выходить и заходить в дом без ежедневной стирки и уборки.\n",
-        ),
-        HomeworkModel(
-            "",
-            "Страх перед несовершенством",
-            "Написание писем, эссе, записей. Отправка писем. Принимать душ (из-за бутылок, которые я использую). Одевание и раздевание. Приготовление пищи. Глажка.",
-            "1. Написать эссе несимметричным способом менее чем за 2 часа, 3 раза в неделю.\n" +
-                    "2. Принимать душ за 20 минут каждый день.\n" +
-                    "3. Готовить еду для моих родителей за 45 минут 2 раза в неделю."),
-        HomeworkModel("", "\"Плохие\" мысли о людях, которых я люблю", "", ""),
-    )
+    val screenState = homeworkViewModel.screenState.collectAsState(HomeworkScreenState.Initial)
+
+    when (val currentState = screenState.value) {
+        is HomeworkScreenState.HomeworkMain -> {
+            Log.d("TAG", "Mood Loading")
+            HomeworkScreen(
+                currentState.homeworksList,
+                { onBackPressed() },
+                { onAddPressed() },
+                { onStatisticPressed() },
+                { onEditPressed() },
+                { onPracticePressed() }
+            )
+        }
+
+        HomeworkScreenState.Initial -> {
+            Log.d("TAG", "Mood Initial")
+        }
+
+        HomeworkScreenState.Loading -> {
+            Log.d("TAG", "Mood Loading")
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            )
+            {
+                CircularProgressIndicator(color = Color.Black)
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeworkScreen(
+    homeworksList: List<HomeworkModel>?,
+    onBackPressed: () -> Unit,
+    onAddPressed: () -> Unit,
+    onStatisticPressed: () -> Unit,
+    onEditPressed: () -> Unit,
+    onPracticePressed: () -> Unit,
+) {
 
     Scaffold(
         topBar = {
@@ -117,19 +149,25 @@ fun HomeworkScreen(
                 }
             }
 
-            LazyColumn {
-                // тут еще смахиваем и удаляем домашнюю работу
-                items(homeworksList) {
-                    HomeworkCard(
-                        homeworkName = it,
-                        onStatisticPressed = { onStatisticPressed() },
-                        onEditPressed = { onEditPressed() },
-                        onPracticePressed = { onPracticePressed() }
-                    )
+            if (homeworksList != null) {
+                LazyColumn {
+                    // тут еще смахиваем и удаляем домашнюю работу
+                    items(homeworksList) {
+                        HomeworkCard(
+                            homeworkName = it,
+                            onStatisticPressed = { onStatisticPressed() },
+                            onEditPressed = { onEditPressed() },
+                            onPracticePressed = { onPracticePressed() }
+                        )
+                    }
                 }
+            } else {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "Домашние работы пока не созданы",
+                    textAlign = TextAlign.Center
+                )
             }
-
-
         }
     }
 }

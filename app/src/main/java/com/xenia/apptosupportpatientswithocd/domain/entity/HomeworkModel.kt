@@ -1,4 +1,4 @@
-package com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens
+package com.xenia.apptosupportpatientswithocd.domain.entity
 
 data class HomeworkModel(
     val id: String,

@@ -33,7 +33,7 @@ class MoodViewModel @Inject constructor(
         }.stateIn(
             scope = coroutineScope,
             started = SharingStarted.Lazily,
-            initialValue = ProfileScreenState.Initial
+            initialValue = MoodScreenState.Initial
         )
 
     fun saveMood(assessment: Int, note: String) {
