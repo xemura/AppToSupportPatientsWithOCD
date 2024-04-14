@@ -62,7 +62,7 @@ fun HomeworkScreenContentState(
     onAddPressed: () -> Unit,
     onStatisticPressed: () -> Unit,
     onEditPressed: (HomeworkModel) -> Unit,
-    onPracticePressed: () -> Unit,
+    onPracticePressed: (HomeworkModel) -> Unit,
     onDeleteSwiped: (String) -> Unit,
 ) {
     val component = getApplicationComponent()
@@ -79,7 +79,7 @@ fun HomeworkScreenContentState(
                 { onAddPressed() },
                 { onStatisticPressed() },
                 { onEditPressed(it) },
-                { onPracticePressed() },
+                { onPracticePressed(it) },
                 { onDeleteSwiped(it) }
             )
         }
@@ -108,7 +108,7 @@ fun HomeworkScreen(
     onAddPressed: () -> Unit,
     onStatisticPressed: () -> Unit,
     onEditPressed: (HomeworkModel) -> Unit,
-    onPracticePressed: () -> Unit,
+    onPracticePressed: (HomeworkModel) -> Unit,
     onDeleteSwiped: (String) -> Unit,
 ) {
 
@@ -215,7 +215,7 @@ fun HomeworkScreen(
                                 homework = homework,
                                 onStatisticPressed = { onStatisticPressed() },
                                 onEditPressed = { onEditPressed(it) },
-                                onPracticePressed = { onPracticePressed() }
+                                onPracticePressed = { onPracticePressed(it) }
                             )
                         }
 
@@ -245,7 +245,7 @@ fun HomeworkCard(
     homework: HomeworkModel,
     onStatisticPressed: () -> Unit,
     onEditPressed: (HomeworkModel) -> Unit,
-    onPracticePressed: () -> Unit,
+    onPracticePressed: (HomeworkModel) -> Unit,
 ) {
     Card(
         modifier = Modifier
@@ -275,7 +275,7 @@ fun HomeworkCard(
             ) {
                 Button(
                     onClick = {
-                        onPracticePressed()
+                        onPracticePressed(homework)
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                     shape = RoundedCornerShape(8.dp),

@@ -7,6 +7,7 @@ import com.xenia.apptosupportpatientswithocd.R
 import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.ModuleContentModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StatisticModel
 
 enum class Screen {
     MAIN,
@@ -158,18 +159,34 @@ sealed class NavigationItem(
 
     data object  BeforePracticeHomework: NavigationItem(
         title = "Отметить состояние до выполнения практике по домашней работе",
-        route = Screen.BEFORE_PRACTICE_HOMEWORK.name
-    )
+        route = "${Screen.BEFORE_PRACTICE_HOMEWORK.name}/{obj_homework}"
+    ) {
+        fun getRouteWithArgs(homework: HomeworkModel) : String {
+            val homeworkJson = Gson().toJson(homework)
+            return "${Screen.BEFORE_PRACTICE_HOMEWORK.name}/${homeworkJson.encode()}"
+        }
+    }
 
     data object  PracticeHomework: NavigationItem(
         title = "Выполнять практику по домашней работе",
-        route = Screen.PRACTICE_CONTENT.name
-    )
+        route = "${Screen.PRACTICE_CONTENT.name}/{obj_statistic}/{obj_homework}"
+    ) {
+        fun getRouteWithArgs(homework: HomeworkModel, statistic: StatisticModel) : String {
+            val statisticJson = Gson().toJson(statistic)
+            val homeworkJson = Gson().toJson(homework)
+            return "${Screen.PRACTICE_CONTENT.name}/${statisticJson.encode()}/${homeworkJson.encode()}"
+        }
+    }
 
     data object  AfterPracticeHomework: NavigationItem(
         title = "Отметить состояние после прохождения практики по домашней работе",
-        route = Screen.AFTER_PRACTICE_HOMEWORK.name
-    )
+        route = "${Screen.AFTER_PRACTICE_HOMEWORK.name}/{obj_statistic}"
+    ) {
+        fun getRouteWithArgs(statistic: StatisticModel) : String {
+            val statisticJson = Gson().toJson(statistic)
+            return "${Screen.AFTER_PRACTICE_HOMEWORK.name}/${statisticJson.encode()}"
+        }
+    }
 
     data object ListModules : NavigationItem(
         title = "Модули",

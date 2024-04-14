@@ -30,6 +30,7 @@ import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homewor
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.PracticeContentScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StateAfterPracticeScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StateBeforePracticeScreen
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StatisticHomeworkViewModel
 import dev.chrisbanes.haze.HazeState
 
 
@@ -54,6 +55,7 @@ fun EnterMainScreen() {
     val authViewModel: AuthViewModel = viewModel(factory = component.getViewModelFactory())
     val moodViewModel: MoodViewModel = viewModel(factory = component.getViewModelFactory())
     val homeworkViewModel: HomeworkViewModel = viewModel(factory = component.getViewModelFactory())
+    val statisticHomeworkViewModel: StatisticHomeworkViewModel = viewModel(factory = component.getViewModelFactory())
 
 
     Scaffold(
@@ -199,8 +201,8 @@ fun EnterMainScreen() {
                         navigationState.navHostController.popBackStack()
                         navigationState.navigateToEditHomework(it)
                     },
-                    onPracticePressed = {
-                        navigationState.navigateTo(NavigationItem.BeforePracticeHomework.route)
+                    onPracticePressed = { homework ->
+                        navigationState.navigateToPracticeBefore(homework)
                     },
                     onStatisticPressed = {
                         navigationState.navigateTo(NavigationItem.StatisticHomework.route)
@@ -228,29 +230,31 @@ fun EnterMainScreen() {
                     }
                 )
             },
-            stateBeforePracticeHomework = {
+            stateBeforePracticeHomework = { homework ->
                 StateBeforePracticeScreen(
+                    homework = homework,
                     onBackPressed = {
                         navigationState.navigateTo(NavigationItem.Homework.route)
                     },
-                    onNextButtonPressed = {
-                        navigationState.navigateTo(NavigationItem.PracticeHomework.route)
+                    onNextButtonPressed = { it, statistic ->
+                        navigationState.navigateToPracticeContent(it, statistic)
                     }
                 )
             },
-            practiceContentHomework = {
+            practiceContentHomework = { homework, statistic ->
                 PracticeContentScreen(
+                    homework,
+                    statistic,
                     onNextButtonPressed = {
-                        navigationState.navigateTo(NavigationItem.AfterPracticeHomework.route)
+                        navigationState.navigateToPracticeAfter(it)
                     }
                 )
             },
-            stateAfterPracticeHomework = {
+            stateAfterPracticeHomework = { statistic ->
                 StateAfterPracticeScreen(
-                    onBackPressed = {
-                        navigationState.navigateTo(NavigationItem.PracticeHomework.route)
-                    },
-                    onNextButtonPressed = {
+                    statisticModel = statistic,
+                    onNextButtonPressed = { statisticHomework ->
+                        statisticHomeworkViewModel.setStatisticHomeworkByID(statisticHomework)
                         navigationState.navigateTo(NavigationItem.Homework.route)
                     }
                 )

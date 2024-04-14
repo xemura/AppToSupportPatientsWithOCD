@@ -31,11 +31,14 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PracticeContentScreen(
-    onNextButtonPressed: () -> Unit
+    homework: HomeworkModel,
+    statisticModel: StatisticModel,
+    onNextButtonPressed: (StatisticModel) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -58,7 +61,7 @@ fun PracticeContentScreen(
             FloatingActionButton(
                 modifier = Modifier.padding(bottom = 80.dp),
                 onClick = {
-                    onNextButtonPressed()
+                    onNextButtonPressed(statisticModel)
                 },
                 shape = CircleShape,
                 containerColor = Color(0xFF0575e6),
@@ -95,8 +98,7 @@ fun PracticeContentScreen(
                 Text(
                     modifier = Modifier
                         .padding(15.dp),
-                    text = "Прикосновения к рукам людей, коже, волосам, одежде, деньгам. Пользование туалетами вне дома, " +
-                            "прикосновения к чужим животным. Обращение с предметами, к которым прикасался один или несколько человек."
+                    text = homework.triggerInfo
                 )
             }
 
@@ -106,7 +108,7 @@ fun PracticeContentScreen(
                 text = "Совет",
                 textAlign = TextAlign.Start
             )
-            // еще чет надо наверное
+
             Card(
                 modifier = Modifier
                     .background(Color.White)
@@ -121,9 +123,7 @@ fun PracticeContentScreen(
                 Text(
                     modifier = Modifier
                         .padding(15.dp),
-                    text = "1. Каждый день ходить в местный супермаркет/магазин, брать деньги и приносить товары домой, не моя их и себя." +
-                            "\n2. Принимать в гостях друзей/родственников, по крайней мере, один раз в неделю.\n" +
-                            "3. Позволить своей семье выходить и заходить в дом без ежедневной стирки и уборки.\n"
+                    text = homework.adviceInfo
                 )
             }
         }

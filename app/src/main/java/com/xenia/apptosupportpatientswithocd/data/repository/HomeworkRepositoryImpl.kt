@@ -5,7 +5,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.xenia.apptosupportpatientswithocd.data.entity.HomeworkEntity
 import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
+import com.xenia.apptosupportpatientswithocd.domain.entity.StatisticHomeworkModel
 import com.xenia.apptosupportpatientswithocd.domain.repository.HomeworkRepository
+import com.xenia.apptosupportpatientswithocd.navigation.NavigationItem
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StatisticModel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -84,6 +87,19 @@ class HomeworkRepositoryImpl @Inject constructor(
             }
             .addOnFailureListener {
                 Log.d("TAG", "updateHomeworkById FAIL")
+            }
+    }
+
+    override fun setStatisticHomeworkByID(statisticModel: StatisticModel) {
+        fireStoreDatabase.collection("$currentUserUID")
+            .document("homeworks")
+            .collection("statisticHomeworksList")
+            .add(statisticModel)
+            .addOnSuccessListener {
+                Log.d("TAG", "setStatisticHomeworkByID SUCCESS")
+            }
+            .addOnFailureListener {
+                Log.d("TAG", "setStatisticHomeworkByID FAIL")
             }
     }
 }

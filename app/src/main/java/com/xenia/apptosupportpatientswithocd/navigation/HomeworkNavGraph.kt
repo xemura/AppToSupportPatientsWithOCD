@@ -9,7 +9,7 @@ import androidx.navigation.navigation
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
-import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StatisticModel
 import java.lang.reflect.Type
 
 fun NavGraphBuilder.homeworkNavGraph(
@@ -18,9 +18,9 @@ fun NavGraphBuilder.homeworkNavGraph(
     editHomeworkScreenContent: @Composable (HomeworkModel) -> Unit,
     statisticHomeworkScreenContent: @Composable () -> Unit,
 
-    stateBeforePracticeHomework: @Composable () -> Unit,
-    stateAfterPracticeHomework: @Composable () -> Unit,
-    practiceContentHomework: @Composable () -> Unit,
+    stateBeforePracticeHomework: @Composable (HomeworkModel) -> Unit,
+    stateAfterPracticeHomework: @Composable (StatisticModel) -> Unit,
+    practiceContentHomework: @Composable (HomeworkModel, StatisticModel) -> Unit,
 ) {
     navigation(
         startDestination = NavigationItem.MainHomework.route,
@@ -53,16 +53,56 @@ fun NavGraphBuilder.homeworkNavGraph(
             statisticHomeworkScreenContent()
         }
 
-        composable(NavigationItem.BeforePracticeHomework.route) {
-            stateBeforePracticeHomework()
+        composable(
+            route = NavigationItem.AfterPracticeHomework.route,
+            arguments = listOf(
+                navArgument("obj_statistic") {
+                    type = NavType.StringType
+                },
+            )
+        ) {
+            val statisticJson = it.arguments?.getString("obj_statistic") ?: ""
+            val objectStatistic: Type = object : TypeToken<StatisticModel?>(){}.type
+            val statistic: StatisticModel = Gson().fromJson(statisticJson, objectStatistic)
+
+            stateAfterPracticeHomework(statistic)
         }
 
-        composable(NavigationItem.PracticeHomework.route) {
-            practiceContentHomework()
+        composable(
+            route = NavigationItem.PracticeHomework.route,
+            arguments = listOf(
+                navArgument("obj_homework") {
+                    type = NavType.StringType
+                },
+                navArgument("obj_statistic") {
+                    type = NavType.StringType
+                },
+            )
+        ) {
+            val statisticJson = it.arguments?.getString("obj_statistic") ?: ""
+            val objectStatistic: Type = object : TypeToken<StatisticModel?>(){}.type
+            val statistic: StatisticModel = Gson().fromJson(statisticJson, objectStatistic)
+
+            val homeworkJson = it.arguments?.getString("obj_homework") ?: ""
+            val objectHomework: Type = object : TypeToken<HomeworkModel?>(){}.type
+            val homework: HomeworkModel = Gson().fromJson(homeworkJson, objectHomework)
+
+            practiceContentHomework(homework, statistic)
         }
 
-        composable(NavigationItem.AfterPracticeHomework.route) {
-            stateAfterPracticeHomework()
+        composable(
+            route = NavigationItem.BeforePracticeHomework.route,
+            arguments = listOf(
+                navArgument("obj_homework") {
+                    type = NavType.StringType
+                },
+            )
+        ) {
+            val homeworkJson = it.arguments?.getString("obj_homework") ?: ""
+            val objectHomework: Type = object : TypeToken<HomeworkModel?>(){}.type
+            val homework: HomeworkModel = Gson().fromJson(homeworkJson, objectHomework)
+
+            stateBeforePracticeHomework(homework)
         }
     }
 }

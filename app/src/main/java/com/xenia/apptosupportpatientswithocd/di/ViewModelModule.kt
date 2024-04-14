@@ -9,6 +9,7 @@ import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.Modules
 import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.ProfileViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.MoodViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.HomeworkViewModel
+import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StatisticHomeworkViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -48,4 +49,9 @@ interface ViewModelModule {
     @ViewModelKey(HomeworkViewModel::class)
     @Binds
     fun bindHomeworksViewModel(viewModel: HomeworkViewModel): ViewModel
+
+    @IntoMap
+    @ViewModelKey(StatisticHomeworkViewModel::class)
+    @Binds
+    fun bindStatisticViewModel(viewModel: StatisticHomeworkViewModel): ViewModel
 }

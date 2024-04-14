@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -35,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
 import com.xenia.apptosupportpatientswithocd.presentation.composable.CustomSlider
 import com.xenia.apptosupportpatientswithocd.presentation.composable.CustomSliderDefaults
 import com.xenia.apptosupportpatientswithocd.presentation.composable.progress
@@ -43,9 +43,12 @@ import com.xenia.apptosupportpatientswithocd.presentation.composable.track
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StateBeforePracticeScreen(
+    homework: HomeworkModel,
     onBackPressed: () -> Unit,
-    onNextButtonPressed: () -> Unit
+    onNextButtonPressed: (HomeworkModel, StatisticModel) -> Unit
 ) {
+
+    Log.d("TAG", homework.toString())
 
     var sliderValue by remember { mutableFloatStateOf(0f) }
 
@@ -79,7 +82,14 @@ fun StateBeforePracticeScreen(
             FloatingActionButton(
                 modifier = Modifier.padding(bottom = 80.dp),
                 onClick = {
-                    onNextButtonPressed()
+                    onNextButtonPressed(
+                        homework,
+                        StatisticModel(
+                            sliderValue.toInt(),
+                            0,
+                            homework.id
+                        )
+                    )
                 },
                 shape = CircleShape,
                 containerColor = Color(0xFF0575e6),
@@ -158,8 +168,10 @@ fun StateBeforePracticeScreen(
                                 .progress(sliderPositions = sliderState)
                                 .background(
                                     brush = Brush.horizontalGradient(
-                                        listOf(Color(0xFF0575e6),
-                                            Color(0xFFb5e2fa))
+                                        listOf(
+                                            Color(0xFF0575e6),
+                                            Color(0xFFb5e2fa)
+                                        )
                                     )
                                 )
                         )
