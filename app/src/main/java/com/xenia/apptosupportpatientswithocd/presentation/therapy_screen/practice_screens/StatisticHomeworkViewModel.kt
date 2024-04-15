@@ -22,7 +22,6 @@ class StatisticHomeworkViewModel @Inject constructor(
     private var _statistics = MutableStateFlow<List<StatisticModel>?>(emptyList())
     val statistics: StateFlow<List<StatisticModel>?> = _statistics
 
-    private var list: List<StatisticModel>? = listOf()
     fun setStatisticHomeworkByID(statisticModel: StatisticModel) {
         viewModelScope.launch {
             setStatisticHomeworkByIDUseCase(statisticModel)

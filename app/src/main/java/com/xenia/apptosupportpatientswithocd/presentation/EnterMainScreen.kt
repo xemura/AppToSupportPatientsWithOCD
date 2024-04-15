@@ -16,6 +16,7 @@ import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.Modules
 import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.ProfileScreenContent
 import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.AddScriptScreen
 import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.ScriptsScreen
+import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.ScriptsScreenStateContent
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.TherapyScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.AddMoodScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.DiaryMoodMainContent
@@ -119,7 +120,7 @@ fun EnterMainScreen() {
                 )
             },
             scriptsContentScreen = {
-                ScriptsScreen(
+                ScriptsScreenStateContent(
                     onFloatingActionButtonClick = {
                         navigationState.navigateTo(NavigationItem.AddScript.route)
                     }

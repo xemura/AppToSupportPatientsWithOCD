@@ -20,9 +20,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.ScriptModel
+import com.xenia.apptosupportpatientswithocd.domain.entity.ScriptModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardScript(scriptModel: ScriptModel) {
     Card(
@@ -56,13 +55,15 @@ fun CardScript(scriptModel: ScriptModel) {
             }
 
             if (scriptModel.dropDownBoxEnabled) {
-                scriptModel.listActions.forEach {
-                    RoundedCornerCheckbox(
-                        label = it.name,
-                        isChecked = it.checkBoxState,
-                        onValueChange = { },
-                        modifier = Modifier.padding(start = 22.dp)
-                    )
+                if (!scriptModel.listActions.isNullOrEmpty()) {
+                    scriptModel.listActions.forEach {
+                        RoundedCornerCheckbox(
+                            label = it.actionText,
+                            isChecked = it.checkBoxState,
+                            onValueChange = { },
+                            modifier = Modifier.padding(start = 22.dp)
+                        )
+                    }
                 }
             }
         }

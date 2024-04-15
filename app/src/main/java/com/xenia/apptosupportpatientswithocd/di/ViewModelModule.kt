@@ -7,6 +7,7 @@ import com.xenia.apptosupportpatientswithocd.presentation.auth_screen.AuthViewMo
 import com.xenia.apptosupportpatientswithocd.presentation.main_screen.MainViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.ModulesViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.ProfileViewModel
+import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.ScriptViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.MoodViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.homework_screens.HomeworkViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StatisticHomeworkViewModel
@@ -54,4 +55,9 @@ interface ViewModelModule {
     @ViewModelKey(StatisticHomeworkViewModel::class)
     @Binds
     fun bindStatisticViewModel(viewModel: StatisticHomeworkViewModel): ViewModel
+
+    @IntoMap
+    @ViewModelKey(ScriptViewModel::class)
+    @Binds
+    fun bindScriptViewModel(viewModel: ScriptViewModel): ViewModel
 }

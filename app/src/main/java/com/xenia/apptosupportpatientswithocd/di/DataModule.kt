@@ -6,12 +6,14 @@ import com.xenia.apptosupportpatientswithocd.data.repository.MainRepositoryImpl
 import com.xenia.apptosupportpatientswithocd.data.repository.ModulesRepositoryImpl
 import com.xenia.apptosupportpatientswithocd.data.repository.MoodRepositoryImpl
 import com.xenia.apptosupportpatientswithocd.data.repository.ProfileRepositoryImpl
+import com.xenia.apptosupportpatientswithocd.data.repository.ScriptsRepositoryImpl
 import com.xenia.apptosupportpatientswithocd.domain.repository.AuthRepository
 import com.xenia.apptosupportpatientswithocd.domain.repository.HomeworkRepository
 import com.xenia.apptosupportpatientswithocd.domain.repository.MainRepository
 import com.xenia.apptosupportpatientswithocd.domain.repository.ModulesRepository
 import com.xenia.apptosupportpatientswithocd.domain.repository.MoodRepository
 import com.xenia.apptosupportpatientswithocd.domain.repository.ProfileRepository
+import com.xenia.apptosupportpatientswithocd.domain.repository.ScriptsRepository
 import dagger.Binds
 import dagger.Module
 
@@ -41,4 +43,8 @@ interface DataModule {
     @ApplicationScope
     @Binds
     fun bindMoodsRepository(impl: MoodRepositoryImpl): MoodRepository
+
+    @ApplicationScope
+    @Binds
+    fun bindScriptsRepository(impl: ScriptsRepositoryImpl): ScriptsRepository
 }
