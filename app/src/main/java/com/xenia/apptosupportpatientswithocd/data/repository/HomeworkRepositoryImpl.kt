@@ -3,15 +3,18 @@ package com.xenia.apptosupportpatientswithocd.data.repository
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.xenia.apptosupportpatientswithocd.data.entity.HomeworkEntity
+import com.xenia.apptosupportpatientswithocd.data.entity.StatisticEntity
 import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
-import com.xenia.apptosupportpatientswithocd.domain.entity.StatisticHomeworkModel
 import com.xenia.apptosupportpatientswithocd.domain.repository.HomeworkRepository
-import com.xenia.apptosupportpatientswithocd.navigation.NavigationItem
-import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StatisticModel
+import com.xenia.apptosupportpatientswithocd.domain.entity.StatisticModel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 class HomeworkRepositoryImpl @Inject constructor(
@@ -47,7 +50,6 @@ class HomeworkRepositoryImpl @Inject constructor(
                 val homeworkList: MutableList<HomeworkModel> = mutableListOf()
 
                 for (i in data) {
-                    Log.d("TAG", "here now")
 
                     val homework = HomeworkModel(
                         id = i.id,
@@ -91,15 +93,62 @@ class HomeworkRepositoryImpl @Inject constructor(
     }
 
     override fun setStatisticHomeworkByID(statisticModel: StatisticModel) {
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val date = Date()
+        val current = formatter.format(date)
+
+        val statisticEntity = StatisticEntity(
+            statisticBeforePractice = statisticModel.statisticBeforePractice,
+            statisticAfterPractice = statisticModel.statisticAfterPractice,
+            homeworkID = statisticModel.homeworkID,
+            time = current
+        )
+
         fireStoreDatabase.collection("$currentUserUID")
             .document("homeworks")
             .collection("statisticHomeworksList")
-            .add(statisticModel)
+            .add(statisticEntity)
             .addOnSuccessListener {
                 Log.d("TAG", "setStatisticHomeworkByID SUCCESS")
             }
             .addOnFailureListener {
                 Log.d("TAG", "setStatisticHomeworkByID FAIL")
             }
+    }
+
+    override fun getStatisticHomeworkByID(id: String): Flow<List<StatisticModel>?> = callbackFlow {
+        Log.d("TAG", id)
+        val listener = fireStoreDatabase
+            .collection("$currentUserUID")
+            .document("homeworks")
+            .collection("statisticHomeworksList")
+            .whereEqualTo("homeworkID", id)
+            .limit(5)
+            .orderBy("time", Query.Direction.DESCENDING)
+            .addSnapshotListener { value, error ->
+                if (value != null) {
+                    val list = mutableListOf<StatisticModel>()
+
+                    for (i in value) {
+                        Log.d("TAG", "here now")
+
+                        val statistic = StatisticModel(
+                            statisticBeforePractice = i.data.getValue("statisticBeforePractice").toString().toInt(),
+                            statisticAfterPractice = i.data.getValue("statisticAfterPractice").toString().toInt(),
+                            homeworkID = i.data.getValue("homeworkID").toString()
+                        )
+
+                        Log.d("TAG", "GET $statistic")
+
+                        list.add(statistic)
+                    }
+
+                    trySend(list)
+                }
+            }
+
+        awaitClose {
+            listener.remove()
+        }
     }
 }

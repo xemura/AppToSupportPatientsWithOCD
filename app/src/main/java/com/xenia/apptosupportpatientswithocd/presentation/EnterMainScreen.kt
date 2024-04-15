@@ -204,8 +204,8 @@ fun EnterMainScreen() {
                     onPracticePressed = { homework ->
                         navigationState.navigateToPracticeBefore(homework)
                     },
-                    onStatisticPressed = {
-                        navigationState.navigateTo(NavigationItem.StatisticHomework.route)
+                    onStatisticPressed = { homework ->
+                        navigationState.navigateToStatisticHomeworkContent(homework)
                     },
                     onDeleteSwiped = { id ->
                         homeworkViewModel.deleteHomework(id)
@@ -223,8 +223,9 @@ fun EnterMainScreen() {
                     }
                 )
             },
-            statisticHomeworkScreenContent = {
+            statisticHomeworkScreenContent = { homework ->
                 StatisticHomeworkScreen(
+                    homework,
                     onBackPressed = {
                         navigationState.navigateTo(NavigationItem.Homework.route)
                     }

@@ -7,7 +7,7 @@ import com.xenia.apptosupportpatientswithocd.R
 import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.ModuleContentModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
-import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StatisticModel
+import com.xenia.apptosupportpatientswithocd.domain.entity.StatisticModel
 
 enum class Screen {
     MAIN,
@@ -154,8 +154,14 @@ sealed class NavigationItem(
 
     data object  StatisticHomework: NavigationItem(
         title = "Посмотреть статистику по домашней работе",
-        route = Screen.STATISTIC_HOMEWORK.name
-    )
+        route = "${Screen.STATISTIC_HOMEWORK.name}/{homework}"
+    ) {
+        fun getRouteWithArgs(homework: HomeworkModel) : String {
+            val homeworkJson = Gson().toJson(homework)
+            return "${Screen.STATISTIC_HOMEWORK.name}/${homeworkJson.encode()}"
+        }
+    }
+
 
     data object  BeforePracticeHomework: NavigationItem(
         title = "Отметить состояние до выполнения практике по домашней работе",

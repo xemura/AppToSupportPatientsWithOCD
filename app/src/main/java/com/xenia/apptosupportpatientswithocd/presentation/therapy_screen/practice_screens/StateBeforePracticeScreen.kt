@@ -35,10 +35,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
+import com.xenia.apptosupportpatientswithocd.domain.entity.StatisticModel
 import com.xenia.apptosupportpatientswithocd.presentation.composable.CustomSlider
 import com.xenia.apptosupportpatientswithocd.presentation.composable.CustomSliderDefaults
 import com.xenia.apptosupportpatientswithocd.presentation.composable.progress
 import com.xenia.apptosupportpatientswithocd.presentation.composable.track
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -85,7 +87,7 @@ fun StateBeforePracticeScreen(
                     onNextButtonPressed(
                         homework,
                         StatisticModel(
-                            sliderValue.toInt(),
+                            sliderValue.roundToInt(),
                             0,
                             homework.id
                         )

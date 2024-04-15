@@ -1,4 +1,4 @@
-package com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens
+package com.xenia.apptosupportpatientswithocd.domain.entity
 
 data class StatisticModel(
     val statisticBeforePractice: Int,

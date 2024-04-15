@@ -1,6 +1,7 @@
 package com.xenia.apptosupportpatientswithocd.presentation.composable
 
 import android.graphics.Paint
+import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -65,6 +66,8 @@ fun BarGraph(
         mutableStateOf(barData_ + 0)
     }
 
+    Log.d("TAG", "BARGRAPH barData_ = $barData_")
+
     // for getting screen width and height you can use LocalConfiguration
     val configuration = LocalConfiguration.current
     // getting screen width
@@ -128,14 +131,17 @@ fun BarGraph(
 
                 // Y-Axis Scale Text
                 val yAxisScaleText = (barData.max()) / 3f
+                Log.d("TAG", "BARGRAPH barData = ${barData}")
                 (0..3).forEach { i ->
                     drawContext.canvas.nativeCanvas.apply {
-                        drawText(
-                            round(barData.min() + yAxisScaleText * i).roundToInt().toString(),
-                            70f,
-                            size.height - yAxisScaleSpacing - i * size.height / 3f + 10.0f,
-                            textPaint
-                        )
+                        if (yAxisScaleText != 0f) {
+                            drawText(
+                                round(barData.min() + yAxisScaleText * i).roundToInt().toString(),
+                                70f,
+                                size.height - yAxisScaleSpacing - i * size.height / 3f + 10.0f,
+                                textPaint
+                            )
+                        }
                     }
                     yCoordinates.add(size.height - yAxisScaleSpacing - i * size.height / 3f)
                 }

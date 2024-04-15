@@ -9,14 +9,14 @@ import androidx.navigation.navigation
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
-import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StatisticModel
+import com.xenia.apptosupportpatientswithocd.domain.entity.StatisticModel
 import java.lang.reflect.Type
 
 fun NavGraphBuilder.homeworkNavGraph(
     mainHomeworkScreenContent: @Composable () -> Unit,
     addHomeworkScreenContent:  @Composable () -> Unit,
     editHomeworkScreenContent: @Composable (HomeworkModel) -> Unit,
-    statisticHomeworkScreenContent: @Composable () -> Unit,
+    statisticHomeworkScreenContent: @Composable (HomeworkModel) -> Unit,
 
     stateBeforePracticeHomework: @Composable (HomeworkModel) -> Unit,
     stateAfterPracticeHomework: @Composable (StatisticModel) -> Unit,
@@ -49,8 +49,19 @@ fun NavGraphBuilder.homeworkNavGraph(
             editHomeworkScreenContent(homework)
         }
 
-        composable(NavigationItem.StatisticHomework.route) {
-            statisticHomeworkScreenContent()
+        composable(
+            route = NavigationItem.StatisticHomework.route,
+            arguments = listOf(
+                navArgument("homework") {
+                    type = NavType.StringType
+                },
+            )
+        ) {
+            val homeworkJson = it.arguments?.getString("homework") ?: ""
+            val objectHomework: Type = object : TypeToken<HomeworkModel?>(){}.type
+            val homework: HomeworkModel = Gson().fromJson(homeworkJson, objectHomework)
+
+            statisticHomeworkScreenContent(homework)
         }
 
         composable(

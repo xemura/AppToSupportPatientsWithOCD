@@ -8,7 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.ModuleContentModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
-import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StatisticModel
+import com.xenia.apptosupportpatientswithocd.domain.entity.StatisticModel
 
 class NavigationState(
     val navHostController: NavHostController
@@ -49,6 +49,10 @@ class NavigationState(
 
     fun navigateToPracticeContent(homework: HomeworkModel, statistic: StatisticModel) {
         navHostController.navigate(NavigationItem.PracticeHomework.getRouteWithArgs(homework, statistic))
+    }
+
+    fun navigateToStatisticHomeworkContent(homework: HomeworkModel) {
+        navHostController.navigate(NavigationItem.StatisticHomework.getRouteWithArgs(homework))
     }
 }
 

@@ -60,7 +60,7 @@ import com.xenia.apptosupportpatientswithocd.presentation.getApplicationComponen
 fun HomeworkScreenContentState(
     onBackPressed: () -> Unit,
     onAddPressed: () -> Unit,
-    onStatisticPressed: () -> Unit,
+    onStatisticPressed: (HomeworkModel) -> Unit,
     onEditPressed: (HomeworkModel) -> Unit,
     onPracticePressed: (HomeworkModel) -> Unit,
     onDeleteSwiped: (String) -> Unit,
@@ -72,12 +72,13 @@ fun HomeworkScreenContentState(
 
     when (val currentState = screenState.value) {
         is HomeworkScreenState.HomeworkMain -> {
-            Log.d("TAG", "Mood Loading")
             HomeworkScreen(
                 currentState.homeworksList,
                 { onBackPressed() },
                 { onAddPressed() },
-                { onStatisticPressed() },
+                { homework ->
+                    onStatisticPressed(homework)
+                },
                 { onEditPressed(it) },
                 { onPracticePressed(it) },
                 { onDeleteSwiped(it) }
@@ -85,11 +86,10 @@ fun HomeworkScreenContentState(
         }
 
         HomeworkScreenState.Initial -> {
-            Log.d("TAG", "Mood Initial")
+            Log.d("TAG", "HomeworkScreenState Initial")
         }
 
         HomeworkScreenState.Loading -> {
-            Log.d("TAG", "Mood Loading")
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -106,7 +106,7 @@ fun HomeworkScreen(
     homeworksList: List<HomeworkModel>?,
     onBackPressed: () -> Unit,
     onAddPressed: () -> Unit,
-    onStatisticPressed: () -> Unit,
+    onStatisticPressed: (HomeworkModel) -> Unit,
     onEditPressed: (HomeworkModel) -> Unit,
     onPracticePressed: (HomeworkModel) -> Unit,
     onDeleteSwiped: (String) -> Unit,
@@ -213,7 +213,9 @@ fun HomeworkScreen(
                         ) {
                             HomeworkCard(
                                 homework = homework,
-                                onStatisticPressed = { onStatisticPressed() },
+                                onStatisticPressed = { homework ->
+                                    onStatisticPressed(homework)
+                                },
                                 onEditPressed = { onEditPressed(it) },
                                 onPracticePressed = { onPracticePressed(it) }
                             )
@@ -243,7 +245,7 @@ fun HomeworkScreen(
 @Composable
 fun HomeworkCard(
     homework: HomeworkModel,
-    onStatisticPressed: () -> Unit,
+    onStatisticPressed: (HomeworkModel) -> Unit,
     onEditPressed: (HomeworkModel) -> Unit,
     onPracticePressed: (HomeworkModel) -> Unit,
 ) {
@@ -288,7 +290,7 @@ fun HomeworkCard(
                 Spacer(modifier = Modifier.padding(3.dp))
                 Button(
                     onClick = {
-                        onStatisticPressed()
+                        onStatisticPressed(homework)
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                     shape = RoundedCornerShape(8.dp),

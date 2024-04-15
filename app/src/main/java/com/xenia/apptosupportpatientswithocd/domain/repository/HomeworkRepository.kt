@@ -1,7 +1,7 @@
 package com.xenia.apptosupportpatientswithocd.domain.repository
 
 import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
-import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StatisticModel
+import com.xenia.apptosupportpatientswithocd.domain.entity.StatisticModel
 import kotlinx.coroutines.flow.Flow
 
 interface HomeworkRepository {
@@ -23,4 +23,6 @@ interface HomeworkRepository {
     )
 
     fun setStatisticHomeworkByID(statisticModel: StatisticModel)
+
+    fun getStatisticHomeworkByID(id: String): Flow<List<StatisticModel>?>
 }

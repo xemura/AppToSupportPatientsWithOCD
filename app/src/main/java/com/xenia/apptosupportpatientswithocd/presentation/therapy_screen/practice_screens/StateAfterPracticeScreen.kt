@@ -1,6 +1,5 @@
 package com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -12,13 +11,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -35,11 +31,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
+import com.xenia.apptosupportpatientswithocd.domain.entity.StatisticModel
 import com.xenia.apptosupportpatientswithocd.presentation.composable.CustomSlider
 import com.xenia.apptosupportpatientswithocd.presentation.composable.CustomSliderDefaults
 import com.xenia.apptosupportpatientswithocd.presentation.composable.progress
 import com.xenia.apptosupportpatientswithocd.presentation.composable.track
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,7 +70,7 @@ fun StateAfterPracticeScreen(
                     onNextButtonPressed(
                         StatisticModel(
                             statisticBeforePractice = statisticModel.statisticBeforePractice,
-                            statisticAfterPractice = sliderValue.toInt(),
+                            statisticAfterPractice = sliderValue.roundToInt(),
                             homeworkID = statisticModel.homeworkID
                         )
                     )
