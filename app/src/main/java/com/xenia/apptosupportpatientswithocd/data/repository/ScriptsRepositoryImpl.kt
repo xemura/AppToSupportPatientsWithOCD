@@ -3,6 +3,8 @@ package com.xenia.apptosupportpatientswithocd.data.repository
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.xenia.apptosupportpatientswithocd.data.entity.ActionEntity
+import com.xenia.apptosupportpatientswithocd.data.entity.ScriptEntity
 import com.xenia.apptosupportpatientswithocd.domain.entity.Action
 import com.xenia.apptosupportpatientswithocd.domain.entity.ScriptModel
 import com.xenia.apptosupportpatientswithocd.domain.repository.ScriptsRepository
@@ -46,6 +48,7 @@ class ScriptsRepositoryImpl @Inject constructor(
                             Log.d("TAG", "actions in script = $actions")
 
                             val script = ScriptModel(
+                                id = i.id,
                                 name = i.data.getValue("name").toString(),
                                 dropDownBoxEnabled = i.data.getValue("dropDownBoxEnabled")
                                     .toString().toBoolean(),
@@ -86,6 +89,7 @@ class ScriptsRepositoryImpl @Inject constructor(
             if (value != null) {
                 for (i in value.documents) {
                     val action = Action(
+                        id = i.id,
                         actionText = i.data?.getValue("actionText").toString(),
                         checkBoxState = i.data?.getValue("checkBoxState").toString()
                             .toBoolean()
@@ -101,5 +105,39 @@ class ScriptsRepositoryImpl @Inject constructor(
             actionsList
         }
         return list.await()
+    }
+
+    override fun changeDropDownBoxState(idScript: String, name: String, dropDownBoxEnabled: Boolean) {
+        fireStoreDatabase.collection("$currentUserUID")
+            .document("scripts")
+            .collection("scriptsList")
+            .document(idScript)
+            .set(ScriptEntity(name, dropDownBoxEnabled))
+            .addOnSuccessListener {
+                Log.d("TAG", "changeDropDownBoxState SUCCESS")
+            }
+            .addOnFailureListener {
+                Log.d("TAG", "changeDropDownBoxState FAIL")
+            }
+    }
+
+    override fun changeCheckBoxState(
+        idAction: String,
+        actionText: String,
+        checkBoxState: Boolean,
+        scriptID: String
+    ) {
+        Log.d("TAG", "$idAction, $actionText, $checkBoxState, $scriptID")
+        fireStoreDatabase.collection("$currentUserUID")
+            .document("scripts")
+            .collection("actionsList")
+            .document(idAction)
+            .set(ActionEntity(actionText, checkBoxState, scriptID))
+            .addOnSuccessListener {
+                Log.d("TAG", "changeCheckBoxState SUCCESS")
+            }
+            .addOnFailureListener {
+                Log.d("TAG", "changeCheckBoxState FAIL")
+            }
     }
 }

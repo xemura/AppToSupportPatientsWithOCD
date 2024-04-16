@@ -50,16 +50,26 @@ fun ScriptsScreenStateContent(
             Log.d("TAG", "Scripts")
             ScriptsScreen(
                 currentState.scriptsList,
-                { onFloatingActionButtonClick() }
+                { onFloatingActionButtonClick() },
+                onCardClicked = { id, name, state ->
+                    scriptViewModel.changeDropDownBoxState(id, name, state)
+                },
+                onCheckBoxClicked = { idAction, actionText, checkBoxState, scriptID ->
+                    scriptViewModel.changeCheckBoxState(idAction, actionText, checkBoxState, scriptID)
+                }
             )
         }
+
         ScriptsScreenState.Initial -> {
             Log.d("TAG", "Initial")
         }
+
         ScriptsScreenState.Loading -> {
             Log.d("TAG", "Loading")
-            Box(modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center)
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            )
             {
                 CircularProgressIndicator(color = Color.Black)
             }
@@ -71,39 +81,10 @@ fun ScriptsScreenStateContent(
 @Composable
 fun ScriptsScreen(
     scriptsList: List<ScriptModel>?,
-    onFloatingActionButtonClick: () -> Unit
+    onFloatingActionButtonClick: () -> Unit,
+    onCardClicked: (String, String, Boolean) -> Unit,
+    onCheckBoxClicked: (String, String, Boolean, String) -> Unit,
 ) {
-
-    val list = listOf(
-        ScriptModel(
-            "Выйти из дома", true, listOf(
-                Action("взять кошелек", true),
-                Action("выключить всё из розеток", false),
-                Action("взять ключи", false),
-            )
-        ),
-        ScriptModel(
-            "Мытье рук", false, listOf(
-                Action("действие 1", false),
-                Action("действие 2", true),
-                Action("действие 3", true),
-            )
-        ),
-        ScriptModel(
-            "Навести порядок", false, listOf(
-                Action("действие 1", true),
-                Action("действие 2", false),
-                Action("действие 3", true),
-            )
-        ),
-        ScriptModel(
-            "Работа", false, listOf(
-                Action("действие 1", true),
-                Action("действие 2", true),
-                Action("действие 3", false),
-            )
-        )
-    )
 
     Scaffold(
         topBar = {
@@ -147,10 +128,17 @@ fun ScriptsScreen(
         ) {
             if (!scriptsList.isNullOrEmpty()) {
                 items(scriptsList) {
-                    CardScript(scriptModel = it)
+                    CardScript(
+                        onCardClicked = { id, name, state ->
+                            onCardClicked(id, name, state)
+                        },
+                        scriptModel = it,
+                        onCheckBoxClicked = { idAction, actionText, checkBoxState, scriptID ->
+                            onCheckBoxClicked(idAction, actionText, checkBoxState, scriptID)
+                        }
+                    )
                 }
-            }
-            else {
+            } else {
                 item {
                     Text(
                         modifier = Modifier.padding(horizontal = 30.dp, vertical = 5.dp),

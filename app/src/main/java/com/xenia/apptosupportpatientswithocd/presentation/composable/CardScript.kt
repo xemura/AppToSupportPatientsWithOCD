@@ -13,17 +13,29 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.KeyboardArrowUp
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.xenia.apptosupportpatientswithocd.domain.entity.ScriptModel
 
 @Composable
-fun CardScript(scriptModel: ScriptModel) {
+fun CardScript(
+    scriptModel: ScriptModel,
+    onCardClicked: (String, String, Boolean) -> Unit,
+    onCheckBoxClicked: (String, String, Boolean, String) -> Unit,
+) {
+
+    var dropDownBoxEnabled by remember {
+        mutableStateOf(scriptModel.dropDownBoxEnabled)
+    }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -31,13 +43,18 @@ fun CardScript(scriptModel: ScriptModel) {
             .border(BorderStroke(1.dp, Color.Black), RoundedCornerShape(20.dp))
             .background(Color.White),
         shape = RoundedCornerShape(20.dp),
-        onClick = { }
+        onClick = {
+            if (!scriptModel.listActions.isNullOrEmpty()) {
+                dropDownBoxEnabled = !dropDownBoxEnabled
+                onCardClicked(scriptModel.id, scriptModel.name, dropDownBoxEnabled)
+            }
+        }
     ) {
         Column(
             modifier = Modifier
                 .background(Color.White)
         ) {
-            val modifier = if (scriptModel.dropDownBoxEnabled)
+            val modifier = if (dropDownBoxEnabled)
                 Modifier.padding(top = 20.dp, start = 20.dp, end = 20.dp, bottom = 5.dp) else Modifier.padding(20.dp)
 
             Row(
@@ -48,20 +65,23 @@ fun CardScript(scriptModel: ScriptModel) {
             ) {
                 Text(text = scriptModel.name)
                 Icon(
-                    imageVector = if (scriptModel.dropDownBoxEnabled) Icons.Rounded.KeyboardArrowUp else Icons.Rounded.KeyboardArrowDown,
+                    imageVector = if (dropDownBoxEnabled) Icons.Rounded.KeyboardArrowUp else Icons.Rounded.KeyboardArrowDown,
                     contentDescription = null,
                     tint = Color.Black
                 )
             }
 
-            if (scriptModel.dropDownBoxEnabled) {
+            if (dropDownBoxEnabled) {
                 if (!scriptModel.listActions.isNullOrEmpty()) {
                     scriptModel.listActions.forEach {
                         RoundedCornerCheckbox(
-                            label = it.actionText,
-                            isChecked = it.checkBoxState,
+                            it,
+                            scriptModel.id,
                             onValueChange = { },
-                            modifier = Modifier.padding(start = 22.dp)
+                            modifier = Modifier.padding(start = 22.dp),
+                            onCheckBoxClicked = { idAction, actionText, checkBoxState, scriptID ->
+                                onCheckBoxClicked(idAction, actionText, checkBoxState, scriptID)
+                            }
                         )
                     }
                 }

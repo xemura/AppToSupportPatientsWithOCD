@@ -55,8 +55,8 @@ fun AddScriptScreen(
     var actionText by remember { mutableStateOf("") }
 
     val list = remember { mutableListOf<Action>(
-        Action("взять кошелек", false),
-        Action("выключить всё из розеток", false),
+        Action("0", "взять кошелек", false),
+        Action("1", "выключить всё из розеток", false),
     ) }
 
     when {
@@ -68,7 +68,7 @@ fun AddScriptScreen(
                 },
                 onConfirmation = {
                     openAlertDialog.value = false
-                    list.add(Action(actionText, false))
+                    list.add(Action("3", actionText, false))
                     actionsList.value = list
                     actionText = ""
                 },

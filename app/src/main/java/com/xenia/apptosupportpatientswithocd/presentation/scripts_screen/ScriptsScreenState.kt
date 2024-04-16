@@ -1,7 +1,6 @@
 package com.xenia.apptosupportpatientswithocd.presentation.scripts_screen
 
 import com.xenia.apptosupportpatientswithocd.domain.entity.ScriptModel
-import com.xenia.apptosupportpatientswithocd.domain.entity.UserModel
 
 
 sealed class ScriptsScreenState {

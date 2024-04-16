@@ -71,6 +71,7 @@ fun GlassmorphicBottomNavigation(
                 onTabSelected = {
                     Log.d("TAG", "BottomBarTabs: ${it.route}")
                     selectedTabIndex = tabs.indexOf(it)
+                    navigationState.navHostController.popBackStack() //
                     navigationState.navigateTo(it.route)
                 }
             )
