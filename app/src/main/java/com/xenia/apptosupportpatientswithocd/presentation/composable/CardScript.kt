@@ -21,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.xenia.apptosupportpatientswithocd.domain.entity.ScriptModel
@@ -39,9 +40,8 @@ fun CardScript(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 10.dp, vertical = 5.dp)
-            .border(BorderStroke(1.dp, Color.Black), RoundedCornerShape(20.dp))
-            .background(Color.White),
+            .background(Color.White)
+            .border(BorderStroke(1.dp, Color.Black), RoundedCornerShape(20.dp)),
         shape = RoundedCornerShape(20.dp),
         onClick = {
             if (!scriptModel.listActions.isNullOrEmpty()) {
@@ -52,7 +52,7 @@ fun CardScript(
     ) {
         Column(
             modifier = Modifier
-                .background(Color.White)
+                .background(Color.White).clip(RoundedCornerShape(20.dp))
         ) {
             val modifier = if (dropDownBoxEnabled)
                 Modifier.padding(top = 20.dp, start = 20.dp, end = 20.dp, bottom = 5.dp) else Modifier.padding(20.dp)

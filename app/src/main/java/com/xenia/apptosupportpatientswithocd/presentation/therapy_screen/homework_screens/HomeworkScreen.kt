@@ -97,6 +97,8 @@ fun HomeworkScreenContentState(
                 CircularProgressIndicator(color = Color.Black)
             }
         }
+
+        else -> {}
     }
 }
 

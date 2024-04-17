@@ -11,6 +11,7 @@ import com.xenia.apptosupportpatientswithocd.domain.repository.ScriptsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -41,11 +42,11 @@ class ScriptsRepositoryImpl @Inject constructor(
                         val scriptsList: MutableList<ScriptModel> = mutableListOf()
 
                         for (i in data) {
-                            Log.d("TAG", "here now script 1")
+                            //Log.d("TAG", "here now script 1")
 
                             val actions = async { getActions(i.id) }.await()
 
-                            Log.d("TAG", "actions in script = $actions")
+                            // Log.d("TAG", "actions in script = $actions")
 
                             val script = ScriptModel(
                                 id = i.id,
@@ -55,7 +56,7 @@ class ScriptsRepositoryImpl @Inject constructor(
                                 listActions = actions
                             )
 
-                            Log.d("TAG", script.toString())
+                            //Log.d("TAG", script.toString())
 
                             scriptsList.add(script)
 
@@ -63,7 +64,7 @@ class ScriptsRepositoryImpl @Inject constructor(
 
                         trySend(scriptsList)
 
-                        Log.d("TAG", "here now script 2")
+                        //Log.d("TAG", "here now script 2")
                     }
                 }
             }
@@ -74,10 +75,10 @@ class ScriptsRepositoryImpl @Inject constructor(
     }
 
     private suspend fun getActions(idScript: String): List<Action> {
-        Log.d("TAG", "here 1")
+        //Log.d("TAG", "here 1")
         val list = coroutineScope.async {
             val actionsList: MutableList<Action> = mutableListOf()
-
+            //Log.d("TAG", "$actionsList")
             val value = fireStoreDatabase.collection("$currentUserUID")
                 .document("scripts")
                 .collection("actionsList")
@@ -87,6 +88,7 @@ class ScriptsRepositoryImpl @Inject constructor(
 
 
             if (value != null) {
+                //Log.d("TAG", "${value.documents.size}")
                 for (i in value.documents) {
                     val action = Action(
                         id = i.id,
@@ -95,30 +97,34 @@ class ScriptsRepositoryImpl @Inject constructor(
                             .toBoolean()
                     )
 
-                    Log.d("TAG", "action = $action")
+                    //Log.d("TAG", "action = $action")
                     actionsList.add(action)
                 }
             }
 
-            Log.d("TAG", "here 2")
-            Log.d("TAG", actionsList.toString())
+            //Log.d("TAG", actionsList.toString())
+            //Log.d("TAG", "here 2")
             actionsList
         }
         return list.await()
     }
 
-    override fun changeDropDownBoxState(idScript: String, name: String, dropDownBoxEnabled: Boolean) {
-        fireStoreDatabase.collection("$currentUserUID")
-            .document("scripts")
-            .collection("scriptsList")
-            .document(idScript)
-            .set(ScriptEntity(name, dropDownBoxEnabled))
-            .addOnSuccessListener {
-                Log.d("TAG", "changeDropDownBoxState SUCCESS")
-            }
-            .addOnFailureListener {
-                Log.d("TAG", "changeDropDownBoxState FAIL")
-            }
+    override fun changeDropDownBoxState(
+        idScript: String,
+        name: String,
+        dropDownBoxEnabled: Boolean
+    ) {
+        coroutineScope.launch {
+            fireStoreDatabase.collection("$currentUserUID")
+                .document("scripts")
+                .collection("scriptsList")
+                .document(idScript)
+                .set(ScriptEntity(name, dropDownBoxEnabled))
+                .await()
+
+            Log.d("TAG", "changeDropDownBoxState SUCCESS")
+        }
+
     }
 
     override fun changeCheckBoxState(
@@ -139,5 +145,65 @@ class ScriptsRepositoryImpl @Inject constructor(
             .addOnFailureListener {
                 Log.d("TAG", "changeCheckBoxState FAIL")
             }
+    }
+
+    override fun addScript(scriptName: String, listActions: List<Action>) {
+        coroutineScope.launch {
+            val scriptEntity = ScriptEntity(scriptName, false)
+
+            val script = fireStoreDatabase.collection("$currentUserUID")
+                .document("scripts")
+                .collection("scriptsList")
+                .add(scriptEntity)
+                .await()
+                .get()
+                .await()
+
+
+            Log.d("TAG", script.id)
+            Log.d("TAG", "fun addScript script name = ${script.data?.getValue("name").toString()}")
+
+            listActions.forEach { action ->
+                coroutineScope.launch {
+                    fireStoreDatabase.collection("$currentUserUID")
+                        .document("scripts")
+                        .collection("actionsList")
+                        .add(
+                            ActionEntity(
+                                action.actionText,
+                                false,
+                                script.id
+                            )
+                        )
+                        .await()
+                }
+            }
+        }
+    }
+
+    override fun deleteScript(script: ScriptModel) {
+        coroutineScope.launch {
+            val scriptID = script.id
+            val actionsList = script.listActions
+
+            Log.d("TAG", "deleteScript $scriptID $actionsList")
+
+            actionsList?.forEach { action ->
+                fireStoreDatabase.collection("$currentUserUID")
+                    .document("scripts")
+                    .collection("actionsList")
+                    .document(action.id)
+                    .delete()
+                    .await()
+            }
+
+            fireStoreDatabase.collection("$currentUserUID")
+                .document("scripts")
+                .collection("scriptsList")
+                .document(scriptID)
+                .delete()
+                .await()
+
+        }
     }
 }

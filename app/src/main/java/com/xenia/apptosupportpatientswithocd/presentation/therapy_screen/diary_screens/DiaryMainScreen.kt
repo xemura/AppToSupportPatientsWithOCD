@@ -84,11 +84,11 @@ fun DiaryMoodMainContent(
             )
         }
 
-        MoodScreenState.Initial -> {
+        is MoodScreenState.Initial -> {
             Log.d("TAG", "Mood Initial")
         }
 
-        MoodScreenState.Loading -> {
+        is MoodScreenState.Loading -> {
             Log.d("TAG", "Mood Loading")
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -98,6 +98,8 @@ fun DiaryMoodMainContent(
                 CircularProgressIndicator(color = Color.Black)
             }
         }
+
+        else -> {}
     }
 }
 

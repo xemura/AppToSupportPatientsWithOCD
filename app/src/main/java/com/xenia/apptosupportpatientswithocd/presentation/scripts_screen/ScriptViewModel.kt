@@ -1,9 +1,14 @@
 package com.xenia.apptosupportpatientswithocd.presentation.scripts_screen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.xenia.apptosupportpatientswithocd.domain.entity.Action
+import com.xenia.apptosupportpatientswithocd.domain.entity.ScriptModel
+import com.xenia.apptosupportpatientswithocd.domain.usecases.scripts_usecases.AddScriptUseCase
 import com.xenia.apptosupportpatientswithocd.domain.usecases.scripts_usecases.ChangeCheckBoxStateInActionUseCase
 import com.xenia.apptosupportpatientswithocd.domain.usecases.scripts_usecases.ChangeDropDownBoxStateUseCase
+import com.xenia.apptosupportpatientswithocd.domain.usecases.scripts_usecases.DeleteScriptUseCase
 import com.xenia.apptosupportpatientswithocd.domain.usecases.scripts_usecases.GetScriptsUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +22,9 @@ import javax.inject.Inject
 class ScriptViewModel @Inject constructor(
     private val getScriptsUseCase: GetScriptsUseCase,
     private val changeDropDownBoxStateUseCase: ChangeDropDownBoxStateUseCase,
-    private val changeCheckBoxStateInActionUseCase: ChangeCheckBoxStateInActionUseCase
+    private val changeCheckBoxStateInActionUseCase: ChangeCheckBoxStateInActionUseCase,
+    private val addScriptUseCase: AddScriptUseCase,
+    private val deleteScriptUseCase: DeleteScriptUseCase
 ): ViewModel() {
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
     private val scriptsFlow = getScriptsUseCase()
@@ -35,6 +42,19 @@ class ScriptViewModel @Inject constructor(
     fun changeDropDownBoxState(id: String, name: String, state: Boolean) {
         viewModelScope.launch {
             changeDropDownBoxStateUseCase(id, name, state)
+        }
+    }
+
+    fun addScript(scriptName: String, listActions: List<Action>) {
+        viewModelScope.launch {
+            Log.d("TAG", "ScriptViewModel addScript")
+            addScriptUseCase(scriptName, listActions)
+        }
+    }
+
+    fun deleteScript(script: ScriptModel) {
+        viewModelScope.launch {
+            deleteScriptUseCase(script)
         }
     }
 

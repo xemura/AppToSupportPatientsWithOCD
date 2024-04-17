@@ -83,6 +83,8 @@ fun ProfileScreenContent(
                 CircularProgressIndicator(color = Color.Black)
             }
         }
+
+        else -> {}
     }
 }
 

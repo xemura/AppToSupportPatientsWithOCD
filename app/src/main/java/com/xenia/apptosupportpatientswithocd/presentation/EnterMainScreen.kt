@@ -15,6 +15,7 @@ import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.ModuleC
 import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.ModulesScreen
 import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.ProfileScreenContent
 import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.AddScriptScreen
+import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.ScriptViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.ScriptsScreen
 import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.ScriptsScreenStateContent
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.TherapyScreen
@@ -57,7 +58,7 @@ fun EnterMainScreen() {
     val moodViewModel: MoodViewModel = viewModel(factory = component.getViewModelFactory())
     val homeworkViewModel: HomeworkViewModel = viewModel(factory = component.getViewModelFactory())
     val statisticHomeworkViewModel: StatisticHomeworkViewModel = viewModel(factory = component.getViewModelFactory())
-
+    val scriptsViewModel: ScriptViewModel = viewModel(factory = component.getViewModelFactory())
 
     Scaffold(
         bottomBar = {
@@ -113,8 +114,9 @@ fun EnterMainScreen() {
             profileScreenContent = {
                 ProfileScreenContent(
                     onSaveButtonPressed = {
-                        navigationState.navHostController.popBackStack()
-                        navigationState.navigateTo(NavigationItem.Main.route)
+                        // подумать
+                        // navigationState.navHostController.popBackStack()
+                        // navigationState.navigateTo(NavigationItem.Main.route)
                     },
                     authViewModel
                 )
@@ -122,6 +124,7 @@ fun EnterMainScreen() {
             scriptsContentScreen = {
                 ScriptsScreenStateContent(
                     onFloatingActionButtonClick = {
+                        navigationState.navHostController.popBackStack()
                         navigationState.navigateTo(NavigationItem.AddScript.route)
                     }
                 )
@@ -129,9 +132,11 @@ fun EnterMainScreen() {
             addScriptScreen = {
                 AddScriptScreen(
                     onBackPressed = {
+                        navigationState.navHostController.popBackStack()
                         navigationState.navigateTo(NavigationItem.Scripts.route)
                     },
-                    onAddPressed = {
+                    onAddPressed = { scriptName, list ->
+                        scriptsViewModel.addScript(scriptName, list)
                         navigationState.navigateTo(NavigationItem.Scripts.route)
                     }
                     // еще надо добавить редактирование

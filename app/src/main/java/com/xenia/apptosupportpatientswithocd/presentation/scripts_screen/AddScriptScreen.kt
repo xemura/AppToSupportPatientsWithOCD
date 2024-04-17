@@ -1,12 +1,11 @@
 package com.xenia.apptosupportpatientswithocd.presentation.scripts_screen
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -44,20 +43,14 @@ import com.xenia.apptosupportpatientswithocd.domain.entity.Action
 @Composable
 fun AddScriptScreen(
     onBackPressed: () -> Unit,
-    onAddPressed: () -> Unit
+    onAddPressed: (String, List<Action>) -> Unit
 ) {
 
     val openAlertDialog = remember { mutableStateOf(false) }
-    var nameText by remember { mutableStateOf("Выйти из дома") }
 
-    val actionsList = remember { mutableStateOf<List<Action>>(mutableListOf()) }
-
+    var scriptName by remember { mutableStateOf("") }
     var actionText by remember { mutableStateOf("") }
-
-    val list = remember { mutableListOf<Action>(
-        Action("0", "взять кошелек", false),
-        Action("1", "выключить всё из розеток", false),
-    ) }
+    val actionsList = remember { mutableListOf<Action>() }
 
     when {
         openAlertDialog.value -> {
@@ -68,8 +61,8 @@ fun AddScriptScreen(
                 },
                 onConfirmation = {
                     openAlertDialog.value = false
-                    list.add(Action("3", actionText, false))
-                    actionsList.value = list
+                    actionsList.add(Action("", actionText, false))
+                    Log.d("TAG", actionsList.toString())
                     actionText = ""
                 },
                 dialogTitle = "Введите действие",
@@ -133,8 +126,8 @@ fun AddScriptScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 30.dp, vertical = 5.dp),
-                value = nameText,
-                onValueChange = { nameText = it },
+                value = scriptName,
+                onValueChange = { scriptName = it },
                 placeholder = { Text(text = "Введите название сценария") },
                 singleLine = true,
                 colors = TextFieldDefaults.colors(
@@ -153,52 +146,53 @@ fun AddScriptScreen(
                 text = "Список действий"
             )
 
-            if (actionsList.value.isEmpty()) {
-                Card(
-                    modifier = Modifier
-                        .background(Color.White)
-                        .fillMaxWidth()
-                        .height(50.dp)
-                        .padding(horizontal = 30.dp, vertical = 5.dp)
-                        .clickable {
-                            openAlertDialog.value = true
-                        },
-                    shape = RoundedCornerShape(10.dp),
-                    border = BorderStroke(1.dp, Color.Black),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.White
-                    ),
-                ) {
+            Card(
+                modifier = Modifier
+                    .background(Color.White)
+                    .fillMaxWidth()
+                    .padding(horizontal = 30.dp, vertical = 5.dp),
+                shape = RoundedCornerShape(10.dp),
+                border = BorderStroke(1.dp, Color.Black),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+            ) {
+                LazyColumn {
 
-                }
-            } else {
-                Card(
-                    modifier = Modifier
-                        .background(Color.White)
-                        .fillMaxWidth()
-                        .padding(horizontal = 30.dp, vertical = 5.dp)
-                        .clickable {
-                            openAlertDialog.value = true
-                        },
-                    shape = RoundedCornerShape(10.dp),
-                    border = BorderStroke(1.dp, Color.Black),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.White
-                    ),
-                ) {
-                    LazyColumn {
-                        items(actionsList.value) {
+                    items(actionsList) {
+                        Text(
+                            modifier = Modifier.padding(10.dp),
+                            text = it.actionText
+                        )
+                    }
+                    item {
+                        val modifier = if (actionsList.isEmpty()) {
+                            Modifier.padding(10.dp)
+                        } else Modifier.padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
+
+                        Button(
+                            onClick = { openAlertDialog.value = true },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
+                            shape = RoundedCornerShape(8.dp),
+                            modifier = modifier
+                                .fillMaxWidth()
+                        ) {
                             Text(
-                                modifier = Modifier.padding(10.dp),
-                                text = it.actionText
+                                color = Color.White,
+                                text = "Добавить",
                             )
                         }
                     }
                 }
             }
 
+
             Button(
-                onClick = { onAddPressed() },
+                onClick = {
+                    onAddPressed(scriptName, actionsList)
+                    Log.d("TAG", "CLICK ADD")
+                    //actionsList.clear()
+                          },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier
