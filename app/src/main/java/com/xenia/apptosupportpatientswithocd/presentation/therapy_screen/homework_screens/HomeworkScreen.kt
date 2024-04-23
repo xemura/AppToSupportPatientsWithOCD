@@ -20,12 +20,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -34,7 +32,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
@@ -46,7 +43,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -54,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
+import com.xenia.apptosupportpatientswithocd.presentation.composable.TopBarWithArrowBack
 import com.xenia.apptosupportpatientswithocd.presentation.getApplicationComponent
 
 @Composable
@@ -86,7 +83,7 @@ fun HomeworkScreenContentState(
         }
 
         HomeworkScreenState.Initial -> {
-            Log.d("TAG", "HomeworkScreenState Initial")
+            Log.d("TAG", "HomeworkScreen Initial")
         }
 
         HomeworkScreenState.Loading -> {
@@ -120,29 +117,9 @@ fun HomeworkScreen(
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                modifier = Modifier
-                    .shadow(
-                        elevation = 5.dp,
-                        spotColor = Color.DarkGray
-                    ),
-                title = {
-                    Text(text = "Домашние работы")
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    titleContentColor = Color.White,
-                    containerColor = Color(0xFF101018)
-                ),
-                navigationIcon = {
-                    IconButton(onClick = { onBackPressed() }) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
-                },
-            )
+            TopBarWithArrowBack(topBarName = "Домашние работы") {
+                onBackPressed()
+            }
         }
     ) { contentPadding ->
         Column(
@@ -225,10 +202,9 @@ fun HomeworkScreen(
 
                         if (dismissState.currentValue == SwipeToDismissBoxValue.EndToStart) {
                             LaunchedEffect(dismissState) {
-                                Log.d("TAG", "LaunchedEffect")
                                 onDeleteSwiped(currentItemID)
                                 dismissState.snapTo(SwipeToDismissBoxValue.Settled)
-                                Toast.makeText(context, "Item removed", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Домашняя работа удалена", Toast.LENGTH_SHORT).show()
                             }
                         }
                     }

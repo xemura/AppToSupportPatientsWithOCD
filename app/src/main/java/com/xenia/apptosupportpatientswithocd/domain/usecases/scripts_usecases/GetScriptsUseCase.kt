@@ -1,6 +1,5 @@
 package com.xenia.apptosupportpatientswithocd.domain.usecases.scripts_usecases
 
-import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.ScriptModel
 import com.xenia.apptosupportpatientswithocd.domain.repository.ScriptsRepository
 import kotlinx.coroutines.flow.Flow

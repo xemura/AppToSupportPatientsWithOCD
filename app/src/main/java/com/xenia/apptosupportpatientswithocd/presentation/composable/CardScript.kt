@@ -52,10 +52,16 @@ fun CardScript(
     ) {
         Column(
             modifier = Modifier
-                .background(Color.White).clip(RoundedCornerShape(20.dp))
+                .background(Color.White)
+                .clip(RoundedCornerShape(20.dp))
         ) {
             val modifier = if (dropDownBoxEnabled)
-                Modifier.padding(top = 20.dp, start = 20.dp, end = 20.dp, bottom = 5.dp) else Modifier.padding(20.dp)
+                Modifier.padding(
+                    top = 20.dp,
+                    start = 20.dp,
+                    end = 20.dp,
+                    bottom = 5.dp
+                ) else Modifier.padding(20.dp)
 
             Row(
                 modifier = modifier

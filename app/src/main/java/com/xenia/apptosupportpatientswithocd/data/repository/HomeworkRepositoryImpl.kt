@@ -7,8 +7,8 @@ import com.google.firebase.firestore.Query
 import com.xenia.apptosupportpatientswithocd.data.entity.HomeworkEntity
 import com.xenia.apptosupportpatientswithocd.data.entity.StatisticEntity
 import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
-import com.xenia.apptosupportpatientswithocd.domain.repository.HomeworkRepository
 import com.xenia.apptosupportpatientswithocd.domain.entity.StatisticModel
+import com.xenia.apptosupportpatientswithocd.domain.repository.HomeworkRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class HomeworkRepositoryImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val fireStoreDatabase: FirebaseFirestore
-): HomeworkRepository {
+) : HomeworkRepository {
 
     private val currentUserUID = firebaseAuth.currentUser?.uid
 
@@ -81,7 +81,12 @@ class HomeworkRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun updateHomeworkById(id: String, obsessionInfo: String, triggerInfo: String, adviceInfo: String) {
+    override fun updateHomeworkById(
+        id: String,
+        obsessionInfo: String,
+        triggerInfo: String,
+        adviceInfo: String
+    ) {
         homeworkDocRef.document(id)
             .set(HomeworkEntity(obsessionInfo, triggerInfo, adviceInfo))
             .addOnSuccessListener {
@@ -117,7 +122,6 @@ class HomeworkRepositoryImpl @Inject constructor(
     }
 
     override fun getStatisticHomeworkByID(id: String): Flow<List<StatisticModel>?> = callbackFlow {
-        Log.d("TAG", id)
         val listener = fireStoreDatabase
             .collection("$currentUserUID")
             .document("homeworks")
@@ -130,15 +134,13 @@ class HomeworkRepositoryImpl @Inject constructor(
                     val list = mutableListOf<StatisticModel>()
 
                     for (i in value) {
-                        Log.d("TAG", "here now")
-
                         val statistic = StatisticModel(
-                            statisticBeforePractice = i.data.getValue("statisticBeforePractice").toString().toInt(),
-                            statisticAfterPractice = i.data.getValue("statisticAfterPractice").toString().toInt(),
+                            statisticBeforePractice = i.data.getValue("statisticBeforePractice")
+                                .toString().toInt(),
+                            statisticAfterPractice = i.data.getValue("statisticAfterPractice")
+                                .toString().toInt(),
                             homeworkID = i.data.getValue("homeworkID").toString()
                         )
-
-                        Log.d("TAG", "GET $statistic")
 
                         list.add(statistic)
                     }

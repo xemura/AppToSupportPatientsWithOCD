@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface AuthRepository {
     fun getAuthStateFlow(): StateFlow<AuthState>
-    fun loginUser(email:String, password: String): Flow<Resource<AuthResult>>
-    fun registerUser(email:String, password: String): Flow<Resource<AuthResult>>
+    fun loginUser(email: String, password: String): Flow<Resource<AuthResult>>
+    fun registerUser(email: String, password: String): Flow<Resource<AuthResult>>
 
     fun signOut()
 

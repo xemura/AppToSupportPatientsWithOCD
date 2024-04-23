@@ -1,7 +1,6 @@
 package com.xenia.apptosupportpatientswithocd.presentation.composable
 
 import android.graphics.Paint
-import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -22,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -66,8 +66,6 @@ fun BarGraph(
         mutableStateOf(barData_ + 0)
     }
 
-    Log.d("TAG", "BARGRAPH barData_ = $barData_")
-
     // for getting screen width and height you can use LocalConfiguration
     val configuration = LocalConfiguration.current
     // getting screen width
@@ -77,14 +75,14 @@ fun BarGraph(
     val xAxisScaleHeight = 40.dp
 
     val yAxisScaleSpacing by remember {
-        mutableStateOf(100f)
+        mutableFloatStateOf(100f)
     }
     val yAxisTextWidth by remember {
         mutableStateOf(100.dp)
     }
 
     // bar shape
-    val barShap =
+    val barShape =
         when (roundType) {
             BarType.CIRCULAR_TYPE -> CircleShape
             BarType.TOP_CURVED -> RoundedCornerShape(topStart = 5.dp, topEnd = 5.dp)
@@ -125,13 +123,14 @@ fun BarGraph(
             horizontalAlignment = CenterHorizontally
         ) {
 
-            Canvas(modifier = Modifier
-                .padding(bottom = 10.dp)
-                .fillMaxSize()) {
+            Canvas(
+                modifier = Modifier
+                    .padding(bottom = 10.dp)
+                    .fillMaxSize()
+            ) {
 
                 // Y-Axis Scale Text
                 val yAxisScaleText = (barData.max()) / 3f
-                Log.d("TAG", "BARGRAPH barData = ${barData}")
                 (0..3).forEach { i ->
                     drawContext.canvas.nativeCanvas.apply {
                         if (yAxisScaleText != 0f) {
@@ -188,7 +187,7 @@ fun BarGraph(
                         animationSpec = tween(
                             durationMillis = 1000,
                             delayMillis = 0
-                        )
+                        ), label = ""
                     )
                     LaunchedEffect(key1 = true) {
                         animationTriggered = true
@@ -204,7 +203,7 @@ fun BarGraph(
                         Box(
                             modifier = Modifier
                                 .padding(bottom = 5.dp)
-                                .clip(barShap)
+                                .clip(barShape)
                                 .width(barWidth)
                                 .height(height - 10.dp)
                                 .background(Color.Transparent),
@@ -212,7 +211,7 @@ fun BarGraph(
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .clip(barShap)
+                                    .clip(barShape)
                                     .fillMaxWidth()
                                     .fillMaxHeight(graphBarHeight)
                                     .background(

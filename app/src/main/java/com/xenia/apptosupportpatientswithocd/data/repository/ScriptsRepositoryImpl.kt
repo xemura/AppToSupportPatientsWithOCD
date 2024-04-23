@@ -11,7 +11,6 @@ import com.xenia.apptosupportpatientswithocd.domain.repository.ScriptsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -42,11 +41,7 @@ class ScriptsRepositoryImpl @Inject constructor(
                         val scriptsList: MutableList<ScriptModel> = mutableListOf()
 
                         for (i in data) {
-                            //Log.d("TAG", "here now script 1")
-
                             val actions = async { getActions(i.id) }.await()
-
-                            // Log.d("TAG", "actions in script = $actions")
 
                             val script = ScriptModel(
                                 id = i.id,
@@ -56,15 +51,10 @@ class ScriptsRepositoryImpl @Inject constructor(
                                 listActions = actions
                             )
 
-                            //Log.d("TAG", script.toString())
-
                             scriptsList.add(script)
 
                         }
-
                         trySend(scriptsList)
-
-                        //Log.d("TAG", "here now script 2")
                     }
                 }
             }
@@ -75,10 +65,8 @@ class ScriptsRepositoryImpl @Inject constructor(
     }
 
     private suspend fun getActions(idScript: String): List<Action> {
-        //Log.d("TAG", "here 1")
         val list = coroutineScope.async {
             val actionsList: MutableList<Action> = mutableListOf()
-            //Log.d("TAG", "$actionsList")
             val value = fireStoreDatabase.collection("$currentUserUID")
                 .document("scripts")
                 .collection("actionsList")
@@ -88,7 +76,6 @@ class ScriptsRepositoryImpl @Inject constructor(
 
 
             if (value != null) {
-                //Log.d("TAG", "${value.documents.size}")
                 for (i in value.documents) {
                     val action = Action(
                         id = i.id,
@@ -97,13 +84,10 @@ class ScriptsRepositoryImpl @Inject constructor(
                             .toBoolean()
                     )
 
-                    //Log.d("TAG", "action = $action")
                     actionsList.add(action)
                 }
             }
 
-            //Log.d("TAG", actionsList.toString())
-            //Log.d("TAG", "here 2")
             actionsList
         }
         return list.await()
@@ -160,9 +144,6 @@ class ScriptsRepositoryImpl @Inject constructor(
                 .await()
 
 
-            Log.d("TAG", script.id)
-            Log.d("TAG", "fun addScript script name = ${script.data?.getValue("name").toString()}")
-
             listActions.forEach { action ->
                 coroutineScope.launch {
                     fireStoreDatabase.collection("$currentUserUID")
@@ -185,8 +166,6 @@ class ScriptsRepositoryImpl @Inject constructor(
         coroutineScope.launch {
             val scriptID = script.id
             val actionsList = script.listActions
-
-            Log.d("TAG", "deleteScript $scriptID $actionsList")
 
             actionsList?.forEach { action ->
                 fireStoreDatabase.collection("$currentUserUID")

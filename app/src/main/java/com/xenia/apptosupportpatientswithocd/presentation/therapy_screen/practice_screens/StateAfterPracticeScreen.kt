@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import com.xenia.apptosupportpatientswithocd.domain.entity.StatisticModel
 import com.xenia.apptosupportpatientswithocd.presentation.composable.CustomSlider
 import com.xenia.apptosupportpatientswithocd.presentation.composable.CustomSliderDefaults
+import com.xenia.apptosupportpatientswithocd.presentation.composable.TopBarWithoutArrowBack
 import com.xenia.apptosupportpatientswithocd.presentation.composable.progress
 import com.xenia.apptosupportpatientswithocd.presentation.composable.track
 import kotlin.math.roundToInt
@@ -48,20 +49,7 @@ fun StateAfterPracticeScreen(
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                modifier = Modifier
-                    .shadow(
-                        elevation = 5.dp,
-                        spotColor = Color.DarkGray
-                    ),
-                title = {
-                    Text(text = "Практика")
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    titleContentColor = Color.White,
-                    containerColor = Color(0xFF101018)
-                ),
-            )
+            TopBarWithoutArrowBack(topBarName = "Практика")
         },
         floatingActionButton = {
             FloatingActionButton(

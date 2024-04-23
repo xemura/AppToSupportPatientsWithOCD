@@ -1,7 +1,7 @@
 package com.xenia.apptosupportpatientswithocd.domain.usecases.auth_usecases
 
-import com.xenia.apptosupportpatientswithocd.domain.repository.AuthRepository
 import com.xenia.apptosupportpatientswithocd.domain.entity.AuthState
+import com.xenia.apptosupportpatientswithocd.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 

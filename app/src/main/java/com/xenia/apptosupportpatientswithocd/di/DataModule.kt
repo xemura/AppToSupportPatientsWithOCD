@@ -2,14 +2,12 @@ package com.xenia.apptosupportpatientswithocd.di
 
 import com.xenia.apptosupportpatientswithocd.data.repository.AuthRepositoryImpl
 import com.xenia.apptosupportpatientswithocd.data.repository.HomeworkRepositoryImpl
-import com.xenia.apptosupportpatientswithocd.data.repository.MainRepositoryImpl
 import com.xenia.apptosupportpatientswithocd.data.repository.ModulesRepositoryImpl
 import com.xenia.apptosupportpatientswithocd.data.repository.MoodRepositoryImpl
 import com.xenia.apptosupportpatientswithocd.data.repository.ProfileRepositoryImpl
 import com.xenia.apptosupportpatientswithocd.data.repository.ScriptsRepositoryImpl
 import com.xenia.apptosupportpatientswithocd.domain.repository.AuthRepository
 import com.xenia.apptosupportpatientswithocd.domain.repository.HomeworkRepository
-import com.xenia.apptosupportpatientswithocd.domain.repository.MainRepository
 import com.xenia.apptosupportpatientswithocd.domain.repository.ModulesRepository
 import com.xenia.apptosupportpatientswithocd.domain.repository.MoodRepository
 import com.xenia.apptosupportpatientswithocd.domain.repository.ProfileRepository
@@ -19,10 +17,6 @@ import dagger.Module
 
 @Module
 interface DataModule {
-
-    @ApplicationScope
-    @Binds
-    fun bindMainRepository(impl: MainRepositoryImpl): MainRepository
 
     @ApplicationScope
     @Binds

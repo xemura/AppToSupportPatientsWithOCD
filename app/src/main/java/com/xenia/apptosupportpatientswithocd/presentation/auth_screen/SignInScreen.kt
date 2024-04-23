@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -24,15 +23,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.xenia.apptosupportpatientswithocd.navigation.rememberNavigationState
 import com.xenia.apptosupportpatientswithocd.presentation.composable.LoginField
 import com.xenia.apptosupportpatientswithocd.presentation.composable.PasswordField
 import kotlinx.coroutines.launch
@@ -46,7 +42,6 @@ fun SignInScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    val navigationState = rememberNavigationState()
     val state = viewModel.signInState.collectAsState(initial = null)
 
     var screenRegister by remember { mutableStateOf(false) }
@@ -83,8 +78,6 @@ fun SignInScreen(
                     loginText = it
                 }
             )
-
-            // Spacer(modifier = Modifier.padding(vertical = 5.dp))
 
             PasswordField(
                 value = passwordText,
@@ -139,8 +132,6 @@ fun SignInScreen(
                     Toast.makeText(context, "$error", Toast.LENGTH_SHORT).show()
                 }
             }
-
         }
-
     }
 }

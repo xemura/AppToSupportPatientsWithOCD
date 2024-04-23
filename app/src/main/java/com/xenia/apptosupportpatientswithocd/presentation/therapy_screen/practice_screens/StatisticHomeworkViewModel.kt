@@ -1,6 +1,5 @@
 package com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xenia.apptosupportpatientswithocd.domain.entity.StatisticModel
@@ -34,7 +33,6 @@ class StatisticHomeworkViewModel @Inject constructor(
         coroutineScope.launch {
             getStatisticHomeworkByIDUseCase(id).collect {
                 _statistics.value = it
-                Log.d("TAG", "getStatisticHomeworkByIDUseCase")
             }
             _statistics.value
         }

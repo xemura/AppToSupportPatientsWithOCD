@@ -36,7 +36,6 @@ fun BottomBarTabs(
     selectedTab: Int,
     onTabSelected: (NavigationItem) -> Unit,
 ) {
-
     CompositionLocalProvider(
         LocalTextStyle provides LocalTextStyle.current.copy(
             fontSize = 12.sp,
@@ -49,8 +48,6 @@ fun BottomBarTabs(
         ) {
 
             for (tab in tabs) {
-
-
                 val alpha by animateFloatAsState(
                     targetValue = if (selectedTab == tabs.indexOf(tab)) 1f else .35f,
                     label = "alpha"

@@ -29,7 +29,8 @@ class ProfileRepositoryImpl @Inject constructor(
                 .get()
                 .await()
 
-            val notificationEnable = value?.data?.getValue("notificationEnable").toString() != "false"
+            val notificationEnable =
+                value?.data?.getValue("notificationEnable").toString() != "false"
 
             user = UserModel(
                 name = value?.data?.getValue("name").toString(),

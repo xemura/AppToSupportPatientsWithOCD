@@ -47,6 +47,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.Action
 import com.xenia.apptosupportpatientswithocd.domain.entity.ScriptModel
 import com.xenia.apptosupportpatientswithocd.presentation.composable.CardScript
+import com.xenia.apptosupportpatientswithocd.presentation.composable.TopBarWithoutArrowBack
 import com.xenia.apptosupportpatientswithocd.presentation.getApplicationComponent
 import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.ProfileScreen
 import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.ProfileScreenState
@@ -71,7 +72,12 @@ fun ScriptsScreenStateContent(
                     scriptViewModel.changeDropDownBoxState(id, name, state)
                 },
                 onCheckBoxClicked = { idAction, actionText, checkBoxState, scriptID ->
-                    scriptViewModel.changeCheckBoxState(idAction, actionText, checkBoxState, scriptID)
+                    scriptViewModel.changeCheckBoxState(
+                        idAction,
+                        actionText,
+                        checkBoxState,
+                        scriptID
+                    )
                 },
                 onDeleteItem = { script ->
                     scriptViewModel.deleteScript(script)
@@ -108,26 +114,12 @@ fun ScriptsScreen(
     onDeleteItem: (ScriptModel) -> Unit,
 ) {
 
-    //var show by remember { mutableStateOf(true) }
     var currentItem by remember { mutableStateOf(ScriptModel("", "", false, emptyList())) }
     val context = LocalContext.current
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                modifier = Modifier
-                    .shadow(
-                        elevation = 5.dp,
-                        spotColor = Color.DarkGray
-                    ),
-                title = {
-                    Text(text = "Ритуалы")
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    titleContentColor = Color.White,
-                    containerColor = Color(0xFF101018)
-                )
-            )
+            TopBarWithoutArrowBack(topBarName = "Ритуалы")
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -160,16 +152,12 @@ fun ScriptsScreen(
                     val dismissState = rememberSwipeToDismissBoxState(
                         confirmValueChange = {
                             if (it == SwipeToDismissBoxValue.EndToStart) {
-                                //show = false
                                 currentItem = script
-                                //onDeleteItem(script)
                                 true
                             } else false
                         },
                         positionalThreshold = { 150.dp.value }
                     )
-
-                    Log.d("TAG", "${script.name} - ${dismissState.currentValue}")
 
                     SwipeToDismissBox(
                         modifier = Modifier
@@ -211,10 +199,7 @@ fun ScriptsScreen(
                     if (dismissState.currentValue == SwipeToDismissBoxValue.EndToStart) {
                         LaunchedEffect(dismissState) {
                             dismissState.snapTo(SwipeToDismissBoxValue.Settled)
-                            Log.d("TAG", "currentItem: ${currentItem.id}")
                             onDeleteItem(currentItem)
-                            //delay(1000L)
-                            Log.d("TAG", dismissState.currentValue.toString())
                             Toast.makeText(context, "Сценарий удален", Toast.LENGTH_SHORT).show()
                         }
                     }

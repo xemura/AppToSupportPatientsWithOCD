@@ -23,14 +23,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.xenia.apptosupportpatientswithocd.navigation.rememberNavigationState
 import com.xenia.apptosupportpatientswithocd.presentation.composable.LoginField
 import com.xenia.apptosupportpatientswithocd.presentation.composable.PasswordField
 import kotlinx.coroutines.launch
@@ -108,7 +106,9 @@ fun SignUpScreen(
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                 shape = RoundedCornerShape(8.dp),
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 30.dp)
             ) {
                 Text(
                     color = Color.White,

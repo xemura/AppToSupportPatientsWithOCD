@@ -14,9 +14,9 @@ import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.Content
 import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.ModuleContentScreen
 import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.ModulesScreen
 import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.ProfileScreenContent
+import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.ProfileViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.AddScriptScreen
 import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.ScriptViewModel
-import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.ScriptsScreen
 import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.ScriptsScreenStateContent
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.TherapyScreen
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.diary_screens.AddMoodScreen
@@ -59,6 +59,7 @@ fun EnterMainScreen() {
     val homeworkViewModel: HomeworkViewModel = viewModel(factory = component.getViewModelFactory())
     val statisticHomeworkViewModel: StatisticHomeworkViewModel = viewModel(factory = component.getViewModelFactory())
     val scriptsViewModel: ScriptViewModel = viewModel(factory = component.getViewModelFactory())
+    val profileViewModel: ProfileViewModel = viewModel(factory = component.getViewModelFactory())
 
     Scaffold(
         bottomBar = {
@@ -113,10 +114,11 @@ fun EnterMainScreen() {
             },
             profileScreenContent = {
                 ProfileScreenContent(
-                    onSaveButtonPressed = {
-                        // подумать
-                        // navigationState.navHostController.popBackStack()
-                        // navigationState.navigateTo(NavigationItem.Main.route)
+                    onSaveButtonPressed = { name, switchState, time ->
+                        profileViewModel.saveChanges(name, switchState, time)
+                    },
+                    onSignOutPressed = {
+                        authViewModel.signOut()
                     },
                     authViewModel
                 )

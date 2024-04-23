@@ -6,11 +6,13 @@ import dagger.BindsInstance
 import dagger.Component
 
 @ApplicationScope
-@Component(modules = [
-    DataModule::class,
-    ViewModelModule::class,
-    FirebaseModule::class
-])
+@Component(
+    modules = [
+        DataModule::class,
+        ViewModelModule::class,
+        FirebaseModule::class
+    ]
+)
 interface ApplicationComponent {
 
     fun getViewModelFactory(): ViewModelFactory

@@ -1,7 +1,7 @@
 package com.xenia.apptosupportpatientswithocd.domain.usecases.homework_usecases
 
-import com.xenia.apptosupportpatientswithocd.domain.repository.HomeworkRepository
 import com.xenia.apptosupportpatientswithocd.domain.entity.StatisticModel
+import com.xenia.apptosupportpatientswithocd.domain.repository.HomeworkRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

@@ -1,6 +1,5 @@
 package com.xenia.apptosupportpatientswithocd.presentation.scripts_screen
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -10,23 +9,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,12 +26,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.xenia.apptosupportpatientswithocd.domain.entity.Action
+import com.xenia.apptosupportpatientswithocd.presentation.composable.TopBarWithArrowBack
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddScriptScreen(
     onBackPressed: () -> Unit,
@@ -62,7 +53,6 @@ fun AddScriptScreen(
                 onConfirmation = {
                     openAlertDialog.value = false
                     actionsList.add(Action("", actionText, false))
-                    Log.d("TAG", actionsList.toString())
                     actionText = ""
                 },
                 dialogTitle = "Введите действие",
@@ -90,31 +80,11 @@ fun AddScriptScreen(
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                modifier = Modifier
-                    .shadow(
-                        elevation = 5.dp,
-                        spotColor = Color.DarkGray
-                    ),
-                title = {
-                    Text(text = "Создать сценарий")
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    titleContentColor = Color.White,
-                    containerColor = Color(0xFF101018)
-                ),
-                navigationIcon = {
-                    IconButton(onClick = {
-                        onBackPressed()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
-                },
-            )
+            TopBarWithArrowBack(
+                topBarName = "Создать сценарий"
+            ) {
+                onBackPressed()
+            }
         }
     ) { contentPadding ->
         Column(
@@ -158,7 +128,6 @@ fun AddScriptScreen(
                 ),
             ) {
                 LazyColumn {
-
                     items(actionsList) {
                         Text(
                             modifier = Modifier.padding(10.dp),
@@ -190,9 +159,7 @@ fun AddScriptScreen(
             Button(
                 onClick = {
                     onAddPressed(scriptName, actionsList)
-                    Log.d("TAG", "CLICK ADD")
-                    //actionsList.clear()
-                          },
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier

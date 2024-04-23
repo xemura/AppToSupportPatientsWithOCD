@@ -1,6 +1,5 @@
 package com.xenia.apptosupportpatientswithocd.presentation.composable
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.defaultMinSize
@@ -44,7 +43,6 @@ fun CustomSlider(
         CustomSliderDefaults.Thumb(it.toString())
     },
     track: @Composable (sliderState: SliderState) -> Unit = { sliderState ->
-        Log.d("TAG", "track ${sliderState.value}")
         CustomSliderDefaults.Track(sliderState = sliderState)
     },
     indicator: @Composable (indicatorValue: Int) -> Unit = { indicatorValue ->
@@ -88,9 +86,7 @@ fun CustomSlider(
                     thumb = {
                         thumb(value.roundToInt())
                     },
-                    track = { track(it)
-                            Log.d("TAG", it.value.toString())
-                            },
+                    track = { track(it) },
                     enabled = enabled
                 )
 
@@ -126,11 +122,8 @@ private fun Indicator(
     gap: Int,
     indicator: @Composable (indicatorValue: Int) -> Unit
 ) {
-    // Iterate over the value range and display indicators at regular intervals.
     for (i in valueRange.start.roundToInt()..valueRange.endInclusive.roundToInt() step gap) {
-        Box(
-            modifier = modifier
-        ) {
+        Box(modifier = modifier) {
             indicator(i)
         }
     }
@@ -142,7 +135,6 @@ private fun customSliderMeasurePolicy(
     value: Float,
     startValue: Float
 ) = MeasurePolicy { measurables, constraints ->
-    // Measure the thumb component and calculate its radius.
     val thumbPlaceable = measurables.first {
         it.layoutId == CustomSliderComponents.THUMB
     }.measure(constraints)
@@ -226,7 +218,9 @@ object CustomSliderDefaults {
         }
     ) {
         Box(
-            modifier = modifier.defaultMinSize(minWidth = size, minHeight = size).clip(shape)
+            modifier = modifier
+                .defaultMinSize(minWidth = size, minHeight = size)
+                .clip(shape)
                 .background(color)
                 .padding(2.dp),
             contentAlignment = Alignment.Center
@@ -306,10 +300,9 @@ fun Modifier.progress(
     height: Dp = TrackHeight,
     shape: Shape = CircleShape
 ) =
-    fillMaxWidth(fraction = sliderPositions.value/10f)
+    fillMaxWidth(fraction = sliderPositions.value / 10f)
         .heightIn(min = height)
         .clip(shape)
-
 
 
 private enum class CustomSliderComponents {

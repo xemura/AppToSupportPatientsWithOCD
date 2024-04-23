@@ -1,6 +1,5 @@
 package com.xenia.apptosupportpatientswithocd.presentation.bottom_navigation
 
-import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
@@ -69,7 +68,6 @@ fun GlassmorphicBottomNavigation(
                 tabs,
                 selectedTab = selectedTabIndex,
                 onTabSelected = {
-                    Log.d("TAG", "BottomBarTabs: ${it.route}")
                     selectedTabIndex = tabs.indexOf(it)
                     navigationState.navHostController.popBackStack() //
                     navigationState.navigateTo(it.route)
@@ -92,8 +90,6 @@ fun GlassmorphicBottomNavigation(
                 stiffness = Spring.StiffnessLow,
             )
         )
-
-        Log.d("BottomBar", animatedSelectedTabIndex.toString())
 
         Canvas(
             modifier = Modifier

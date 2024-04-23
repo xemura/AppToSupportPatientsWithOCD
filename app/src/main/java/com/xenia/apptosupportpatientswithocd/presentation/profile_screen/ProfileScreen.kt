@@ -20,7 +20,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -30,7 +29,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TimePickerDefaults
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -43,7 +41,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -51,11 +48,13 @@ import com.xenia.apptosupportpatientswithocd.domain.entity.UserModel
 import com.xenia.apptosupportpatientswithocd.presentation.auth_screen.AuthViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.auth_screen.SignInScreen
 import com.xenia.apptosupportpatientswithocd.presentation.composable.GradientSwitch
+import com.xenia.apptosupportpatientswithocd.presentation.composable.TopBarWithoutArrowBack
 import com.xenia.apptosupportpatientswithocd.presentation.getApplicationComponent
 
 @Composable
 fun ProfileScreenContent(
-    onSaveButtonPressed: () -> Unit,
+    onSaveButtonPressed: (String, Boolean, String) -> Unit,
+    onSignOutPressed: () -> Unit,
     viewModel: AuthViewModel,
 ) {
     val component = getApplicationComponent()
@@ -65,20 +64,25 @@ fun ProfileScreenContent(
 
     when (val currentState = screenState.value) {
         is ProfileScreenState.Profile -> {
-            Log.d("TAG", "Profile")
             ProfileScreen(
                 viewModel = viewModel,
-                onSaveButtonPressed = { onSaveButtonPressed() },
+                onSaveButtonPressed = { name, switchState, time ->
+                    onSaveButtonPressed(name, switchState, time)
+                },
+                onSignOutPressed = { onSignOutPressed() },
                 userInfo = currentState.userInfo
             )
         }
+
         ProfileScreenState.Initial -> {
-            Log.d("TAG", "Initial")
+            Log.d("TAG", "Initial Profile")
         }
+
         ProfileScreenState.Loading -> {
-            Log.d("TAG", "Loading")
-            Box(modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center)
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            )
             {
                 CircularProgressIndicator(color = Color.Black)
             }
@@ -91,22 +95,18 @@ fun ProfileScreenContent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    onSaveButtonPressed: () -> Unit,
+    onSaveButtonPressed: (String, Boolean, String) -> Unit,
+    onSignOutPressed: () -> Unit,
     viewModel: AuthViewModel,
     userInfo: UserModel
 ) {
-
-    Log.d("TAG", "ProfileScreen = $userInfo")
 
     var name by remember { mutableStateOf(userInfo.name) }
     var screenLogin by remember { mutableStateOf(false) }
     var switchState by remember { mutableStateOf(userInfo.notificationEnable) }
 
-    var showDialog by remember {
-        mutableStateOf(false)
-    }
+    var showDialog by remember { mutableStateOf(false) }
 
-    //val hour = userInfo.notificationTime.take(2).toInt()
     var selectedHour by remember { mutableIntStateOf(userInfo.notificationTime.take(2).toInt()) }
     var selectedMinute by remember { mutableIntStateOf(userInfo.notificationTime.drop(3).toInt()) }
     val timeState = rememberTimePickerState(
@@ -115,28 +115,12 @@ fun ProfileScreen(
         true
     )
 
-    val component = getApplicationComponent()
-    val profileViewModel: ProfileViewModel = viewModel(factory = component.getViewModelFactory())
-
     if (screenLogin) {
         SignInScreen(viewModel = viewModel)
     } else {
         Scaffold(
             topBar = {
-                CenterAlignedTopAppBar(
-                    modifier = Modifier
-                        .shadow(
-                            elevation = 5.dp,
-                            spotColor = Color.DarkGray
-                        ),
-                    title = {
-                        Text(text = "Профиль")
-                    },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        titleContentColor = Color.White,
-                        containerColor = Color(0xFF101018)
-                    )
-                )
+                TopBarWithoutArrowBack("Профиль")
             }
         ) { contentPadding ->
 
@@ -257,10 +241,7 @@ fun ProfileScreen(
                                 modifier = Modifier.clickable {
                                     showDialog = true
                                 },
-                                text = if ((selectedHour < 10) and (selectedMinute < 10)) "0$selectedHour:0$selectedMinute"
-                                else if ((selectedHour >= 10) and (selectedMinute < 10)) "$selectedHour:0$selectedMinute"
-                                else if ((selectedHour < 10) and (selectedMinute >= 10)) "0$selectedHour:$selectedMinute"
-                                else "$selectedHour:$selectedMinute"
+                                text = getTime(selectedHour, selectedMinute)
                             )
                         }
                     }
@@ -268,13 +249,7 @@ fun ProfileScreen(
 
                 Button(
                     onClick = {
-                        val time = if ((selectedHour < 10) and (selectedMinute < 10)) "0$selectedHour:0$selectedMinute"
-                        else if ((selectedHour >= 10) and (selectedMinute < 10)) "$selectedHour:0$selectedMinute"
-                        else if ((selectedHour < 10) and (selectedMinute >= 10)) "0$selectedHour:$selectedMinute"
-                        else "$selectedHour:$selectedMinute"
-
-                        profileViewModel.saveChanges(name, switchState, time)
-                        onSaveButtonPressed()
+                        onSaveButtonPressed(name, switchState, getTime(selectedHour, selectedMinute))
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                     shape = RoundedCornerShape(8.dp),
@@ -291,7 +266,7 @@ fun ProfileScreen(
                     modifier = Modifier
                         .padding(top = 5.dp)
                         .clickable {
-                            viewModel.signOut()
+                            onSignOutPressed()
                             screenLogin = true
                         }
                         .alpha(0.7f),
@@ -301,4 +276,11 @@ fun ProfileScreen(
             }
         }
     }
+}
+
+private fun getTime(selectedHour: Int, selectedMinute: Int): String {
+    return if ((selectedHour < 10) and (selectedMinute < 10)) "0$selectedHour:0$selectedMinute"
+    else if ((selectedHour >= 10) and (selectedMinute < 10)) "$selectedHour:0$selectedMinute"
+    else if ((selectedHour < 10) and (selectedMinute >= 10)) "0$selectedHour:$selectedMinute"
+    else "$selectedHour:$selectedMinute"
 }

@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.xenia.apptosupportpatientswithocd.presentation.ViewModelFactory
 import com.xenia.apptosupportpatientswithocd.presentation.auth_screen.AuthViewModel
-import com.xenia.apptosupportpatientswithocd.presentation.main_screen.MainViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.modules_screen.ModulesViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.profile_screen.ProfileViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.scripts_screen.ScriptViewModel
@@ -20,11 +19,6 @@ interface ViewModelModule {
 
     @Binds
     fun bindsViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
-
-    @IntoMap
-    @ViewModelKey(MainViewModel::class)
-    @Binds
-    fun bindMainViewModel(viewModel: MainViewModel): ViewModel
 
     @IntoMap
     @ViewModelKey(AuthViewModel::class)

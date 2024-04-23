@@ -16,20 +16,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
@@ -41,12 +37,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
+import com.xenia.apptosupportpatientswithocd.presentation.composable.TopBarWithArrowBack
 import com.xenia.apptosupportpatientswithocd.presentation.getApplicationComponent
 
 @Composable
@@ -72,19 +68,23 @@ fun MainAllMoodsListScreen(
                 )
             }
         }
+
         MoodScreenState.Initial -> {
             Log.d("TAG", "Mood Initial")
         }
+
         MoodScreenState.Loading -> {
-            Log.d("TAG", "Mood Loading")
-            Box(modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center)
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            )
             {
                 CircularProgressIndicator(color = Color.Black)
             }
         }
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListAllMoodsScreen(
@@ -99,37 +99,19 @@ fun ListAllMoodsScreen(
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                modifier = Modifier
-                    .shadow(
-                        elevation = 5.dp,
-                        spotColor = Color.DarkGray
-                    ),
-                title = {
-                    Text(text = "Список записей")
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    titleContentColor = Color.White,
-                    containerColor = Color(0xFF101018)
-                ),
-                navigationIcon = {
-                    IconButton(onClick = { onBackPressed() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
-                },
-            )
+            TopBarWithArrowBack(topBarName = "Список записей") {
+                onBackPressed()
+            }
         }
     ) { contentPadding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White)
-                .padding(top = contentPadding.calculateTopPadding(),
-                    bottom = contentPadding.calculateTopPadding() + 10.dp),
+                .padding(
+                    top = contentPadding.calculateTopPadding(),
+                    bottom = contentPadding.calculateTopPadding() + 10.dp
+                ),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -144,9 +126,6 @@ fun ListAllMoodsScreen(
                     },
                     positionalThreshold = { 150.dp.value }
                 )
-
-                Log.d("TAG", show.toString())
-                Log.d("TAG", dismissState.currentValue.toString())
 
                 SwipeToDismissBox(
                     modifier = Modifier
@@ -168,7 +147,7 @@ fun ListAllMoodsScreen(
                                 Icons.Default.Delete,
                                 modifier = Modifier
                                     .minimumInteractiveComponentSize(),
-                                contentDescription = "delete",
+                                contentDescription = "Delete Mood Note",
                                 tint = Color.White
                             )
                         }
@@ -199,7 +178,7 @@ fun ListAllMoodsScreen(
                     if (!show) {
                         onDeleteMood(currentItem)
                         dismissState.snapTo(SwipeToDismissBoxValue.Settled)
-                        Toast.makeText(context, "Item removed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Запись удалена", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

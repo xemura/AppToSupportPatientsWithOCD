@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth
-): AuthRepository {
+) : AuthRepository {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
 

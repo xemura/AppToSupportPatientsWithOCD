@@ -57,7 +57,7 @@ fun RoundedCornerCheckbox(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .heightIn(48.dp) // height of 48dp to comply with minimum touch target size
+            .heightIn(48.dp)
             .toggleable(
                 value = checkBoxState,
                 role = Role.Checkbox,
@@ -71,7 +71,6 @@ fun RoundedCornerCheckbox(
                 .border(width = 1.5.dp, color = checkedColor, shape = RoundedCornerShape(10.dp))
                 .clickable {
                     checkBoxState = !checkBoxState
-                    Log.d("TAG", "CLICK $checkBoxState")
                     onCheckBoxClicked(action.id, action.actionText, checkBoxState, scriptID)
                 },
             contentAlignment = Alignment.Center

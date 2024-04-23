@@ -25,7 +25,7 @@ class ScriptViewModel @Inject constructor(
     private val changeCheckBoxStateInActionUseCase: ChangeCheckBoxStateInActionUseCase,
     private val addScriptUseCase: AddScriptUseCase,
     private val deleteScriptUseCase: DeleteScriptUseCase
-): ViewModel() {
+) : ViewModel() {
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
     private val scriptsFlow = getScriptsUseCase()
 
