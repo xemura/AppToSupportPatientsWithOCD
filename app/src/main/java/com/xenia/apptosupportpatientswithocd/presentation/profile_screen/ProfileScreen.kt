@@ -72,6 +72,7 @@ fun ProfileScreenContent(
                 onSignOutPressed = { onSignOutPressed() },
                 userInfo = currentState.userInfo
             )
+            Log.d("TAG", "Profile Profile")
         }
 
         ProfileScreenState.Initial -> {
@@ -79,6 +80,7 @@ fun ProfileScreenContent(
         }
 
         ProfileScreenState.Loading -> {
+            Log.d("TAG", "Loading Profile")
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -100,6 +102,8 @@ fun ProfileScreen(
     viewModel: AuthViewModel,
     userInfo: UserModel
 ) {
+
+    Log.d("TAG userInfo", userInfo.toString())
 
     var name by remember { mutableStateOf(userInfo.name) }
     var screenLogin by remember { mutableStateOf(false) }

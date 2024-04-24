@@ -29,19 +29,26 @@ class ProfileRepositoryImpl @Inject constructor(
                 .get()
                 .await()
 
-            val notificationEnable =
-                value?.data?.getValue("notificationEnable").toString() != "false"
+            if (value != null) {
+                if (value.data != null) {
+                    val notificationEnable =
+                        value.data?.getValue("notificationEnable").toString() != "false"
 
-            user = UserModel(
-                name = value?.data?.getValue("name").toString(),
-                notificationEnable = notificationEnable,
-                notificationTime = value?.data?.getValue("notificationTime").toString()
-            )
+                    user = UserModel(
+                        name = value.data?.getValue("name").toString(),
+                        notificationEnable = notificationEnable,
+                        notificationTime = value.data?.getValue("notificationTime").toString()
+                    )
+                    Log.d("TAG TAG", user.toString())
+
+                }
+            }
 
             user
         }
 
         emit(userDeferred.await())
+        Log.d("TAG", user.toString())
     }
 
     override fun getUserInfo(): Flow<UserModel> = userInfo

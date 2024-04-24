@@ -24,7 +24,6 @@ class ProfileViewModel @Inject constructor(
     private val userFlow = getUserInfoUseCase()
 
     val screenState = userFlow
-        .filter { it.name.isNotEmpty() }
         .map { ProfileScreenState.Profile(userInfo = it) as ProfileScreenState }
         .onStart {
             Log.d("TAG", "onStart")
