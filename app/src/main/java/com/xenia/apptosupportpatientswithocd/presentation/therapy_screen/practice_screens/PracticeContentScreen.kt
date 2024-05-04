@@ -24,7 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.StatisticModel
-import com.xenia.apptosupportpatientswithocd.presentation.composable.TopBarWithoutArrowBack
+import com.xenia.apptosupportpatientswithocd.presentation.composable.topbar.TopBarWithoutArrowBack
 
 @Composable
 fun PracticeContentScreen(

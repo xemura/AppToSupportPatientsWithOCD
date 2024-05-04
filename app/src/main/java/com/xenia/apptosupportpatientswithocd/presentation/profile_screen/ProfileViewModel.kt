@@ -26,7 +26,6 @@ class ProfileViewModel @Inject constructor(
     val screenState = userFlow
         .map { ProfileScreenState.Profile(userInfo = it) as ProfileScreenState }
         .onStart {
-            Log.d("TAG", "onStart")
             emit(ProfileScreenState.Loading)
         }.stateIn(
             scope = coroutineScope,

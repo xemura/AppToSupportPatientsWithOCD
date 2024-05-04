@@ -29,7 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.xenia.apptosupportpatientswithocd.domain.entity.Action
-import com.xenia.apptosupportpatientswithocd.presentation.composable.TopBarWithArrowBack
+import com.xenia.apptosupportpatientswithocd.presentation.composable.topbar.TopBarWithArrowBack
 
 @Composable
 fun AddScriptScreen(

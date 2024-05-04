@@ -32,7 +32,7 @@ import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.StatisticModel
 import com.xenia.apptosupportpatientswithocd.presentation.composable.CustomSlider
 import com.xenia.apptosupportpatientswithocd.presentation.composable.CustomSliderDefaults
-import com.xenia.apptosupportpatientswithocd.presentation.composable.TopBarWithArrowBack
+import com.xenia.apptosupportpatientswithocd.presentation.composable.topbar.TopBarWithArrowBack
 import com.xenia.apptosupportpatientswithocd.presentation.composable.progress
 import com.xenia.apptosupportpatientswithocd.presentation.composable.track
 import kotlin.math.roundToInt

@@ -7,7 +7,6 @@ import com.xenia.apptosupportpatientswithocd.di.ApplicationComponent
 import com.xenia.apptosupportpatientswithocd.di.DaggerApplicationComponent
 
 class OCDApplication : Application() {
-
     val component: ApplicationComponent by lazy {
         DaggerApplicationComponent.factory().create(this)
     }

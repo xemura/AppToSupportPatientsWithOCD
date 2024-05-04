@@ -1,4 +1,4 @@
-package com.xenia.apptosupportpatientswithocd.presentation.composable
+package com.xenia.apptosupportpatientswithocd.presentation.composable.login_password_fields
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

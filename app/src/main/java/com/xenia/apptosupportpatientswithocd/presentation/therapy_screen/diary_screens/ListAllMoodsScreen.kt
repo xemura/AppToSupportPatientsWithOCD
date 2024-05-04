@@ -42,7 +42,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
-import com.xenia.apptosupportpatientswithocd.presentation.composable.TopBarWithArrowBack
+import com.xenia.apptosupportpatientswithocd.presentation.composable.topbar.TopBarWithArrowBack
 import com.xenia.apptosupportpatientswithocd.presentation.getApplicationComponent
 
 @Composable
@@ -58,7 +58,6 @@ fun MainAllMoodsListScreen(
 
     when (val currentState = screenState.value) {
         is MoodScreenState.MoodsMain -> {
-            Log.d("TAG", "Mood Loading")
             currentState.moodList?.let { moodList ->
                 ListAllMoodsScreen(
                     { onBackPressed() },
@@ -77,8 +76,7 @@ fun MainAllMoodsListScreen(
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
-            )
-            {
+            ) {
                 CircularProgressIndicator(color = Color.Black)
             }
         }

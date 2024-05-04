@@ -36,8 +36,6 @@ import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practic
 import dev.chrisbanes.haze.HazeState
 
 
-const val TAG = "FIRESTORE"
-
 @Composable
 fun EnterMainScreen() {
 
@@ -141,7 +139,6 @@ fun EnterMainScreen() {
                         scriptsViewModel.addScript(scriptName, list)
                         navigationState.navigateTo(NavigationItem.Scripts.route)
                     }
-                    // еще надо добавить редактирование
                 )
             },
             therapyScreenContent = {
@@ -296,7 +293,8 @@ fun EnterMainScreen() {
                             adviceInfo
                         )
                         navigationState.navigateTo(NavigationItem.MainHomework.route)
-                    })
+                    }
+                )
             }
         )
     }

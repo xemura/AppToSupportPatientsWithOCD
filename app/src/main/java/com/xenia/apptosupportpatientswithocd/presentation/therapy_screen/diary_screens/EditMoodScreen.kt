@@ -9,7 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -26,9 +25,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
-import com.xenia.apptosupportpatientswithocd.presentation.composable.TopBarWithArrowBack
+import com.xenia.apptosupportpatientswithocd.presentation.composable.topbar.TopBarWithArrowBack
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditMoodScreen(
     mood: MoodModel,

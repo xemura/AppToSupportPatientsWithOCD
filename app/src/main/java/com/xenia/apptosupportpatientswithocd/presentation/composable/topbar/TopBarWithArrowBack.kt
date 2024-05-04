@@ -1,4 +1,4 @@
-package com.xenia.apptosupportpatientswithocd.presentation.composable
+package com.xenia.apptosupportpatientswithocd.presentation.composable.topbar
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack

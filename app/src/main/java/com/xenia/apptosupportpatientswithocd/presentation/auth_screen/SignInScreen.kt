@@ -29,8 +29,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.xenia.apptosupportpatientswithocd.presentation.composable.LoginField
-import com.xenia.apptosupportpatientswithocd.presentation.composable.PasswordField
+import com.xenia.apptosupportpatientswithocd.presentation.composable.login_password_fields.LoginField
+import com.xenia.apptosupportpatientswithocd.presentation.composable.login_password_fields.PasswordField
 import kotlinx.coroutines.launch
 
 @Composable

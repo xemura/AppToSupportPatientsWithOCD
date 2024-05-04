@@ -1,4 +1,4 @@
-package com.xenia.apptosupportpatientswithocd.presentation.composable
+package com.xenia.apptosupportpatientswithocd.presentation.composable.topbar
 
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api

@@ -48,7 +48,7 @@ import com.xenia.apptosupportpatientswithocd.domain.entity.UserModel
 import com.xenia.apptosupportpatientswithocd.presentation.auth_screen.AuthViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.auth_screen.SignInScreen
 import com.xenia.apptosupportpatientswithocd.presentation.composable.GradientSwitch
-import com.xenia.apptosupportpatientswithocd.presentation.composable.TopBarWithoutArrowBack
+import com.xenia.apptosupportpatientswithocd.presentation.composable.topbar.TopBarWithoutArrowBack
 import com.xenia.apptosupportpatientswithocd.presentation.getApplicationComponent
 
 @Composable
@@ -72,7 +72,6 @@ fun ProfileScreenContent(
                 onSignOutPressed = { onSignOutPressed() },
                 userInfo = currentState.userInfo
             )
-            Log.d("TAG", "Profile Profile")
         }
 
         ProfileScreenState.Initial -> {
@@ -80,12 +79,10 @@ fun ProfileScreenContent(
         }
 
         ProfileScreenState.Loading -> {
-            Log.d("TAG", "Loading Profile")
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
-            )
-            {
+            ) {
                 CircularProgressIndicator(color = Color.Black)
             }
         }
@@ -102,8 +99,6 @@ fun ProfileScreen(
     viewModel: AuthViewModel,
     userInfo: UserModel
 ) {
-
-    Log.d("TAG userInfo", userInfo.toString())
 
     var name by remember { mutableStateOf(userInfo.name) }
     var screenLogin by remember { mutableStateOf(false) }

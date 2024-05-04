@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +18,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
 import com.xenia.apptosupportpatientswithocd.presentation.composable.BarGraph
 import com.xenia.apptosupportpatientswithocd.presentation.composable.BarType
-import com.xenia.apptosupportpatientswithocd.presentation.composable.TopBarWithArrowBack
+import com.xenia.apptosupportpatientswithocd.presentation.composable.topbar.TopBarWithArrowBack
 import com.xenia.apptosupportpatientswithocd.presentation.getApplicationComponent
 import com.xenia.apptosupportpatientswithocd.presentation.therapy_screen.practice_screens.StatisticHomeworkViewModel
 

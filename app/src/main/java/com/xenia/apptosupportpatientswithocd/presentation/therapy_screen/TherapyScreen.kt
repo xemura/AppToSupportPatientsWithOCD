@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.xenia.apptosupportpatientswithocd.presentation.composable.CardTherapyMain
-import com.xenia.apptosupportpatientswithocd.presentation.composable.TopBarWithoutArrowBack
+import com.xenia.apptosupportpatientswithocd.presentation.composable.topbar.TopBarWithoutArrowBack
 
 @Composable
 fun TherapyScreen(

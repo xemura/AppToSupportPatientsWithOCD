@@ -50,7 +50,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.MoodModel
 import com.xenia.apptosupportpatientswithocd.presentation.composable.BarGraph
 import com.xenia.apptosupportpatientswithocd.presentation.composable.BarType
-import com.xenia.apptosupportpatientswithocd.presentation.composable.TopBarWithArrowBack
+import com.xenia.apptosupportpatientswithocd.presentation.composable.topbar.TopBarWithArrowBack
 import com.xenia.apptosupportpatientswithocd.presentation.getApplicationComponent
 
 
@@ -117,9 +117,7 @@ fun DiaryMainScreen(
     if ((moodsList != null)) {
         if (moodsList.size >= 5) {
             moodsListForBar = moodsList.subList(0, 5)
-            Log.d("TAG", moodsListForBar.toString())
         }
-
     }
 
     Scaffold(
@@ -141,7 +139,6 @@ fun DiaryMainScreen(
                 Column(
                     modifier = Modifier.weight(2f)
                 ) {
-
                     val dataList = mutableListOf(
                         moodsListForBar[4].assessment,
                         moodsListForBar[3].assessment,
@@ -186,7 +183,6 @@ fun DiaryMainScreen(
                         modifier = Modifier.padding(horizontal = 30.dp, vertical = 5.dp),
                         text = "Ваше настроение по дням:"
                     )
-
                 }
             }
 
@@ -270,30 +266,23 @@ fun DiaryMainScreen(
                 }
             }
 
-            val weightText = if (moodsListForBar.size == 5) {
-                0.15f
-            } else 0.05f
+            val weightText = if (moodsListForBar.size == 5) 0.15f else 0.05f
+            val weightButton = if (moodsListForBar.size == 5)  0.3f else 0.12f
 
-            if ((moodsList != null)) {
-                if (moodsList.isNotEmpty()) {
-                    Text(
-                        modifier = Modifier
-                            .weight(weightText)
-                            .fillMaxWidth()
-                            .clickable {
-                                onListAllMoodPressed()
-                            },
-                        text = "Посмотреть все записи о настроении",
-                        textAlign = TextAlign.Center,
-                        fontSize = 14.sp,
-                        color = Color.Gray
-                    )
-                }
+            if (!moodsList.isNullOrEmpty()) {
+                Text(
+                    modifier = Modifier
+                        .weight(weightText)
+                        .fillMaxWidth()
+                        .clickable {
+                            onListAllMoodPressed()
+                        },
+                    text = "Посмотреть все записи о настроении",
+                    textAlign = TextAlign.Center,
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
             }
-
-            val weightButton = if (moodsListForBar.size == 5) {
-                0.3f
-            } else 0.12f
 
             Button(
                 onClick = { onAddPressed() },
@@ -311,5 +300,4 @@ fun DiaryMainScreen(
             }
         }
     }
-
 }
