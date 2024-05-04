@@ -56,7 +56,6 @@ fun ScriptsScreenStateContent(
 
     when (val currentState = screenState.value) {
         is ScriptsScreenState.Scripts -> {
-            Log.d("TAG", "Scripts")
             ScriptsScreen(
                 currentState.scriptsList,
                 { onFloatingActionButtonClick() },
@@ -82,12 +81,10 @@ fun ScriptsScreenStateContent(
         }
 
         ScriptsScreenState.Loading -> {
-            Log.d("TAG", "Loading")
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
-            )
-            {
+            ) {
                 CircularProgressIndicator(color = Color.Black)
             }
         }
@@ -106,7 +103,9 @@ fun ScriptsScreen(
     onDeleteItem: (ScriptModel) -> Unit,
 ) {
 
-    var currentItem by remember { mutableStateOf(ScriptModel("", "", false, emptyList())) }
+    var currentItem by remember {
+        mutableStateOf(ScriptModel("", "", false, emptyList()))
+    }
     val context = LocalContext.current
 
     Scaffold(

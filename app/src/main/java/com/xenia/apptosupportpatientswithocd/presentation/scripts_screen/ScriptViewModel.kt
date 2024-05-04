@@ -1,6 +1,5 @@
 package com.xenia.apptosupportpatientswithocd.presentation.scripts_screen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xenia.apptosupportpatientswithocd.domain.entity.Action
@@ -47,7 +46,6 @@ class ScriptViewModel @Inject constructor(
 
     fun addScript(scriptName: String, listActions: List<Action>) {
         viewModelScope.launch {
-            Log.d("TAG", "ScriptViewModel addScript")
             addScriptUseCase(scriptName, listActions)
         }
     }

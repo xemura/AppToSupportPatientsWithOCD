@@ -52,21 +52,15 @@ fun ModulesScreen(
         mutableStateOf<List<ModuleModel>?>(null)
     }
 
-    LaunchedEffect(
-        key1 = null
-    ) {
+    LaunchedEffect(key1 = null) {
         data = scope.async {
             viewModel.getModulesList()
         }.await()
     }
 
     Scaffold(
-        topBar = {
-            TopBarWithoutArrowBack(topBarName = "Модули")
-        }
+        topBar = { TopBarWithoutArrowBack(topBarName = "Модули") }
     ) { contentPadding ->
-
-
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()

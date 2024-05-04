@@ -1,6 +1,5 @@
 package com.xenia.apptosupportpatientswithocd.data.repository
 
-import android.util.Log
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -35,8 +34,6 @@ class AuthRepositoryImpl @Inject constructor(
 
             val auth: FirebaseAuth = FirebaseAuth.getInstance()
             val currentUser = auth.currentUser
-
-            Log.d("TAG", currentUser?.uid.toString())
 
             val authState = if (currentUser == null) {
                 AuthState.NotAuthorized
@@ -74,13 +71,10 @@ class AuthRepositoryImpl @Inject constructor(
     override fun registerUser(email: String, password: String): Flow<Resource<AuthResult>> {
         return flow {
             emit(Resource.Loading())
-            Log.d("TAG inside", "result.toString()")
 
             val result = firebaseAuth.createUserWithEmailAndPassword(
                 email, password
             ).await()
-
-            Log.d("TAG inside", result.toString())
 
             val currentUser = firebaseAuth.currentUser
             if (currentUser != null) {
@@ -88,10 +82,7 @@ class AuthRepositoryImpl @Inject constructor(
                     fireStoreDatabase.collection(currentUser.uid).document("userInfo").set(
                         UserModel("", false, "08:00")
                     ).await()
-                    Log.d("TAG inside", currentUser.uid)
                 }
-                Log.d("TAG", currentUser.uid)
-
             }
 
             emit(Resource.Success(result))

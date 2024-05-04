@@ -66,11 +66,7 @@ fun AddHomeworkScreen(
 
             Button(
                 onClick = {
-                    onSavePressed(
-                        obsessionInfo,
-                        triggerInfo,
-                        adviceInfo
-                    )
+                    onSavePressed(obsessionInfo, triggerInfo, adviceInfo)
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                 shape = RoundedCornerShape(8.dp),

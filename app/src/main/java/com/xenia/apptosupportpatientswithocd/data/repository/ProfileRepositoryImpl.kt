@@ -39,8 +39,6 @@ class ProfileRepositoryImpl @Inject constructor(
                         notificationEnable = notificationEnable,
                         notificationTime = value.data?.getValue("notificationTime").toString()
                     )
-                    Log.d("TAG TAG", user.toString())
-
                 }
             }
 

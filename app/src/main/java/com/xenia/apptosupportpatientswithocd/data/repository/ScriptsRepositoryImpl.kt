@@ -105,8 +105,6 @@ class ScriptsRepositoryImpl @Inject constructor(
                 .document(idScript)
                 .set(ScriptEntity(name, dropDownBoxEnabled))
                 .await()
-
-            Log.d("TAG", "changeDropDownBoxState SUCCESS")
         }
 
     }
@@ -117,7 +115,6 @@ class ScriptsRepositoryImpl @Inject constructor(
         checkBoxState: Boolean,
         scriptID: String
     ) {
-        Log.d("TAG", "$idAction, $actionText, $checkBoxState, $scriptID")
         fireStoreDatabase.collection("$currentUserUID")
             .document("scripts")
             .collection("actionsList")

@@ -22,7 +22,6 @@ class MoodRepositoryImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val fireStoreDatabase: FirebaseFirestore
 ) : MoodRepository {
-    private val coroutineScope = CoroutineScope(Dispatchers.Default)
     private val currentUserUID = firebaseAuth.currentUser?.uid
 
     private val moodDocRef = fireStoreDatabase.collection("$currentUserUID")
@@ -57,8 +56,6 @@ class MoodRepositoryImpl @Inject constructor(
                     val moodsList: MutableList<MoodModel> = mutableListOf()
 
                     for (i in data) {
-                        Log.d("TAG", "here now")
-
                         val mood = MoodModel(
                             id = i.id,
                             time = i.data.getValue("time").toString(),

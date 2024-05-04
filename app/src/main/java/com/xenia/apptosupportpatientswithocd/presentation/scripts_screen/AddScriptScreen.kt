@@ -129,10 +129,7 @@ fun AddScriptScreen(
             ) {
                 LazyColumn {
                     items(actionsList) {
-                        Text(
-                            modifier = Modifier.padding(10.dp),
-                            text = it.actionText
-                        )
+                        Text(modifier = Modifier.padding(10.dp), text = it.actionText)
                     }
                     item {
                         val modifier = if (actionsList.isEmpty()) {
@@ -146,15 +143,11 @@ fun AddScriptScreen(
                             modifier = modifier
                                 .fillMaxWidth()
                         ) {
-                            Text(
-                                color = Color.White,
-                                text = "Добавить",
-                            )
+                            Text(color = Color.White, text = "Добавить")
                         }
                     }
                 }
             }
-
 
             Button(
                 onClick = {
@@ -162,16 +155,10 @@ fun AddScriptScreen(
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                 shape = RoundedCornerShape(8.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 30.dp)
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp)
             ) {
-                Text(
-                    color = Color.White,
-                    text = "Сохранить",
-                )
+                Text(color = Color.White, text = "Сохранить")
             }
-
         }
     }
 }
@@ -191,26 +178,12 @@ fun AlertDialogExample(
         text = {
             dialogText()
         },
-        onDismissRequest = {
-            onDismissRequest()
-        },
+        onDismissRequest = { onDismissRequest() },
         confirmButton = {
-            TextButton(
-                onClick = {
-                    onConfirmation()
-                }
-            ) {
-                Text("OK")
-            }
+            TextButton(onClick = { onConfirmation() }) { Text("OK") }
         },
         dismissButton = {
-            TextButton(
-                onClick = {
-                    onDismissRequest()
-                }
-            ) {
-                Text("Отмена")
-            }
+            TextButton(onClick = { onDismissRequest() }) { Text("Отмена") }
         }
     )
 }

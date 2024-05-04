@@ -163,7 +163,6 @@ fun HomeworkScreen(
                             positionalThreshold = { 150.dp.value }
                         )
 
-
                         SwipeToDismissBox(
                             modifier = Modifier
                                 .animateContentSize()
