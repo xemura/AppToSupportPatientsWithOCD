@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -102,12 +103,19 @@ fun SignUpScreen(
 
             Button(
                 onClick = {
-                    viewModel.registerUser(loginText, passwordText)
+                    if (passwordText != repeatPasswordText) {
+                        Toast.makeText(
+                            context,
+                            "Проверьте введенные данные!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else viewModel.registerUser(loginText, passwordText)
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(50.dp)
                     .padding(horizontal = 30.dp)
             ) {
                 Text(
@@ -144,6 +152,5 @@ fun SignUpScreen(
                 Toast.makeText(context, "$error", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 }

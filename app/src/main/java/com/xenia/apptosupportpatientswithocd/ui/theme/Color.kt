@@ -12,3 +12,4 @@ val Pink40 = Color(0xFF7D5260)
 
 //val ButtonColor = Color(0xFFB1F1FF)
 val ButtonColor = Color(0xFF1d3557)
+val ErrorColor = Color(0xFFE53935)

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -91,12 +92,19 @@ fun SignInScreen(
 
             Button(
                 onClick = {
-                    viewModel.loginUser(loginText, passwordText)
+                    if (validateData(loginText, passwordText)) {
+                        viewModel.loginUser(loginText, passwordText)
+                    } else Toast.makeText(
+                        context,
+                        "Проверьте введенные данные!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(50.dp)
                     .padding(horizontal = 30.dp)
             ) {
                 Text(
@@ -134,4 +142,10 @@ fun SignInScreen(
             }
         }
     }
+}
+
+private fun validateData(loginText: String, passwordText: String): Boolean {
+    return !((loginText == "") and (passwordText == "") or
+            ((loginText == " ") and (passwordText == " ")) or
+            ((!loginText.contains("@")) and (passwordText.length < 8)))
 }
