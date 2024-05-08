@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.xenia.apptosupportpatientswithocd.domain.entity.HomeworkModel
+import com.xenia.apptosupportpatientswithocd.presentation.composable.MyButtonSave
 import com.xenia.apptosupportpatientswithocd.presentation.composable.MyOutlinedTextField
 import com.xenia.apptosupportpatientswithocd.presentation.composable.topbar.TopBarWithArrowBack
 
@@ -96,8 +97,12 @@ fun EditHomeworkScreen(
                 supportingText = "это поле не должно быть пустым"
             )
 
-            Button(
-                onClick = {
+            MyButtonSave(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 10.dp)
+                    .height(50.dp),
+                onButtonClick = {
                     if ((obsessionInfo != "") and (triggerInfo != "") and (adviceInfo != "")) {
                         onSavePressed(homework.id, obsessionInfo, triggerInfo, adviceInfo)
                     } else {
@@ -108,18 +113,8 @@ fun EditHomeworkScreen(
                         ).show()
                     }
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
-                shape = RoundedCornerShape(8.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 10.dp)
-                    .height(50.dp)
-            ) {
-                Text(
-                    color = Color.White,
-                    text = "Сохранить",
-                )
-            }
+                buttonText = "Сохранить"
+            )
         }
     }
 }

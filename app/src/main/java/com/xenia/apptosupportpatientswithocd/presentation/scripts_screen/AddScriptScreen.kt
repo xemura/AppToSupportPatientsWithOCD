@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -34,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xenia.apptosupportpatientswithocd.domain.entity.Action
+import com.xenia.apptosupportpatientswithocd.presentation.composable.MyButtonSave
 import com.xenia.apptosupportpatientswithocd.presentation.composable.topbar.TopBarWithArrowBack
 import com.xenia.apptosupportpatientswithocd.ui.theme.ErrorColor
 
@@ -208,8 +210,12 @@ fun AddScriptScreen(
                 }
             }
 
-            Button(
-                onClick = {
+            MyButtonSave(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 30.dp, vertical = 5.dp)
+                    .height(50.dp),
+                onButtonClick = {
                     if (scriptName != "") {
                         onAddPressed(scriptName, actionsList)
                     } else {
@@ -220,14 +226,8 @@ fun AddScriptScreen(
                         ).show()
                     }
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
-                shape = RoundedCornerShape(8.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 30.dp)
-            ) {
-                Text(color = Color.White, text = "Сохранить")
-            }
+                buttonText = "Сохранить"
+            )
         }
     }
 }
