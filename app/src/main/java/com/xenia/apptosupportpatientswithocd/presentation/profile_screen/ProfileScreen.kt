@@ -1,6 +1,7 @@
 package com.xenia.apptosupportpatientswithocd.presentation.profile_screen
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -36,20 +37,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.UserModel
 import com.xenia.apptosupportpatientswithocd.presentation.auth_screen.AuthViewModel
 import com.xenia.apptosupportpatientswithocd.presentation.auth_screen.SignInScreen
 import com.xenia.apptosupportpatientswithocd.presentation.composable.GradientSwitch
+import com.xenia.apptosupportpatientswithocd.presentation.composable.MyOutlinedTextField
 import com.xenia.apptosupportpatientswithocd.presentation.composable.topbar.TopBarWithoutArrowBack
 import com.xenia.apptosupportpatientswithocd.presentation.getApplicationComponent
+import com.xenia.apptosupportpatientswithocd.ui.theme.ErrorColor
 
 @Composable
 fun ProfileScreenContent(
@@ -113,6 +120,14 @@ fun ProfileScreen(
         initialMinute = selectedMinute,
         true
     )
+
+    var isError by rememberSaveable { mutableStateOf(false) }
+
+    val context = LocalContext.current
+
+    fun validate(text: String) {
+        isError = text == ""
+    }
 
     if (screenLogin) {
         SignInScreen(viewModel = viewModel)
@@ -179,23 +194,20 @@ fun ProfileScreen(
                     text = "А тут написано как вас зовут",
                 )
 
-                OutlinedTextField(
+                MyOutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 50.dp),
                     value = name,
-                    onValueChange = { name = it },
-                    placeholder = { Text(text = "Введите ваше имя") },
-                    label = { Text("Ваше имя") },
-                    singleLine = true,
-                    colors = TextFieldDefaults.colors(
-                        focusedIndicatorColor = Color(0xFF0575e6),
-                        unfocusedIndicatorColor = Color.Black,
-                        focusedLabelColor = Color(0xFF0575e6),
-                        focusedContainerColor = Color.White,
-                        unfocusedContainerColor = Color.White
-                    ),
-                    shape = RoundedCornerShape(10.dp)
+                    onValueChange = {
+                        name = it
+                        validate(it)
+                    },
+                    placeholderText = "Введите ваше имя",
+                    labelText = "Ваше имя",
+                    isError = isError,
+                    supportingText = "имя не должно быть пустым",
+                    singleLine = true
                 )
 
                 Card(
@@ -248,7 +260,19 @@ fun ProfileScreen(
 
                 Button(
                     onClick = {
-                        onSaveButtonPressed(name, switchState, getTime(selectedHour, selectedMinute))
+                        if (name != "") {
+                            onSaveButtonPressed(
+                                name,
+                                switchState,
+                                getTime(selectedHour, selectedMinute)
+                            )
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Проверьте введенные данные!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0575e6)),
                     shape = RoundedCornerShape(8.dp),
