@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,6 +31,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.xenia.apptosupportpatientswithocd.domain.entity.Action
+import com.xenia.apptosupportpatientswithocd.presentation.composable.RoundedCornerCheckbox
 import com.xenia.apptosupportpatientswithocd.presentation.composable.login_password_fields.LoginField
 import com.xenia.apptosupportpatientswithocd.presentation.composable.login_password_fields.PasswordField
 import kotlinx.coroutines.launch
@@ -97,10 +100,26 @@ fun SignUpScreen(
                 "Повторите пароль",
                 onValueChange = {
                     repeatPasswordText = it
-                })
+                }
+            )
 
             Spacer(modifier = Modifier.padding(vertical = 10.dp))
 
+            Row(
+                modifier = Modifier.padding(start = 30.dp, end = 30.dp, bottom = 10.dp)
+            ) {
+                RoundedCornerCheckbox(action = Action("", "", true), scriptID = "",
+                    onValueChange = {
+
+                    }, onCheckBoxClicked = { it1, it2, it3, it4 ->
+
+                    })
+                Text(
+                    modifier = Modifier.padding(start = 10.dp),
+                    color = Color.Black,
+                    text = "Я согласен(а) на обработку персональных данных",
+                )
+            }
             Button(
                 onClick = {
                     if (passwordText != repeatPasswordText) {

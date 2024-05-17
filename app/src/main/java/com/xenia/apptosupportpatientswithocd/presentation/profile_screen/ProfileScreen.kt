@@ -15,7 +15,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -23,11 +26,10 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.material3.rememberTimePickerState
@@ -45,9 +47,11 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.UserModel
 import com.xenia.apptosupportpatientswithocd.presentation.auth_screen.AuthViewModel
@@ -56,7 +60,6 @@ import com.xenia.apptosupportpatientswithocd.presentation.composable.GradientSwi
 import com.xenia.apptosupportpatientswithocd.presentation.composable.MyOutlinedTextField
 import com.xenia.apptosupportpatientswithocd.presentation.composable.topbar.TopBarWithoutArrowBack
 import com.xenia.apptosupportpatientswithocd.presentation.getApplicationComponent
-import com.xenia.apptosupportpatientswithocd.ui.theme.ErrorColor
 
 @Composable
 fun ProfileScreenContent(
@@ -143,9 +146,7 @@ fun ProfileScreen(
                     onDismissRequest = { showDialog = false },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(
-                            RoundedCornerShape(20.dp)
-                        )
+                        .clip(RoundedCornerShape(20.dp))
                 ) {
                     Column(
                         modifier = Modifier
@@ -158,6 +159,10 @@ fun ProfileScreen(
                             modifier = Modifier.background(Color.White),
                             state = timeState,
                             colors = TimePickerDefaults.colors(
+                                timeSelectorSelectedContainerColor = Color(0xFFCFEEFF),
+                                timeSelectorUnselectedContainerColor = Color(0xFFF1F1F1),
+                                selectorColor = Color(0xFF0575e6),
+                                clockDialColor = Color(0xFFF1F1F1),
                                 containerColor = Color.White
                             )
                         )
@@ -185,7 +190,10 @@ fun ProfileScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.White)
-                    .padding(top = contentPadding.calculateTopPadding() + 20.dp),
+                    .padding(
+                        top = contentPadding.calculateTopPadding() + 20.dp,
+                        bottom = contentPadding.calculateTopPadding() + 30.dp
+                    ),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -197,7 +205,8 @@ fun ProfileScreen(
                 MyOutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 50.dp),
+                        .padding(horizontal = 50.dp)
+                        .weight(0.5f, true),
                     value = name,
                     onValueChange = {
                         name = it
@@ -212,8 +221,9 @@ fun ProfileScreen(
 
                 Card(
                     modifier = Modifier
-                        .padding(horizontal = 50.dp, vertical = 20.dp)
-                        .border(BorderStroke(1.dp, Color.Black), shape = RoundedCornerShape(10.dp)),
+                        .padding(horizontal = 50.dp, vertical = 10.dp)
+                        .border(BorderStroke(1.dp, Color.Black), shape = RoundedCornerShape(10.dp))
+                        .weight(1.25f, true),
                     colors = CardDefaults.cardColors(
                         containerColor = Color.White
                     )
@@ -255,6 +265,173 @@ fun ProfileScreen(
                                 text = getTime(selectedHour, selectedMinute)
                             )
                         }
+
+                        Spacer(modifier = Modifier.padding(vertical = 5.dp))
+
+                        Row(
+                            modifier = Modifier
+                                .padding(horizontal = 30.dp)
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            // ???
+                            Text(text = "Настройка текста\nуведомления")
+                            Icon(
+                                Icons.Filled.Add,
+                                "Floating action button.",
+                                modifier = Modifier.clickable { },
+                            )
+                        }
+                    }
+                }
+
+                Card(
+                    modifier = Modifier
+                        .padding(start = 50.dp, top = 10.dp, end = 50.dp)
+                        .border(BorderStroke(1.dp, Color.Black), shape = RoundedCornerShape(10.dp))
+                        .weight(1.7f, true),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    )
+                ) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .padding(horizontal = 10.dp)
+                    ) {
+                        item {
+                            Text(
+                                modifier = Modifier
+                                    .padding(vertical = 10.dp),
+                                text = "Следующий визит врача",
+                                color = Color(0xFF0575e6)
+                            )
+                        }
+                        item {
+                            Card(
+                                modifier = Modifier
+                                    .border(
+                                        BorderStroke(1.dp, Color(0xFF0575e6)),
+                                        shape = RoundedCornerShape(10.dp)
+                                    ),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = Color(0xFFCFEEFF)
+                                )
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .padding(10.dp)
+                                ) {
+                                    Text(buildAnnotatedString {
+                                        withStyle(
+                                            style = SpanStyle(
+                                                color = Color.Black,
+                                                fontWeight = FontWeight.ExtraBold
+                                            )
+                                        ) {
+                                            append("Врач: ")
+                                        }
+                                        append("Савина Г.В.")
+                                    })
+                                    Text(buildAnnotatedString {
+                                        withStyle(
+                                            style = SpanStyle(
+                                                color = Color.Black,
+                                                fontWeight = FontWeight.ExtraBold
+                                            )
+                                        ) {
+                                            append("Дата и время: ")
+                                        }
+                                        append("24/06/24 09:00")
+                                    })
+                                    Text(buildAnnotatedString {
+                                        withStyle(
+                                            style = SpanStyle(
+                                                color = Color.Black,
+                                                fontWeight = FontWeight.ExtraBold
+                                            )
+                                        ) {
+                                            append("Адрес: ")
+                                        }
+                                        append("ул. Водопроводная, д.43, Кабинет: 102")
+                                    })
+                                }
+                            }
+                        }
+                        item {
+                            Text(
+                                modifier = Modifier
+                                    .padding(vertical = 10.dp),
+                                text = "Прошлые визиты",
+                                color = Color.Gray
+                            )
+                        }
+                        item {
+                            Card(
+                                modifier = Modifier
+                                    .padding(bottom = 10.dp)
+                                    .border(
+                                        BorderStroke(1.dp, Color.Black),
+                                        shape = RoundedCornerShape(10.dp)
+                                    ),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = Color.White
+                                )
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .padding(10.dp)
+                                ) {
+                                    Text(text = "Врач: Савина Г.В.")
+                                    Text(text = "Дата и время: 24/06/24 09:00")
+                                    Text(text = "Адрес: ул. Водопроводная, д.43, Кабинет: 102")
+                                }
+                            }
+                        }
+                        item {
+                            Card(
+                                modifier = Modifier
+                                    .padding(bottom = 10.dp)
+                                    .border(
+                                        BorderStroke(1.dp, Color.Black),
+                                        shape = RoundedCornerShape(10.dp)
+                                    ),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = Color.White
+                                )
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .padding(10.dp)
+                                ) {
+                                    Text(text = "Врач: Савина Г.В.")
+                                    Text(text = "Дата и время: 24/06/24 09:00")
+                                    Text(text = "Адрес: ул. Водопроводная, д.43, Кабинет: 102")
+                                }
+                            }
+                        }
+                        item {
+                            Card(
+                                modifier = Modifier
+                                    .padding(bottom = 10.dp)
+                                    .border(
+                                        BorderStroke(1.dp, Color.Black),
+                                        shape = RoundedCornerShape(10.dp)
+                                    ),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = Color.White
+                                )
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .padding(10.dp)
+                                ) {
+                                    Text(text = "Врач: Савина Г.В.")
+                                    Text(text = "Дата и время: 24/06/24 09:00")
+                                    Text(text = "Адрес: ул. Водопроводная, д.43, Кабинет: 102")
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -278,6 +455,8 @@ fun ProfileScreen(
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier
                         .width(170.dp)
+                        .padding(top = 10.dp)
+                        .weight(0.3f, true)
                 ) {
                     Text(
                         color = Color.White,
@@ -292,7 +471,8 @@ fun ProfileScreen(
                             onSignOutPressed()
                             screenLogin = true
                         }
-                        .alpha(0.7f),
+                        .alpha(0.7f)
+                        .weight(0.2f, true),
                     text = "Выйти",
                     color = Color.Red
                 )
