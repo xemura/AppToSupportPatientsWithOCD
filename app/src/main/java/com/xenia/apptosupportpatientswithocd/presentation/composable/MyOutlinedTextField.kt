@@ -1,7 +1,6 @@
 package com.xenia.apptosupportpatientswithocd.presentation.composable
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
@@ -10,10 +9,12 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.xenia.apptosupportpatientswithocd.R
 import com.xenia.apptosupportpatientswithocd.ui.theme.ErrorColor
 
 @Composable
@@ -24,7 +25,7 @@ fun MyOutlinedTextField(
     placeholderText: String,
     labelText: String,
     isError: Boolean = false,
-    supportingText: String = "проверьте корректность данных",
+    supportingText: String = stringResource(R.string.field_should_not_be_empty),
     singleLine: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
 ) {

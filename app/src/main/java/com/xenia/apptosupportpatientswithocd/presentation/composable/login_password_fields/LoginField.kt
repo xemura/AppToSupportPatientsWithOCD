@@ -17,9 +17,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.xenia.apptosupportpatientswithocd.R
 import com.xenia.apptosupportpatientswithocd.ui.theme.ErrorColor
 
 @Composable
@@ -43,20 +45,19 @@ fun LoginField(
             validate(it)
         },
         trailingIcon = {
-            if (isError)
-                Icon(Icons.Filled.Info, "Error", tint = ErrorColor)
+            if (isError) Icon(Icons.Filled.Info, stringResource(R.string.error), tint = ErrorColor)
         },
         supportingText = {
             if (isError) {
                 Text(
-                    text = "формат логина: example@pochta.com",
+                    text = stringResource(R.string.format_login),
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.End,
                     fontSize = 12.sp
                 )
             }
         },
-        placeholder = { Text(text = "Введите логин") },
+        placeholder = { Text(text = stringResource(R.string.enter_login)) },
         isError = isError,
         singleLine = true,
         colors = TextFieldDefaults.colors(
@@ -69,7 +70,7 @@ fun LoginField(
             errorIndicatorColor = ErrorColor,
             errorLabelColor = ErrorColor
         ),
-        label = { Text("Логин") },
+        label = { Text(stringResource(R.string.login)) },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Email,

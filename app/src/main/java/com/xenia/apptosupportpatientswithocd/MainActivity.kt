@@ -6,10 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xenia.apptosupportpatientswithocd.domain.entity.AuthState
-import com.xenia.apptosupportpatientswithocd.presentation.EnterMainScreen
-import com.xenia.apptosupportpatientswithocd.presentation.ViewModelFactory
-import com.xenia.apptosupportpatientswithocd.presentation.auth_screen.AuthViewModel
-import com.xenia.apptosupportpatientswithocd.presentation.auth_screen.SignInScreen
+import com.xenia.apptosupportpatientswithocd.presentation.screens.EnterMainScreen
+import com.xenia.apptosupportpatientswithocd.presentation.viewmodels.ViewModelFactory
+import com.xenia.apptosupportpatientswithocd.presentation.viewmodels.AuthViewModel
+import com.xenia.apptosupportpatientswithocd.presentation.screens.auth_screen.SignInScreen
 import com.xenia.apptosupportpatientswithocd.presentation.getApplicationComponent
 import com.xenia.apptosupportpatientswithocd.ui.theme.AppToSupportPatientsWithOCDTheme
 import javax.inject.Inject

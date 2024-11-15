@@ -56,8 +56,6 @@ sealed class NavigationItem(
         Screen.MAIN.name
     )
 
-    // color = Color(0xFF00a6fb)
-
     data object Modules : NavigationItem(
         "Модули",
         R.drawable.modules,

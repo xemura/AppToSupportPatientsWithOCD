@@ -25,30 +25,32 @@ fun NavGraphBuilder.modulesScreenNavGraph(
             modulesScreenContent()
         }
 
+        val contentListArguments = "content_list"
         composable(
             route = NavigationItem.ModuleContent.route,
             arguments = listOf(
-                navArgument("content_list") {
+                navArgument(contentListArguments) {
                     type = NavType.StringType
                 },
             )
         ) {
-            val contentJson = it.arguments?.getString("content_list") ?: ""
+            val contentJson = it.arguments?.getString(contentListArguments) ?: ""
             val listOfObjects: Type = object : TypeToken<ArrayList<ModuleContentModel?>?>() {}.type
             val contentModule: List<ModuleContentModel> = Gson().fromJson(contentJson, listOfObjects)
 
             moduleContentScreenContent(contentModule)
         }
 
+        val contentTextArguments = "content_list"
         composable(
             route = NavigationItem.ContentText.route,
             arguments = listOf(
-                navArgument("content_text") {
+                navArgument(contentTextArguments) {
                     type = NavType.StringType
                 },
             )
         ) {
-            val text = it.arguments?.getString("content_text") ?: ""
+            val text = it.arguments?.getString(contentTextArguments) ?: ""
 
             contentTextScreenContent(text)
         }

@@ -50,6 +50,5 @@ fun NavGraphBuilder.therapyNavGraph(
             stateAfterPracticeHomework,
             practiceContentHomework
         )
-
     }
 }

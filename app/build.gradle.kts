@@ -90,4 +90,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.1")
 
     implementation ("com.google.code.gson:gson:2.10.1")
+
+    testImplementation("junit:junit:4.12")
+    testImplementation("org.mockito:mockito-core:4.0.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
 }

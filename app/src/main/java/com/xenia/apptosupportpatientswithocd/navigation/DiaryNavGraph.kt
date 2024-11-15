@@ -33,15 +33,17 @@ fun NavGraphBuilder.diaryNavGraph(
             allMoodsScreenContent()
         }
 
+
+        val moodArgument = "obj_mood"
         composable(
             route = NavigationItem.EditMood.route,
             arguments = listOf(
-                navArgument("obj_mood") {
+                navArgument(moodArgument) {
                     type = NavType.StringType
                 },
             )
         ) {
-            val moodJson = it.arguments?.getString("obj_mood") ?: ""
+            val moodJson = it.arguments?.getString(moodArgument) ?: ""
             val objectMood: Type = object : TypeToken<MoodModel?>(){}.type
             val mood: MoodModel = Gson().fromJson(moodJson, objectMood)
 

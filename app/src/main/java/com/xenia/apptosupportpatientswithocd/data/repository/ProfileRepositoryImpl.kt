@@ -50,6 +50,7 @@ class ProfileRepositoryImpl @Inject constructor(
     }
 
     override fun getUserInfo(): Flow<UserModel> = userInfo
+
     override fun updateUserInfo(
         name: String,
         notificationEnable: Boolean,

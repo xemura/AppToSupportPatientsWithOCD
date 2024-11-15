@@ -1,7 +1,10 @@
 package com.xenia.apptosupportpatientswithocd.di
 
 import android.content.Context
-import com.xenia.apptosupportpatientswithocd.presentation.ViewModelFactory
+import com.xenia.apptosupportpatientswithocd.di.modules.DataModule
+import com.xenia.apptosupportpatientswithocd.di.modules.FirebaseModule
+import com.xenia.apptosupportpatientswithocd.di.modules.ViewModelModule
+import com.xenia.apptosupportpatientswithocd.presentation.viewmodels.ViewModelFactory
 import dagger.BindsInstance
 import dagger.Component
 

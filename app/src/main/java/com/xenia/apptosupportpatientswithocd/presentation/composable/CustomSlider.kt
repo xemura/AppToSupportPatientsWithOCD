@@ -155,43 +155,25 @@ private fun customSliderMeasurePolicy(
     val labelPlaceable = measurables.find {
         it.layoutId == CustomSliderComponents.LABEL
     }?.measure(constraints)
-    val labelHeight = labelPlaceable?.height ?: 0
 
-    // Calculate the total width and height of the custom slider layout
+    val labelHeight = labelPlaceable?.height ?: 0
     val width = sliderPlaceable.width
     val height = labelHeight + sliderHeight + indicatorHeight
-
-    // Calculate the available width for the track (excluding thumb radius on both sides).
     val trackWidth = width - (2 * thumbRadius)
-
-    // Calculate the width of each section in the track.
     val sectionWidth = trackWidth / itemCount
-    // Calculate the horizontal spacing between indicators.
     val indicatorSpacing = sectionWidth * gap
-
-    // To calculate offset of the label, first we will calculate the progress of the slider
-    // by subtracting startValue from the current value.
-    // After that we will multiply this progress by the sectionWidth.
-    // Add thumb radius to this resulting value.
     val labelOffset = (sectionWidth * (value - startValue)) + thumbRadius
 
     layout(width = width, height = height) {
         var indicatorOffsetX = thumbRadius
-        // Place label at top.
-        // We have to subtract the half width of the label from the labelOffset,
-        // to place our label at the center.
         labelPlaceable?.placeRelative(
             x = (labelOffset - (labelPlaceable.width / 2)).roundToInt(),
             y = 0
         )
 
-        // Place slider placeable below the label.
         sliderPlaceable.placeRelative(x = 0, y = labelHeight)
 
-        // Place indicators below the slider.
         indicatorPlaceables.forEach { placeable ->
-            // We have to subtract the half width of the each indicator from the indicatorOffset,
-            // to place our indicators at the center.
             placeable.placeRelative(
                 x = (indicatorOffsetX - (placeable.width / 2)).roundToInt(),
                 y = labelHeight + sliderHeight

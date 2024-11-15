@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -29,6 +30,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xenia.apptosupportpatientswithocd.R
 import com.xenia.apptosupportpatientswithocd.ui.theme.ErrorColor
+
+
+const val MAX_TEXT_LENGTH = 8
 
 @Composable
 fun PasswordField(
@@ -40,7 +44,7 @@ fun PasswordField(
     var isError by rememberSaveable { mutableStateOf(false) }
 
     fun validate(text: String) {
-        isError = text.length < 8
+        isError = text.length < MAX_TEXT_LENGTH
     }
 
     val icon =
@@ -63,7 +67,7 @@ fun PasswordField(
         leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Lock") },
         trailingIcon = {
             if (isError) {
-                Icon(Icons.Filled.Info, "Error", tint = ErrorColor)
+                Icon(Icons.Filled.Info, stringResource(R.string.error), tint = ErrorColor)
             } else {
                 IconButton(onClick = { isVisible = !isVisible }) {
                     Icon(painter = icon, contentDescription = "Visibility")
@@ -73,7 +77,7 @@ fun PasswordField(
         supportingText = {
             if (isError) {
                 Text(
-                    text = "пароль должен иметь больше 8 символов",
+                    text = stringResource(R.string.password_error),
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.End,
                     fontSize = 12.sp
